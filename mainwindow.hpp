@@ -14,6 +14,7 @@ public:
 
 public slots:
     void go_to_chords();
+    void swiruj();
 
 private:
     Ui::MainWindow ui;
