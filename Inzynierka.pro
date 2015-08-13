@@ -14,6 +14,8 @@ TEMPLATE = app
 
 CONFIG += c++14
 
+LIBS += -lgtest
+
 SOURCES += main.cpp\
         mainwindow.cpp
 
