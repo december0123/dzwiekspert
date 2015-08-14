@@ -8,74 +8,91 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui.setupUi(this);
     QObject::connect(ui.go_to_tuner, &QPushButton::clicked,
-                     this, &MainWindow::go_to_chords);
+                     this, &MainWindow::go_to_tuner);
     QObject::connect(ui.exit, &QPushButton::clicked,
                      this, &MainWindow::close);
-    QObject::connect(ui.freq_indicator, &QSlider::valueChanged,
-                     this, &MainWindow::set_freq_indic_color);
-    QObject::connect(ui.pushButton, &QPushButton::clicked,
-                     this, &MainWindow::increment_freq_indicator);
-    QObject::connect(ui.pushButton_2, &QPushButton::clicked,
-                     this, &MainWindow::decrement_freq_indicator);
-    QObject::connect(ui.pushButton_3, &QPushButton::clicked,
+    QObject::connect(ui.freqIndicator, &QSlider::valueChanged,
+                     this, &MainWindow::setFreqIndicColor);
+    QObject::connect(ui.inc, &QPushButton::clicked,
+                     this, &MainWindow::incrementFreqIndicator);
+    QObject::connect(ui.dec, &QPushButton::clicked,
+                     this, &MainWindow::decrementFreqIndicator);
+    QObject::connect(ui.test, &QPushButton::toggled,
                      this, &MainWindow::swiruj);
+    QObject::connect(ui.stopTest, &QPushButton::clicked,
+                     this, &MainWindow::stopTest);
     ui.views->setCurrentIndex(MENU_VIEW);
-    ui.freq_indicator->setPalette(Qt::green);
+    ui.freqIndicator->setPalette(Qt::green);
 }
 
-void MainWindow::go_to_chords()
+void MainWindow::go_to_tuner()
 {
     ui.views->setCurrentIndex(TUNER_VIEW);
 }
 
-void MainWindow::swiruj()
+void MainWindow::swiruj(bool cont)
 {
-    for (int i = 0; i < 10; ++i)
+    CONTINUE_ = cont;
+    sig_.toggleCapture();
+    if (CONTINUE_)
     {
-        for(int i = 0; i < 100; ++i)
-        {
-            increment_freq_indicator();
-            ui.freq_indicator->repaint();
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        }
-        for(int i = 0; i < 100; ++i)
-        {
-            decrement_freq_indicator();
-            ui.freq_indicator->repaint();
-            std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        }
+        std::thread t{&MainWindow::test, this};
+        t.detach();
+    }
+
+}
+
+void MainWindow::test()
+{
+    while(CONTINUE_)
+    {
+        ui.freqIndicator->setValue(freq2val(sig_.getFreq()));
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 }
 
-void MainWindow::increment_freq_indicator()
+void MainWindow::stopTest()
 {
-    const auto freq_val = ui.freq_indicator->value();
-    ui.freq_indicator->setValue(freq_val + 1);
-
-    qDebug() << ui.freq_indicator->value();
+    CONTINUE_ = false;
+    sig_.toggleCapture();
 }
 
-void MainWindow::decrement_freq_indicator()
+unsigned MainWindow::freq2val(unsigned freq) const
 {
-    const auto freq_val = ui.freq_indicator->value();
-    ui.freq_indicator->setValue(freq_val - 1);
-
-    qDebug() << ui.freq_indicator->value();
+    auto ideal = 440;
+    auto value = 50 + ((ideal - freq) * 2);
+    if (value > 99)
+    {
+        return 99;
+    }
+    return value;
 }
 
-void MainWindow::set_freq_indic_color(int freq_val)
+void MainWindow::incrementFreqIndicator()
 {
-    if (freq_val < 99 && freq_val > 0)
+    const auto freq_val = ui.freqIndicator->value();
+    ui.freqIndicator->setValue(freq_val + 1);
+}
+
+void MainWindow::decrementFreqIndicator()
+{
+    const auto freq_val = ui.freqIndicator->value();
+    ui.freqIndicator->setValue(freq_val - 1);
+}
+
+void MainWindow::setFreqIndicColor(int freqVal)
+{
+    if (freqVal < 99 && freqVal > 0)
     {
         auto pal = QPalette(Qt::green);
-        if (freq_val < 35 || freq_val > 65)
+        if (freqVal < 35 || freqVal > 65)
         {
             pal = QPalette{Qt::red};
         }
-        else if (freq_val < 45 || freq_val > 55)
+        else if (freqVal < 45 || freqVal > 55)
         {
             pal = QPalette(Qt::yellow);
         }
-        ui.freq_indicator->setPalette(pal);
+        ui.freqIndicator->setPalette(pal);
     }
 }

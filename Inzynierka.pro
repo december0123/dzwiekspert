@@ -14,11 +14,13 @@ TEMPLATE = app
 
 CONFIG += c++14
 
-LIBS += -lgtest
+LIBS += -lgtest -pthread
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    InputSignal.cpp
 
-HEADERS  += mainwindow.hpp
+HEADERS  += mainwindow.hpp \
+    InputSignal.hpp
 
 FORMS    += mainwindow.ui

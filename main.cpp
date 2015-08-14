@@ -1,12 +1,19 @@
 #include "mainwindow.hpp"
 #include <QApplication>
 #include <gtest/gtest.h>
+#include "InputSignal.hpp"
 
-#define TESTING
+// #define TESTING_ON
+
+TEST(InputSignal, tellsCurrentFrequency)
+{
+    InputSignal sig;
+    ASSERT_EQ(sig.getFreq(), 440);
+}
 
 int main(int argc, char *argv[])
 {
-#ifndef TESTING
+#ifndef TESTING_ON
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

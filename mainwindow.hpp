@@ -2,6 +2,8 @@
 #define MAINWINDOW_HPP
 
 #include "ui_mainwindow.h"
+
+#include "InputSignal.hpp"
 #include <QDebug>
 
 class MainWindow : public QMainWindow
@@ -14,8 +16,8 @@ public:
 
 
 public slots:
-    void go_to_chords();
-    void swiruj();
+    void go_to_tuner();
+
 
 private:
     Ui::MainWindow ui;
@@ -23,11 +25,18 @@ private:
     constexpr static auto TUNER_VIEW = 1U;
     constexpr static auto RED = 255U;
     constexpr static auto GREEN = 0U;
+    bool CONTINUE_ = false;
+    InputSignal sig_;
+
+    unsigned freq2val(unsigned freq) const;
 
 private slots:
-    void increment_freq_indicator();
-    void decrement_freq_indicator();
-    void set_freq_indic_color(int freq_val);
+    void incrementFreqIndicator();
+    void decrementFreqIndicator();
+    void setFreqIndicColor(int freqVal);
+    void swiruj(bool cont);
+    void test();
+    void stopTest();
 };
 
 #endif // MAINWINDOW_HPP
