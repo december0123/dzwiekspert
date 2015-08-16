@@ -107,32 +107,6 @@ QSlider::sub-page:vertical {
          <enum>QSlider::TicksBothSides</enum>
         </property>
        </widget>
-       <widget class="QPushButton" name="inc">
-        <property name="geometry">
-         <rect>
-          <x>50</x>
-          <y>180</y>
-          <width>84</width>
-          <height>33</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Zwieksz</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="dec">
-        <property name="geometry">
-         <rect>
-          <x>50</x>
-          <y>230</y>
-          <width>84</width>
-          <height>33</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Zmniejsz</string>
-        </property>
-       </widget>
        <widget class="QPushButton" name="startTuner">
         <property name="geometry">
          <rect>

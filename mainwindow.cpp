@@ -13,10 +13,6 @@ MainWindow::MainWindow(QWidget *parent) :
                      this, &MainWindow::close);
     QObject::connect(ui.freqIndicator, &QSlider::valueChanged,
                      this, &MainWindow::setFreqIndicColor);
-    QObject::connect(ui.inc, &QPushButton::clicked,
-                     this, &MainWindow::incrementFreqIndicator);
-    QObject::connect(ui.dec, &QPushButton::clicked,
-                     this, &MainWindow::decrementFreqIndicator);
     QObject::connect(ui.startTuner, &QPushButton::toggled,
                      this, &MainWindow::startTuner);
     QObject::connect(ui.freqIndicator, &QSlider::valueChanged,
@@ -112,18 +108,6 @@ unsigned MainWindow::freqToVal(unsigned freq) const
         return 99;
     }
     return value;
-}
-
-void MainWindow::incrementFreqIndicator()
-{
-    const auto freq_val = ui.freqIndicator->value();
-    ui.freqIndicator->setValue(freq_val + 1);
-}
-
-void MainWindow::decrementFreqIndicator()
-{
-    const auto freq_val = ui.freqIndicator->value();
-    ui.freqIndicator->setValue(freq_val - 1);
 }
 
 void MainWindow::setFreqIndicColor(int freqVal)

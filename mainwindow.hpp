@@ -29,8 +29,6 @@ private:
 private slots:
     void goToTuner();
     void goToMenu();
-    void incrementFreqIndicator();
-    void decrementFreqIndicator();
     void setFreqIndicColor(int freqVal);
     void startTuner(bool cont);
     void updateFreqIndicator();
