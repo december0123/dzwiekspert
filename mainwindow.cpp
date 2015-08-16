@@ -7,8 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     ui.setupUi(this);
-    QObject::connect(ui.go_to_tuner, &QPushButton::clicked,
-                     this, &MainWindow::go_to_tuner);
+    QObject::connect(ui.goToTuner, &QPushButton::clicked,
+                     this, &MainWindow::goToTuner);
     QObject::connect(ui.exit, &QPushButton::clicked,
                      this, &MainWindow::close);
     QObject::connect(ui.freqIndicator, &QSlider::valueChanged,
@@ -17,50 +17,96 @@ MainWindow::MainWindow(QWidget *parent) :
                      this, &MainWindow::incrementFreqIndicator);
     QObject::connect(ui.dec, &QPushButton::clicked,
                      this, &MainWindow::decrementFreqIndicator);
-    QObject::connect(ui.test, &QPushButton::toggled,
-                     this, &MainWindow::swiruj);
-    QObject::connect(ui.stopTest, &QPushButton::clicked,
-                     this, &MainWindow::stopTest);
+    QObject::connect(ui.startTuner, &QPushButton::toggled,
+                     this, &MainWindow::startTuner);
+    QObject::connect(ui.freqIndicator, &QSlider::valueChanged,
+                     this, &MainWindow::setNoteInfo);
+    QObject::connect(ui.startTuner, &QPushButton::toggled,
+                     this, &MainWindow::setCaptureButtonText);
+    QObject::connect(ui.goToMenu, &QPushButton::clicked,
+                     this, &MainWindow::goToMenu);
     ui.views->setCurrentIndex(MENU_VIEW);
-    ui.freqIndicator->setPalette(Qt::green);
 }
 
-void MainWindow::go_to_tuner()
+void MainWindow::goToTuner()
 {
     ui.views->setCurrentIndex(TUNER_VIEW);
 }
 
-void MainWindow::swiruj(bool cont)
+void MainWindow::goToMenu()
 {
-    CONTINUE_ = cont;
-    sig_.toggleCapture();
-    if (CONTINUE_)
-    {
-        std::thread t{&MainWindow::test, this};
-        t.detach();
-    }
-
+    turnOffTuner();
+    ui.views->setCurrentIndex(MENU_VIEW);
 }
 
-void MainWindow::test()
+void MainWindow::turnOffTuner()
+{
+    ui.freqIndicator->setValue(0);
+    ui.freqIndicator->setPalette(this->style()->standardPalette());
+    ui.note->setText(tr(""));
+    CONTINUE_ = false;
+    sig_.setCapture(false);
+    ui.startTuner->setChecked(false);
+}
+
+void MainWindow::startTuner(bool cont)
+{
+    CONTINUE_ = cont;
+    sig_.setCapture(cont);
+    if (CONTINUE_)
+    {
+        std::thread t{&MainWindow::updateFreqIndicator, this};
+        t.detach();
+    }
+}
+
+void MainWindow::updateFreqIndicator()
 {
     while(CONTINUE_)
     {
-        ui.freqIndicator->setValue(freq2val(sig_.getFreq()));
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        auto f = sig_.getFreq();
+
+        auto w = freqToVal(f);
+        qDebug() << f << w;
+        ui.freqIndicator->setValue(w);
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    }
+    turnOffTuner();
+}
+
+void MainWindow::setNoteInfo(int value)
+{
+    if (value >= 65 || value <= 35)
+    {
+        ui.note->setText(tr("Żopa!"));
+    }
+    else if (value >= 55 || value <= 45)
+    {
+        ui.note->setText(tr("Prawie!"));
+    }
+    else
+    {
+        ui.note->setText(tr("Super!"));
     }
 }
 
-void MainWindow::stopTest()
+void MainWindow::setCaptureButtonText(bool checked)
 {
-    CONTINUE_ = false;
-    sig_.toggleCapture();
+    if (checked)
+    {
+        ui.startTuner->setText(tr("Stop"));
+    }
+    else
+    {
+        ui.startTuner->setText(tr("Start"));
+    }
 }
 
-unsigned MainWindow::freq2val(unsigned freq) const
+unsigned MainWindow::freqToVal(unsigned freq) const
 {
     auto ideal = 440;
     auto value = 50 + ((ideal - freq) * 2);
+    qDebug() << value;
     if (value > 99)
     {
         return 99;

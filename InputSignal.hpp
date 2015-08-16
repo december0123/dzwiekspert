@@ -6,12 +6,12 @@
 class InputSignal
 {
 public:
-    InputSignal();
+    InputSignal() = default;
+    ~InputSignal() = default;
     unsigned getFreq() const;
-    void toggleCapture();
-    void stop();
+    void setCapture(bool active);
 private:
-    std::atomic<unsigned> freq_{0};
+    int freq_{440};
     bool contCapture_{false};
     void capture();
 };

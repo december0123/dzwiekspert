@@ -3,19 +3,14 @@
 #include <random>
 #include <thread>
 
-InputSignal::InputSignal()
-{
-
-}
-
 unsigned InputSignal::getFreq() const
 {
     return freq_;
 }
 
-void InputSignal::toggleCapture()
+void InputSignal::setCapture(bool active)
 {
-    contCapture_ = !contCapture_;
+    contCapture_ = active;
     if (contCapture_)
     {
         std::thread t{&InputSignal::capture, this};
@@ -23,16 +18,22 @@ void InputSignal::toggleCapture()
     }
 }
 
-void InputSignal::stop()
-{
-    contCapture_ = false;
-}
 void InputSignal::capture()
 {
-    std::uniform_int_distribution<> distr{400, 460};
+    std::uniform_int_distribution<int> distr{-1, 1};
     std::mt19937_64 eng{std::random_device{}()};
     while(contCapture_)
     {
-        freq_ = distr(eng);
+        qDebug() << "START CAPTURE";
+        auto w = distr(eng);
+        qDebug() << w;
+        freq_ += w;
+        qDebug() << freq_;
+        qDebug() << "END CAPTURE";
+        if (freq_ < 400 || freq_ > 460)
+        {
+            freq_ = 440;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
 }

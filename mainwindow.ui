@@ -23,7 +23,7 @@
       <widget class="QWidget" name="menu">
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QPushButton" name="go_to_tuner">
+         <widget class="QPushButton" name="goToTuner">
           <property name="text">
            <string>Strojenie</string>
           </property>
@@ -49,10 +49,13 @@
          </rect>
         </property>
         <property name="text">
-         <string>Perfect!</string>
+         <string/>
         </property>
        </widget>
        <widget class="QSlider" name="freqIndicator">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="geometry">
          <rect>
           <x>530</x>
@@ -86,7 +89,7 @@ QSlider::sub-page:vertical {
 }</string>
         </property>
         <property name="value">
-         <number>50</number>
+         <number>0</number>
         </property>
         <property name="tracking">
          <bool>true</bool>
@@ -130,7 +133,7 @@ QSlider::sub-page:vertical {
          <string>Zmniejsz</string>
         </property>
        </widget>
-       <widget class="QPushButton" name="test">
+       <widget class="QPushButton" name="startTuner">
         <property name="geometry">
          <rect>
           <x>270</x>
@@ -140,7 +143,7 @@ QSlider::sub-page:vertical {
          </rect>
         </property>
         <property name="text">
-         <string>Test</string>
+         <string>Start</string>
         </property>
         <property name="checkable">
          <bool>true</bool>
@@ -149,17 +152,17 @@ QSlider::sub-page:vertical {
          <bool>false</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="stopTest">
+       <widget class="QPushButton" name="goToMenu">
         <property name="geometry">
          <rect>
-          <x>270</x>
-          <y>140</y>
-          <width>84</width>
+          <x>70</x>
+          <y>360</y>
+          <width>141</width>
           <height>33</height>
          </rect>
         </property>
         <property name="text">
-         <string>Stop</string>
+         <string>Powrót do menu</string>
         </property>
        </widget>
       </widget>
