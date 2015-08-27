@@ -104,11 +104,7 @@ int MainWindow::freqToVal(const int freq) const
     const auto ideal = 440;
     const auto value = 50 + ((ideal - freq) * 2);
     qDebug() << value;
-    if (value > UPPER_RED)
-    {
-        return UPPER_RED;
-    }
-    return value;
+    return std::min(value, UPPER_RED);
 }
 
 void MainWindow::setFreqIndicColor(const int freqVal)
