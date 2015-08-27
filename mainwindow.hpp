@@ -20,6 +20,13 @@ private:
     constexpr static auto TUNER_VIEW = 1U;
     constexpr static auto RED = 255U;
     constexpr static auto GREEN = 0U;
+    constexpr static auto UPPER_GREEN = 55U;
+    constexpr static auto BOTTOM_GREEN = 45U;
+    constexpr static auto UPPER_YELLOW = 65U;
+    constexpr static auto BOTTOM_YELLOW = 35U;
+    constexpr static auto UPPER_RED = 99U;
+    constexpr static auto BOTTOM_RED = 0U;
+
     bool CONTINUE_ = false;
     InputSignal sig_;
 
@@ -29,10 +36,10 @@ private:
 private slots:
     void goToTuner();
     void goToMenu();
-    void setFreqIndicColor(int freqVal);
+    void setFreqIndicColor(unsigned freqVal);
     void startTuner(bool cont);
     void updateFreqIndicator();
-    void setNoteInfo(int value);
+    void setNoteInfo(unsigned value);
     void setCaptureButtonText(bool checked);
 };
 

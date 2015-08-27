@@ -18,7 +18,7 @@
     <item>
      <widget class="QStackedWidget" name="views">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="menu">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -42,14 +42,14 @@
        <widget class="QLabel" name="note">
         <property name="geometry">
          <rect>
-          <x>430</x>
-          <y>190</y>
-          <width>58</width>
+          <x>250</x>
+          <y>160</y>
+          <width>101</width>
           <height>17</height>
          </rect>
         </property>
         <property name="text">
-         <string/>
+         <string>Turn on the tuner</string>
         </property>
        </widget>
        <widget class="QSlider" name="freqIndicator">
@@ -58,10 +58,10 @@
         </property>
         <property name="geometry">
          <rect>
-          <x>530</x>
-          <y>9</y>
-          <width>20</width>
-          <height>371</height>
+          <x>0</x>
+          <y>200</y>
+          <width>601</width>
+          <height>21</height>
          </rect>
         </property>
         <property name="autoFillBackground">
@@ -74,7 +74,7 @@
     left: 4px; right: 4px;
 }
 
-QSlider::handle:vertical {
+QSlider::handle {
     height: 10px;
     background: green;
     margin: 0 -4px; /* expand outside the groove */
@@ -95,7 +95,7 @@ QSlider::sub-page:vertical {
          <bool>true</bool>
         </property>
         <property name="orientation">
-         <enum>Qt::Vertical</enum>
+         <enum>Qt::Horizontal</enum>
         </property>
         <property name="invertedAppearance">
          <bool>false</bool>
@@ -110,8 +110,8 @@ QSlider::sub-page:vertical {
        <widget class="QPushButton" name="startTuner">
         <property name="geometry">
          <rect>
-          <x>270</x>
-          <y>90</y>
+          <x>260</x>
+          <y>260</y>
           <width>84</width>
           <height>33</height>
          </rect>

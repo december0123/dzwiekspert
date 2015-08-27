@@ -70,13 +70,13 @@ void MainWindow::updateFreqIndicator()
     turnOffTuner();
 }
 
-void MainWindow::setNoteInfo(int value)
+void MainWindow::setNoteInfo(unsigned value)
 {
-    if (value >= 65 || value <= 35)
+    if (value >= UPPER_YELLOW || value <= BOTTOM_YELLOW)
     {
         ui.note->setText(tr("Żopa!"));
     }
-    else if (value >= 55 || value <= 45)
+    else if (value >= UPPER_GREEN || value <= BOTTOM_GREEN)
     {
         ui.note->setText(tr("Prawie!"));
     }
@@ -100,26 +100,26 @@ void MainWindow::setCaptureButtonText(bool checked)
 
 unsigned MainWindow::freqToVal(unsigned freq) const
 {
-    auto ideal = 440;
-    auto value = 50 + ((ideal - freq) * 2);
+    auto ideal = 440U;
+    auto value = 50U + ((ideal - freq) * 2);
     qDebug() << value;
-    if (value > 99)
+    if (value > UPPER_RED)
     {
-        return 99;
+        return UPPER_RED;
     }
     return value;
 }
 
-void MainWindow::setFreqIndicColor(int freqVal)
+void MainWindow::setFreqIndicColor(unsigned freqVal)
 {
-    if (freqVal < 99 && freqVal > 0)
+    if (freqVal < UPPER_RED && freqVal > BOTTOM_RED)
     {
         auto pal = QPalette(Qt::green);
-        if (freqVal < 35 || freqVal > 65)
+        if (freqVal < BOTTOM_YELLOW || freqVal > UPPER_YELLOW)
         {
             pal = QPalette{Qt::red};
         }
-        else if (freqVal < 45 || freqVal > 55)
+        else if (freqVal < BOTTOM_GREEN || freqVal > UPPER_GREEN)
         {
             pal = QPalette(Qt::yellow);
         }
