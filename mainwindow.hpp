@@ -38,7 +38,7 @@ private slots:
     void goToMenu();
     void setFreqIndicColor(const int freqVal);
     void startTuner(bool cont);
-    void updateFreqIndicator();
+    void keepUpdatingFreqIndicator();
     void setNoteInfo(const int value);
     void setCaptureButtonText(bool checked);
 };

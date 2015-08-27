@@ -52,12 +52,12 @@ void MainWindow::startTuner(bool cont)
     sig_.setCapture(cont);
     if (CONTINUE_)
     {
-        std::thread t{&MainWindow::updateFreqIndicator, this};
+        std::thread t{&MainWindow::keepUpdatingFreqIndicator, this};
         t.detach();
     }
 }
 
-void MainWindow::updateFreqIndicator()
+void MainWindow::keepUpdatingFreqIndicator()
 {
     while(CONTINUE_)
     {
