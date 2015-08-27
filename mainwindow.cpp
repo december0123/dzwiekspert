@@ -1,5 +1,6 @@
 #include "mainwindow.hpp"
 
+#include <algorithm>
 #include <chrono>
 #include <thread>
 
@@ -70,7 +71,7 @@ void MainWindow::updateFreqIndicator()
     turnOffTuner();
 }
 
-void MainWindow::setNoteInfo(unsigned value)
+void MainWindow::setNoteInfo(const int value)
 {
     if (value >= UPPER_YELLOW || value <= BOTTOM_YELLOW)
     {
@@ -98,10 +99,10 @@ void MainWindow::setCaptureButtonText(bool checked)
     }
 }
 
-unsigned MainWindow::freqToVal(unsigned freq) const
+int MainWindow::freqToVal(const int freq) const
 {
-    auto ideal = 440U;
-    auto value = 50U + ((ideal - freq) * 2);
+    const auto ideal = 440;
+    const auto value = 50 + ((ideal - freq) * 2);
     qDebug() << value;
     if (value > UPPER_RED)
     {
@@ -110,7 +111,7 @@ unsigned MainWindow::freqToVal(unsigned freq) const
     return value;
 }
 
-void MainWindow::setFreqIndicColor(unsigned freqVal)
+void MainWindow::setFreqIndicColor(const int freqVal)
 {
     if (freqVal < UPPER_RED && freqVal > BOTTOM_RED)
     {

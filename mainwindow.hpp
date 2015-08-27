@@ -16,30 +16,30 @@ public:
 
 private:
     Ui::MainWindow ui;
-    constexpr static auto MENU_VIEW = 0U;
-    constexpr static auto TUNER_VIEW = 1U;
-    constexpr static auto RED = 255U;
-    constexpr static auto GREEN = 0U;
-    constexpr static auto UPPER_GREEN = 55U;
-    constexpr static auto BOTTOM_GREEN = 45U;
-    constexpr static auto UPPER_YELLOW = 65U;
-    constexpr static auto BOTTOM_YELLOW = 35U;
-    constexpr static auto UPPER_RED = 99U;
-    constexpr static auto BOTTOM_RED = 0U;
+    const int MENU_VIEW = 0;
+    const int TUNER_VIEW = 1;
+    const int RED = 255;
+    const int GREEN = 0;
+    const int UPPER_GREEN = 55;
+    const int BOTTOM_GREEN = 45;
+    const int UPPER_YELLOW = 65;
+    const int BOTTOM_YELLOW = 35;
+    const int UPPER_RED = 99;
+    const int BOTTOM_RED = 0;
 
     bool CONTINUE_ = false;
     InputSignal sig_;
 
-    unsigned freqToVal(unsigned freq) const;
+    int freqToVal(const int freq) const;
     void turnOffTuner();
 
 private slots:
     void goToTuner();
     void goToMenu();
-    void setFreqIndicColor(unsigned freqVal);
+    void setFreqIndicColor(const int freqVal);
     void startTuner(bool cont);
     void updateFreqIndicator();
-    void setNoteInfo(unsigned value);
+    void setNoteInfo(const int value);
     void setCaptureButtonText(bool checked);
 };
 
