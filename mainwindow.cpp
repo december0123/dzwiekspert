@@ -8,6 +8,13 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     ui.setupUi(this);
+    connectSlots();
+    ui.views->setCurrentIndex(MENU_VIEW);
+    ui.note->setText(tr("Włącz stroik"));
+}
+
+void MainWindow::connectSlots()
+{
     QObject::connect(ui.goToTuner, &QPushButton::clicked,
                      this, &MainWindow::goToTuner);
     QObject::connect(ui.exit, &QPushButton::clicked,
@@ -22,7 +29,6 @@ MainWindow::MainWindow(QWidget *parent) :
                      this, &MainWindow::setCaptureButtonText);
     QObject::connect(ui.goToMenu, &QPushButton::clicked,
                      this, &MainWindow::goToMenu);
-    ui.views->setCurrentIndex(MENU_VIEW);
 }
 
 void MainWindow::goToTuner()
@@ -40,7 +46,7 @@ void MainWindow::turnOffTuner()
 {
     ui.freqIndicator->setValue(0);
     ui.freqIndicator->setPalette(this->style()->standardPalette());
-    ui.note->setText(tr(""));
+    ui.note->setText(tr("Włącz stroik"));
     CONTINUE_ = false;
     sig_.setCapture(false);
     ui.startTuner->setChecked(false);

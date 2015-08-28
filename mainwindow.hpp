@@ -32,6 +32,7 @@ private:
 
     int freqToVal(const int freq) const;
     void turnOffTuner();
+    void connectSlots();
 
 private slots:
     void goToTuner();
