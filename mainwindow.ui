@@ -18,7 +18,7 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="views">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="menu">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -65,6 +65,9 @@
          <widget class="QPushButton" name="exit">
           <property name="text">
            <string>Wyjście</string>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -197,7 +200,7 @@ QSlider::sub-page:vertical {
 }</string>
           </property>
           <property name="value">
-           <number>0</number>
+           <number>50</number>
           </property>
           <property name="tracking">
            <bool>true</bool>
