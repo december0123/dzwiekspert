@@ -3,12 +3,16 @@
 #include <random>
 #include <thread>
 
-unsigned InputSignal::getFreq() const
+InputSignal::InputSignal()
 {
-    return freq_;
 }
 
-void InputSignal::setCapture(bool active)
+int InputSignal::getFreq() const
+{
+    return freq_.load();
+}
+
+void InputSignal::startCapture(bool active)
 {
     contCapture_ = active;
     if (contCapture_)
@@ -20,6 +24,7 @@ void InputSignal::setCapture(bool active)
 
 void InputSignal::capture()
 {
+    // FAKE IMPLEMENTATION
     std::uniform_int_distribution<int> distr{-1, 1};
     std::mt19937_64 eng{std::random_device{}()};
     while(contCapture_)
@@ -36,4 +41,5 @@ void InputSignal::capture()
         }
         std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
+    freq_.store(440);
 }

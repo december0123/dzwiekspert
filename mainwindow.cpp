@@ -44,18 +44,18 @@ void MainWindow::goToMenu()
 
 void MainWindow::turnOffTuner()
 {
-    ui.freqIndicator->setValue(0);
+    ui.freqIndicator->setValue(50);
     ui.freqIndicator->setPalette(this->style()->standardPalette());
     ui.note->setText(tr("Włącz stroik"));
     CONTINUE_ = false;
-    sig_.setCapture(false);
+    sig_.startCapture(false);
     ui.startTuner->setChecked(false);
 }
 
 void MainWindow::startTuner(bool cont)
 {
     CONTINUE_ = cont;
-    sig_.setCapture(cont);
+    sig_.startCapture(cont);
     if (CONTINUE_)
     {
         std::thread t{&MainWindow::keepUpdatingFreqIndicator, this};
