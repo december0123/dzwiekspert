@@ -28,7 +28,7 @@ private:
     const int BOTTOM_RED = 0;
     const int MIDDLE_VAL = 50;
 
-    bool CONTINUE_ = false;
+    std::atomic<bool> CONTINUE_{false};
     InputSignal sig_;
 
     int freqToVal(const int freq) const;

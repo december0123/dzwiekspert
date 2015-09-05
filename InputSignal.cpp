@@ -14,8 +14,8 @@ int InputSignal::getFreq() const
 
 void InputSignal::startCapture(bool active)
 {
-    contCapture_ = active;
-    if (contCapture_)
+    contCapture_.store(active);
+    if (contCapture_.load())
     {
         std::thread t{&InputSignal::capture, this};
         t.detach();
@@ -27,7 +27,7 @@ void InputSignal::capture()
     // FAKE IMPLEMENTATION
     std::uniform_int_distribution<int> distr{-1, 1};
     std::mt19937_64 eng{std::random_device{}()};
-    while(contCapture_)
+    while(contCapture_.load())
     {
         qDebug() << "START CAPTURE";
         auto w = distr(eng);

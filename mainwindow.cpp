@@ -54,14 +54,14 @@ void MainWindow::turnOffTuner()
     ui.freqIndicator->setValue(MIDDLE_VAL);
     ui.freqIndicator->setPalette(this->style()->standardPalette());
     ui.note->setText(tr("Włącz stroik"));
-    CONTINUE_ = false;
+    CONTINUE_.store(false);
     sig_.startCapture(false);
     ui.tunerStateBtn->setChecked(false);
 }
 
 void MainWindow::keepUpdatingFreqIndicator()
 {
-    while(CONTINUE_)
+    while(CONTINUE_.load())
     {
         auto f = sig_.getFreq();
 
@@ -75,9 +75,9 @@ void MainWindow::keepUpdatingFreqIndicator()
 
 void MainWindow::setTunerState(bool cont)
 {
-    CONTINUE_ = cont;
+    CONTINUE_.store(cont);
     sig_.startCapture(cont);
-    if (CONTINUE_)
+    if (CONTINUE_.load())
     {
         std::thread t{&MainWindow::keepUpdatingFreqIndicator, this};
         t.detach();
@@ -122,9 +122,9 @@ int MainWindow::freqToVal(const int freq) const
 
 void MainWindow::setFreqIndicColor(const int freqVal)
 {
+    auto pal = QPalette(Qt::green);
     if ((freqVal < UPPER_RED) && (freqVal > BOTTOM_RED))
     {
-        auto pal = QPalette(Qt::green);
         if ((freqVal < BOTTOM_YELLOW) || (freqVal > UPPER_YELLOW))
         {
             pal = QPalette{Qt::red};
@@ -133,6 +133,10 @@ void MainWindow::setFreqIndicColor(const int freqVal)
         {
             pal = QPalette(Qt::yellow);
         }
-        ui.freqIndicator->setPalette(pal);
     }
+    else
+    {
+        pal = QPalette(Qt::red);
+    }
+    ui.freqIndicator->setPalette(pal);
 }
