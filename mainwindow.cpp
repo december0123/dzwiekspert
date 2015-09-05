@@ -15,20 +15,27 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::connectSlots()
 {
-    QObject::connect(ui.goToTuner, &QPushButton::clicked,
-                     this, &MainWindow::goToTuner);
     QObject::connect(ui.exit, &QPushButton::clicked,
                      this, &MainWindow::close);
-    QObject::connect(ui.freqIndicator, &QSlider::valueChanged,
-                     this, &MainWindow::setFreqIndicColor);
-    QObject::connect(ui.startTuner, &QPushButton::toggled,
-                     this, &MainWindow::startTuner);
-    QObject::connect(ui.freqIndicator, &QSlider::valueChanged,
-                     this, &MainWindow::setNoteInfo);
-    QObject::connect(ui.startTuner, &QPushButton::toggled,
-                     this, &MainWindow::setCaptureButtonText);
     QObject::connect(ui.goToMenu, &QPushButton::clicked,
                      this, &MainWindow::goToMenu);
+    QObject::connect(ui.goToTuner, &QPushButton::clicked,
+                     this, &MainWindow::goToTuner);
+
+    QObject::connect(ui.freqIndicator, &QSlider::valueChanged,
+                     this, &MainWindow::setFreqIndicColor);
+    QObject::connect(ui.freqIndicator, &QSlider::valueChanged,
+                     this, &MainWindow::setNoteInfo);
+
+    QObject::connect(ui.tunerStateBtn, &QPushButton::toggled,
+                     this, &MainWindow::setTunerState);
+    QObject::connect(ui.tunerStateBtn, &QPushButton::toggled,
+                     this, &MainWindow::setCaptureButtonText);
+}
+
+int MainWindow::calcScaledError(const int ideal, const int freq) const
+{
+    return (ideal - freq) * 2;
 }
 
 void MainWindow::goToTuner()
@@ -44,23 +51,12 @@ void MainWindow::goToMenu()
 
 void MainWindow::turnOffTuner()
 {
-    ui.freqIndicator->setValue(50);
+    ui.freqIndicator->setValue(MIDDLE_VAL);
     ui.freqIndicator->setPalette(this->style()->standardPalette());
     ui.note->setText(tr("Włącz stroik"));
     CONTINUE_ = false;
     sig_.startCapture(false);
-    ui.startTuner->setChecked(false);
-}
-
-void MainWindow::startTuner(bool cont)
-{
-    CONTINUE_ = cont;
-    sig_.startCapture(cont);
-    if (CONTINUE_)
-    {
-        std::thread t{&MainWindow::keepUpdatingFreqIndicator, this};
-        t.detach();
-    }
+    ui.tunerStateBtn->setChecked(false);
 }
 
 void MainWindow::keepUpdatingFreqIndicator()
@@ -75,6 +71,17 @@ void MainWindow::keepUpdatingFreqIndicator()
         std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
     turnOffTuner();
+}
+
+void MainWindow::setTunerState(bool cont)
+{
+    CONTINUE_ = cont;
+    sig_.startCapture(cont);
+    if (CONTINUE_)
+    {
+        std::thread t{&MainWindow::keepUpdatingFreqIndicator, this};
+        t.detach();
+    }
 }
 
 void MainWindow::setNoteInfo(const int value)
@@ -97,32 +104,32 @@ void MainWindow::setCaptureButtonText(bool checked)
 {
     if (checked)
     {
-        ui.startTuner->setText(tr("Stop"));
+        ui.tunerStateBtn->setText(tr("Stop"));
     }
     else
     {
-        ui.startTuner->setText(tr("Start"));
+        ui.tunerStateBtn->setText(tr("Start"));
     }
 }
 
 int MainWindow::freqToVal(const int freq) const
 {
     const auto ideal = 440;
-    const auto value = 50 + ((ideal - freq) * 2);
+    const auto value = MIDDLE_VAL + calcScaledError(ideal, freq);
     qDebug() << value;
     return std::min(value, UPPER_RED);
 }
 
 void MainWindow::setFreqIndicColor(const int freqVal)
 {
-    if (freqVal < UPPER_RED && freqVal > BOTTOM_RED)
+    if ((freqVal < UPPER_RED) && (freqVal > BOTTOM_RED))
     {
         auto pal = QPalette(Qt::green);
-        if (freqVal < BOTTOM_YELLOW || freqVal > UPPER_YELLOW)
+        if ((freqVal < BOTTOM_YELLOW) || (freqVal > UPPER_YELLOW))
         {
             pal = QPalette{Qt::red};
         }
-        else if (freqVal < BOTTOM_GREEN || freqVal > UPPER_GREEN)
+        else if ((freqVal < BOTTOM_GREEN) || (freqVal > UPPER_GREEN))
         {
             pal = QPalette(Qt::yellow);
         }

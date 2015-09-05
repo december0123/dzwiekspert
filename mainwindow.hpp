@@ -26,6 +26,7 @@ private:
     const int BOTTOM_YELLOW = 35;
     const int UPPER_RED = 99;
     const int BOTTOM_RED = 0;
+    const int MIDDLE_VAL = 50;
 
     bool CONTINUE_ = false;
     InputSignal sig_;
@@ -33,12 +34,13 @@ private:
     int freqToVal(const int freq) const;
     void turnOffTuner();
     void connectSlots();
+    int calcScaledError(const int ideal, const int freq) const;
 
 private slots:
     void goToTuner();
     void goToMenu();
     void setFreqIndicColor(const int freqVal);
-    void startTuner(bool cont);
+    void setTunerState(bool cont);
     void keepUpdatingFreqIndicator();
     void setNoteInfo(const int value);
     void setCaptureButtonText(bool checked);

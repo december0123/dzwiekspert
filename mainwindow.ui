@@ -122,7 +122,7 @@
          </spacer>
         </item>
         <item row="3" column="1">
-         <widget class="QPushButton" name="startTuner">
+         <widget class="QPushButton" name="tunerStateBtn">
           <property name="text">
            <string>Start</string>
           </property>
