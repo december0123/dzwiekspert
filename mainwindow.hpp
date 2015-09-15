@@ -5,6 +5,9 @@
 
 #include "InputSignal.hpp"
 #include <QDebug>
+#include <QAudioBuffer>
+#include <QAudioRecorder>
+#include <QAudioProbe>
 
 class MainWindow : public QMainWindow
 {
@@ -30,11 +33,15 @@ private:
 
     std::atomic<bool> CONTINUE_{false};
     InputSignal sig_;
+    QAudioBuffer buf_;
 
     int freqToVal(const int freq) const;
     void turnOffTuner();
     void connectSlots();
     int calcScaledError(const int ideal, const int freq) const;
+    void setUpRecorder();
+    QAudioRecorder *audioRecorder;
+    QAudioProbe *probe;
 
 private slots:
     void goToTuner();
@@ -44,6 +51,10 @@ private slots:
     void keepUpdatingFreqIndicator();
     void setNoteInfo(const int value);
     void setCaptureButtonText(bool checked);
+    void startRecord();
+    void stopRecord();
+    void goToRecord();
+    void processBuffer(QAudioBuffer buf);
 };
 
 #endif // MAINWINDOW_HPP

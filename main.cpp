@@ -2,6 +2,9 @@
 #include <QApplication>
 #include <gtest/gtest.h>
 #include "InputSignal.hpp"
+#include <QUrl>
+
+
 
 // #define TESTING_ON
 
@@ -14,6 +17,8 @@ TEST(InputSignal, tellsCurrentFrequency)
 int main(int argc, char *argv[])
 {
 #ifndef TESTING_ON
+
+
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

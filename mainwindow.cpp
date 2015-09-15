@@ -4,11 +4,20 @@
 #include <chrono>
 #include <thread>
 
+
+#include <QAudioOutput>
+#include <QAudioProbe>
+#include <QAudioRecorder>
+#include <QDir>
+#include <QFileDialog>
+#include <QMediaRecorder>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     ui.setupUi(this);
     connectSlots();
+    setUpRecorder();
     ui.views->setCurrentIndex(MENU_VIEW);
     ui.note->setText(tr("Włącz stroik"));
 }
@@ -31,6 +40,58 @@ void MainWindow::connectSlots()
                      this, &MainWindow::setTunerState);
     QObject::connect(ui.tunerStateBtn, &QPushButton::toggled,
                      this, &MainWindow::setCaptureButtonText);
+
+    QObject::connect(ui.startRecord, &QPushButton::clicked,
+                     this, &MainWindow::startRecord);
+    QObject::connect(ui.stopRecord, &QPushButton::clicked,
+                     this, &MainWindow::stopRecord);
+    QObject::connect(ui.goToRecord, &QPushButton::clicked,
+                     this, &MainWindow::goToRecord);
+}
+
+void MainWindow::goToRecord()
+{
+    ui.views->setCurrentIndex(2);
+}
+
+void MainWindow::setUpRecorder()
+{
+    audioRecorder = new QAudioRecorder(this);
+    probe = new QAudioProbe(this);
+    probe->setSource(audioRecorder);
+    QObject::connect(probe, &QAudioProbe::audioBufferProbed,
+            this, &MainWindow::processBuffer);
+
+    QAudioEncoderSettings settings;
+    settings.setCodec(QVariant(QString()).toString());
+    settings.setSampleRate(QVariant(0).toInt());
+    settings.setBitRate(QVariant(0).toInt());
+    settings.setChannelCount(QVariant(-1).toInt());
+    settings.setQuality(QMultimedia::NormalQuality);
+    settings.setEncodingMode(QMultimedia::ConstantQualityEncoding);
+    audioRecorder->setEncodingSettings(settings);
+}
+
+void MainWindow::startRecord()
+{
+    audioRecorder->setOutputLocation(QUrl(ui.url->text()));
+    audioRecorder->record();
+    QFile sourceFile{ui.url->text()};
+    sourceFile.open(QIODevice::ReadOnly);
+    QAudioOutput out;
+    out.start(&sourceFile);
+}
+
+void MainWindow::processBuffer(QAudioBuffer buf)
+{
+    auto buf_ = (int*)buf.constData();
+    qDebug() << *buf_;
+
+}
+
+void MainWindow::stopRecord()
+{
+    audioRecorder->stop();
 }
 
 int MainWindow::calcScaledError(const int ideal, const int freq) const
@@ -41,6 +102,7 @@ int MainWindow::calcScaledError(const int ideal, const int freq) const
 void MainWindow::goToTuner()
 {
     ui.views->setCurrentIndex(TUNER_VIEW);
+
 }
 
 void MainWindow::goToMenu()
