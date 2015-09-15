@@ -45,6 +45,8 @@ void MainWindow::connectSlots()
                      this, &MainWindow::startRecord);
     QObject::connect(ui.stopRecord, &QPushButton::clicked,
                      this, &MainWindow::stopRecord);
+    QObject::connect(ui.stopRecord, &QPushButton::clicked,
+                     this, &MainWindow::play);
     QObject::connect(ui.goToRecord, &QPushButton::clicked,
                      this, &MainWindow::goToRecord);
 }
@@ -63,30 +65,42 @@ void MainWindow::setUpRecorder()
             this, &MainWindow::processBuffer);
 
     QAudioEncoderSettings settings;
-    settings.setCodec(QVariant(QString()).toString());
-    settings.setSampleRate(QVariant(0).toInt());
-    settings.setBitRate(QVariant(0).toInt());
-    settings.setChannelCount(QVariant(-1).toInt());
+    settings.setCodec("");
+    settings.setSampleRate(8000);
+    settings.setChannelCount(1);
+//    settings.setCodec(QVariant(QString()).toString());
+//    settings.setSampleRate(QVariant(0).toInt());
+//    settings.setBitRate(QVariant(0).toInt());
+//    settings.setChannelCount(QVariant(-1).toInt());
     settings.setQuality(QMultimedia::NormalQuality);
     settings.setEncodingMode(QMultimedia::ConstantQualityEncoding);
     audioRecorder->setEncodingSettings(settings);
+
+    qDebug() << settings.bitRate();
+    player = new QMediaPlayer(this);
+    //connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
+}
+
+void MainWindow::play()
+{
+    player->setMedia(QUrl::fromLocalFile(ui.url->text()));
+    player->setVolume(50);
+    player->play();
 }
 
 void MainWindow::startRecord()
 {
-    audioRecorder->setOutputLocation(QUrl(ui.url->text()));
+    audioRecorder->setOutputLocation(QUrl::fromLocalFile(ui.url->text()));
     audioRecorder->record();
-    QFile sourceFile{ui.url->text()};
-    sourceFile.open(QIODevice::ReadOnly);
-    QAudioOutput out;
-    out.start(&sourceFile);
 }
 
 void MainWindow::processBuffer(QAudioBuffer buf)
 {
-    auto buf_ = (int*)buf.constData();
-    qDebug() << *buf_;
-
+    QByteArray witam((char*)buf.constData());
+    for (const auto& i : witam)
+    {
+        qDebug() << i;
+    }
 }
 
 void MainWindow::stopRecord()

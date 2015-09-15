@@ -8,6 +8,7 @@
 #include <QAudioBuffer>
 #include <QAudioRecorder>
 #include <QAudioProbe>
+#include <QMediaPlayer>
 
 class MainWindow : public QMainWindow
 {
@@ -40,8 +41,9 @@ private:
     void connectSlots();
     int calcScaledError(const int ideal, const int freq) const;
     void setUpRecorder();
-    QAudioRecorder *audioRecorder;
-    QAudioProbe *probe;
+    QAudioRecorder *audioRecorder = nullptr;
+    QMediaPlayer *player = nullptr;
+    QAudioProbe *probe = nullptr;
 
 private slots:
     void goToTuner();
@@ -55,6 +57,7 @@ private slots:
     void stopRecord();
     void goToRecord();
     void processBuffer(QAudioBuffer buf);
+    void play();
 };
 
 #endif // MAINWINDOW_HPP
