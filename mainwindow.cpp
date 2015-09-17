@@ -58,25 +58,11 @@ void MainWindow::goToRecord()
 
 void MainWindow::setUpRecorder()
 {
-    audioRecorder = new QAudioRecorder(this);
     probe = new QAudioProbe(this);
-    probe->setSource(audioRecorder);
+    probe->setSource(&audioRecorder);
     QObject::connect(probe, &QAudioProbe::audioBufferProbed,
             this, &MainWindow::processBuffer);
 
-    QAudioEncoderSettings settings;
-    settings.setCodec("");
-    settings.setSampleRate(8000);
-    settings.setChannelCount(1);
-//    settings.setCodec(QVariant(QString()).toString());
-//    settings.setSampleRate(QVariant(0).toInt());
-//    settings.setBitRate(QVariant(0).toInt());
-//    settings.setChannelCount(QVariant(-1).toInt());
-    settings.setQuality(QMultimedia::NormalQuality);
-    settings.setEncodingMode(QMultimedia::ConstantQualityEncoding);
-    audioRecorder->setEncodingSettings(settings);
-
-    qDebug() << settings.bitRate();
     player = new QMediaPlayer(this);
     //connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
 }
@@ -90,8 +76,8 @@ void MainWindow::play()
 
 void MainWindow::startRecord()
 {
-    audioRecorder->setOutputLocation(QUrl::fromLocalFile(ui.url->text()));
-    audioRecorder->record();
+    audioRecorder.setOutputLocation(QUrl::fromLocalFile(ui.url->text()));
+    audioRecorder.record();
 }
 
 void MainWindow::processBuffer(QAudioBuffer buf)
@@ -105,7 +91,7 @@ void MainWindow::processBuffer(QAudioBuffer buf)
 
 void MainWindow::stopRecord()
 {
-    audioRecorder->stop();
+    audioRecorder.stop();
 }
 
 int MainWindow::calcScaledError(const int ideal, const int freq) const

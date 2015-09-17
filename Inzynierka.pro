@@ -18,9 +18,11 @@ LIBS += -lgtest -pthread
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    InputSignal.cpp
+    InputSignal.cpp \
+    recorder.cpp
 
 HEADERS  += mainwindow.hpp \
-    InputSignal.hpp
+    InputSignal.hpp \
+    recorder.hpp
 
 FORMS    += mainwindow.ui

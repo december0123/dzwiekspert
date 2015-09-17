@@ -3,12 +3,14 @@
 
 #include "ui_mainwindow.h"
 
-#include "InputSignal.hpp"
 #include <QDebug>
 #include <QAudioBuffer>
-#include <QAudioRecorder>
 #include <QAudioProbe>
 #include <QMediaPlayer>
+
+#include "InputSignal.hpp"
+#include "recorder.hpp"
+
 
 class MainWindow : public QMainWindow
 {
@@ -41,7 +43,7 @@ private:
     void connectSlots();
     int calcScaledError(const int ideal, const int freq) const;
     void setUpRecorder();
-    QAudioRecorder *audioRecorder = nullptr;
+    Recorder audioRecorder;
     QMediaPlayer *player = nullptr;
     QAudioProbe *probe = nullptr;
 
