@@ -44,8 +44,7 @@ private:
     int calcScaledError(const int ideal, const int freq) const;
     void setUpRecorder();
     Recorder audioRecorder;
-    QMediaPlayer *player = nullptr;
-    QAudioProbe *probe = nullptr;
+    QMediaPlayer player;
 
 private slots:
     void goToTuner();

@@ -4,14 +4,6 @@
 #include <chrono>
 #include <thread>
 
-
-#include <QAudioOutput>
-#include <QAudioProbe>
-#include <QAudioRecorder>
-#include <QDir>
-#include <QFileDialog>
-#include <QMediaRecorder>
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
@@ -49,6 +41,9 @@ void MainWindow::connectSlots()
                      this, &MainWindow::play);
     QObject::connect(ui.goToRecord, &QPushButton::clicked,
                      this, &MainWindow::goToRecord);
+
+    QObject::connect(&audioRecorder.probe_, &QAudioProbe::audioBufferProbed,
+            this, &MainWindow::processBuffer);
 }
 
 void MainWindow::goToRecord()
@@ -58,20 +53,13 @@ void MainWindow::goToRecord()
 
 void MainWindow::setUpRecorder()
 {
-    probe = new QAudioProbe(this);
-    probe->setSource(&audioRecorder);
-    QObject::connect(probe, &QAudioProbe::audioBufferProbed,
-            this, &MainWindow::processBuffer);
-
-    player = new QMediaPlayer(this);
-    //connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(positionChanged(qint64)));
 }
 
 void MainWindow::play()
 {
-    player->setMedia(QUrl::fromLocalFile(ui.url->text()));
-    player->setVolume(50);
-    player->play();
+    player.setMedia(QUrl::fromLocalFile(ui.url->text()));
+    player.setVolume(50);
+    player.play();
 }
 
 void MainWindow::startRecord()
@@ -85,7 +73,7 @@ void MainWindow::processBuffer(QAudioBuffer buf)
     QByteArray witam((char*)buf.constData());
     for (const auto& i : witam)
     {
-        qDebug() << i;
+        qDebug() << +i;
     }
 }
 
