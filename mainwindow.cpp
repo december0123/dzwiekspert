@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <chrono>
 #include <thread>
+#include <fstream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -68,13 +69,16 @@ void MainWindow::startRecord()
     audioRecorder.record();
 }
 
+static int i = 0;
 void MainWindow::processBuffer(QAudioBuffer buf)
 {
-    QByteArray witam((char*)buf.constData());
+    auto witam = QByteArray::fromRawData(reinterpret_cast<char*>(buf.data()), buf.byteCount());
+    std::ofstream f{"/tmp/samples", std::ios_base::app};
     for (const auto& i : witam)
     {
-        qDebug() << +i;
+        f << +i << std::endl;
     }
+    //if (i++ > 4) throw "zegnam";
 }
 
 void MainWindow::stopRecord()
