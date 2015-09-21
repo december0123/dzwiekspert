@@ -69,13 +69,14 @@ void MainWindow::startRecord()
     audioRecorder.record();
 }
 
-static int i = 0;
+static int j = 0;
 void MainWindow::processBuffer(QAudioBuffer buf)
 {
     auto witam = QByteArray::fromRawData(reinterpret_cast<char*>(buf.data()), buf.byteCount());
     std::ofstream f{"/tmp/samples", std::ios_base::app};
     for (const auto& i : witam)
     {
+        //f << j++ << std::endl;
         f << +i << std::endl;
     }
     //if (i++ > 4) throw "zegnam";
