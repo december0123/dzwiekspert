@@ -3,8 +3,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.fftpack
+"""
 
-Fs = 500       # sampling rate, Hz, must be integer
+Fs = 8000       # sampling rate, Hz, must be integer
 Ts = 1.0/Fs
 t = np.arange(0, 1, Ts)
 ff = 5.0        # sine frequency, Hz, may be float
@@ -13,7 +14,7 @@ with open("/tmp/samples") as f:
     for line in f:
         y.append(float(line.split()[0]))
 y = y[:Fs]
-y = np.sin(2 * np.pi * ff * t) + 0.5 * np.sin(2 * np.pi * 15 * t)
+# y = np.sin(2 * np.pi * ff * t) + 0.5 * np.sin(2 * np.pi * 15 * t)
 y = y * np.hamming(Fs)
 n = len(y)
 k = np.arange(n)
@@ -40,26 +41,34 @@ plt.show()
 
 """
 
-# generate samples, note conversion to float32 array
-samples = np.sin(2*np.pi*np.arange(fs*duration)*f/fs)
 
 y = []
-with open("/tmp/samples") as f:
+with open("samples") as f:
     for line in f:
         y.append(float(line.split()[0]))
 
+frequency = 220 # czestotliwosc sygnalu
+sampling_rate = 8000.0 # czestotliwosc probkowania, powinna byc przynajmniej 2x wieksza niz czestotliwosc
+cycles = 10 # liczba cykli do wygenerowania
+t = np.arange(0, cycles / frequency, 1.0 / sampling_rate) # podstawa czasowa w ktorej mamy sygnal
+x = np.sin(2 * np.pi * frequency * t) # wartosci funkcji w kazdej chwili czasu
+x = x * np.hamming(len(x))
 
-# Number of samplepoints
-N = 1500
-# sample spacing
-T = 1.0 / 800
-x = np.linspace(0.0, N*T, N)
-#y = np.sin(50.0 * 2.0*np.pi*x) + 0.5*np.sin(80.0 * 2.0*np.pi*x)
-y = samples
-yf = scipy.fftpack.fft(y)
-xf = np.linspace(0.0, 1.0/(2.0*T), N/2)
+N = 4096 # liczba probek, potega 2
+X = np.fft.fftshift(np.fft.fft(x, N)) # wysrodkowana fft
 
-fig, ax = plt.subplots()
-ax.plot(xf, 2.0/N * np.abs(yf[0:N/2]))
+# wartosci mocy w kazdej czestotliwosci
+# wektor jest znormalizowany ( wartosci x sa podzielone przez liczbe probek)
+# oraz podzielone przez dwa, bo centrum wykresu jest przesuniete na 0
+# nastepnie pomnozono przez czestotliwosc probkowania, aby uzyskac prawdziwy wykres
+nVals = [x / N / 2 * sampling_rate for x in range(-N, N, 2)] 
+
+Px = X * np.conjugate(X) / (N * len(x))
+fig, ax = plt.subplots(3, 1)
+ax[0].plot(t, x)
+ax[1].plot(nVals, abs(X), 'r')
+nVals = [x / N * sampling_rate for x in np.arange(0, N / 2)] 
+print(len(nVals))
+print(len(Px[0:N/2]))
+ax[2].plot(nVals, abs(Px[N/2:]), 'g')
 plt.show()
-"""
