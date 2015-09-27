@@ -7,6 +7,7 @@
 #include <QAudioBuffer>
 #include <QAudioProbe>
 #include <QMediaPlayer>
+#include <mutex>
 
 #include "InputSignal.hpp"
 #include "recorder.hpp"
@@ -34,6 +35,7 @@ private:
     const int BOTTOM_RED = 0;
     const int MIDDLE_VAL = 50;
 
+    std::mutex m_;
     std::atomic<bool> CONTINUE_{false};
     InputSignal sig_;
     QAudioBuffer buf_;
