@@ -11,6 +11,7 @@
 
 #include "InputSignal.hpp"
 #include "recorder.hpp"
+#include "FFT.hpp"
 
 
 class MainWindow : public QMainWindow
@@ -22,6 +23,7 @@ public:
     ~MainWindow() { qDebug() << "Żegnam\n"; }
 
 private:
+    FFT f_;
     Ui::MainWindow ui;
     const int MENU_VIEW = 0;
     const int TUNER_VIEW = 1;
@@ -59,7 +61,7 @@ private slots:
     void startRecord();
     void stopRecord();
     void goToRecord();
-    void processBuffer(QAudioBuffer buf);
+    void processBuffer(const QAudioBuffer &buf);
     void play();
 };
 

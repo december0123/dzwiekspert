@@ -71,25 +71,28 @@ void MainWindow::startRecord()
 }
 
 static int j = 0;
-std::ofstream f{"/tmp/samples"};
-void MainWindow::processBuffer(QAudioBuffer buf)
+std::ofstream f_fft{"/tmp/fft"};
+std::ofstream f_samples{"/tmp/samples"};
+void MainWindow::processBuffer(const QAudioBuffer& buf)
 {
-    std::lock_guard<std::mutex> l(m_);
-    auto witam = QByteArray::fromRawData(reinterpret_cast<const char*>(buf.constData()), buf.byteCount());
-    ++j;
 
-    if (j > 50)
+    FFTBuffer fft_in{QByteArray::fromRawData(buf.constData<const char>(), buf.byteCount())};
+    FFTBuffer fft_out{FFT::run(fft_in.size(), fft_in)};
+    ++j;
+    if (j > 100)
     {
-        for (const auto& i : witam)
+        for (int i = 0; i < fft_out.size(); ++i)
         {
-            f << +i << std::endl;
-    //        f << +witam[0] << std::endl;
-    //        qDebug() << i;
+            f_fft << fft_out[i].r << std::endl;
+            f_samples << +fft_in[i].r << std::endl;
         }
-        throw "zegnam";
+        if (j > 105)
+        {
+            f_fft.close();
+            f_samples.close();
+            throw "zegnam";
+        }
     }
-//    throw "zegnam";
-    //if (i++ > 4) throw "zegnam";
 }
 
 void MainWindow::stopRecord()

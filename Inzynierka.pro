@@ -19,10 +19,15 @@ LIBS += -lgtest -pthread
 SOURCES += main.cpp\
         mainwindow.cpp \
     InputSignal.cpp \
-    recorder.cpp
+    recorder.cpp \
+    FFT.cpp \
+    kissfft/kissfft/kiss_fft.c
 
 HEADERS  += mainwindow.hpp \
     InputSignal.hpp \
-    recorder.hpp
+    recorder.hpp \
+    FFT.hpp \
+    kissfft/kissfft/kiss_fft.h \
+    kissfft/kissfft/_kiss_fft_guts.h
 
 FORMS    += mainwindow.ui
