@@ -72,22 +72,28 @@ void MainWindow::startRecord()
 
 static int j = 0;
 std::ofstream f_fft{"/tmp/fft"};
+FFTBuffer fft_witam(3520);
 std::ofstream f_samples{"/tmp/samples"};
 void MainWindow::processBuffer(const QAudioBuffer& buf)
 {
 
     FFTBuffer fft_in{QByteArray::fromRawData(buf.constData<const char>(), buf.byteCount())};
-    FFTBuffer fft_out{FFT::run(fft_in.size(), fft_in)};
+
     ++j;
     if (j > 100)
     {
-        for (int i = 0; i < fft_out.size(); ++i)
+        for (int i = 0; i < fft_in.size(); ++i)
         {
-            f_fft << fft_out[i].r << std::endl;
-            f_samples << +fft_in[i].r << std::endl;
+            fft_witam.push_back(fft_in[i]);
+//            f_samples << +fft_in[i].r << std::endl;
         }
-        if (j > 105)
+        if (j > 110)
         {
+            FFTBuffer fft_out{FFT::run(fft_witam.size(), fft_witam)};
+            for (auto& i : fft_out)
+            {
+                f_fft << i.r << std::endl;
+            }
             f_fft.close();
             f_samples.close();
             throw "zegnam";

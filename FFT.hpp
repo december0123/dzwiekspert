@@ -72,6 +72,11 @@ public:
         return data_[index];
     }
 
+    void push_back(kiss_fft_cpx item)
+    {
+        data_.push_back(item);
+    }
+
     auto size() const
     {
         return data_.size();
