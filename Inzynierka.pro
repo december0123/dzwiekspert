@@ -21,13 +21,15 @@ SOURCES += main.cpp\
     InputSignal.cpp \
     recorder.cpp \
     FFT.cpp \
-    kissfft/kissfft/kiss_fft.c
+    kissfft/kiss_fft.c \
+    FFTBuffer.cpp
 
 HEADERS  += mainwindow.hpp \
     InputSignal.hpp \
     recorder.hpp \
     FFT.hpp \
-    kissfft/kissfft/kiss_fft.h \
-    kissfft/kissfft/_kiss_fft_guts.h
+    kissfft/kiss_fft.h \
+    kissfft/_kiss_fft_guts.h \
+    FFTBuffer.hpp
 
 FORMS    += mainwindow.ui

@@ -1,4 +1,10 @@
 #include "FFT.hpp"
+extern "C"
+{
+    #include "kissfft/kiss_fft.h"
+    #include "kissfft/_kiss_fft_guts.h"
+}
+
 #include <memory>
 
 FFTBuffer FFT::run(const int NFFT, const FFTBuffer &inputBuffer)
