@@ -11,7 +11,11 @@ struct FreeDeleter
 class FFT
 {
 public:
-    static FFTBuffer run(const int NFFT, const FFTBuffer& inputBuffer);
+    FFTBuffer run();
+    void appendToBuff(FFTBuffer buf);
+    void clear();
+private:
+    FFTBuffer buff_;
 };
 
 #endif // FFT_HPP

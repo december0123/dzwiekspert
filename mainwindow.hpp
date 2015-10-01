@@ -23,7 +23,7 @@ public:
     ~MainWindow() { qDebug() << "Żegnam\n"; }
 
 private:
-    FFT f_;
+
     Ui::MainWindow ui;
     const int MENU_VIEW = 0;
     const int TUNER_VIEW = 1;
@@ -39,16 +39,17 @@ private:
 
     std::mutex m_;
     std::atomic<bool> CONTINUE_{false};
+    FFT fft_;
     InputSignal sig_;
-    QAudioBuffer buf_;
+    Recorder audioRecorder;
+    QMediaPlayer player;
 
     int freqToVal(const int freq) const;
     void turnOffTuner();
     void connectSlots();
     int calcScaledError(const int ideal, const int freq) const;
     void setUpRecorder();
-    Recorder audioRecorder;
-    QMediaPlayer player;
+
 
 private slots:
     void goToTuner();
