@@ -28,11 +28,12 @@ public:
     const kiss_fft_cpx& operator[](const std::size_t index) const;
     void push_back(kiss_fft_cpx item);
 
-    auto getMaxReal() const
+    auto getMaxReal()
     {
         return std::max_element(data_.begin(), data_.end(),
                                 [&](const auto& lhs, const auto& rhs){return lhs.r < rhs.r;});
     }
+
     auto size() const
     {
         return data_.size();
@@ -56,6 +57,16 @@ public:
     auto cend()
     {
         return data_.cend();
+    }
+    auto eraseDataOverNyquistFreq()
+    {
+        data_.erase(data_.begin(), std::next(data_.begin(), data_.size() / 2));
+        data_.erase(std::next(data_.begin(), data_.size() / 2), data_.end());
+    }
+
+    auto eraseNFirst(const int N)
+    {
+        return data_.erase(data_.begin(), std::next(data_.begin(), N));
     }
 
 private:

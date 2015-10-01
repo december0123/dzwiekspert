@@ -22,5 +22,6 @@ FFTBuffer FFT::run()
     std::unique_ptr<kiss_fft_state, FreeDeleter> state{kiss_fft_alloc(buff_.size(), 0, nullptr, nullptr)};
     FFTBuffer outputBuffer(buff_.size());
     kiss_fft(state.get(), buff_.getData(), outputBuffer.getData());
+    outputBuffer.eraseDataOverNyquistFreq();
     return outputBuffer;
 }
