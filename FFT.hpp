@@ -15,6 +15,7 @@ public:
     void appendToBuff(FFTBuffer buf);
     void clear();
 private:
+    unsigned counter_ = 0;
     FFTBuffer buff_;
 };
 

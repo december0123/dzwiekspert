@@ -20,17 +20,16 @@ public:
     ~FFTBuffer() = default;
 
     void append(FFTBuffer buf);
-
+    void eraseNFirst(const int N);
 
     const kiss_fft_cpx* getData() const;
     kiss_fft_cpx* getData();
     kiss_fft_cpx& operator[](const std::size_t index);
     const kiss_fft_cpx& operator[](const std::size_t index) const;
-    void push_back(kiss_fft_cpx item);
 
     auto getMaxReal()
     {
-        return std::max_element(data_.begin(), data_.end(),
+        return std::max_element(std::next(data_.begin(), 20), std::next(data_.begin(), 100),
                                 [&](const auto& lhs, const auto& rhs){return lhs.r < rhs.r;});
     }
 
@@ -63,10 +62,9 @@ public:
         data_.erase(data_.begin(), std::next(data_.begin(), data_.size() / 2));
         data_.erase(std::next(data_.begin(), data_.size() / 2), data_.end());
     }
-
-    auto eraseNFirst(const int N)
+    auto push_back(kiss_fft_cpx item)
     {
-        return data_.erase(data_.begin(), std::next(data_.begin(), N));
+        return data_.push_back(item);
     }
 
 private:

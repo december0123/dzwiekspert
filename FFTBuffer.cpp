@@ -41,6 +41,11 @@ void FFTBuffer::append(FFTBuffer buf)
     std::move(buf.begin(), buf.end(), std::back_inserter(data_));
 }
 
+void FFTBuffer::eraseNFirst(const int N)
+{
+    data_.erase(data_.begin(), std::next(data_.begin(), N));
+}
+
 const kiss_fft_cpx* FFTBuffer::getData() const
 {
     return data_.data();
@@ -59,9 +64,4 @@ kiss_fft_cpx& FFTBuffer::operator[](const std::size_t index)
 const kiss_fft_cpx& FFTBuffer::operator[](const std::size_t index) const
 {
     return data_[index];
-}
-
-void FFTBuffer::push_back(kiss_fft_cpx item)
-{
-    data_.push_back(item);
 }

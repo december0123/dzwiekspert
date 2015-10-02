@@ -10,14 +10,11 @@ class Recorder : public QAudioRecorder
 public:
     Recorder();
     QAudioProbe probe_;
-
-signals:
-
-public slots:
+    const int samplingFreq = 16000;
+    const int nyquistFreq = samplingFreq * 0.5;
 
 private:
     QAudioEncoderSettings settings_;
-
 };
 
 #endif // RECORDER_HPP
