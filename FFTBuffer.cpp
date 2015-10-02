@@ -5,8 +5,8 @@ FFTBuffer::FFTBuffer(const int NFFT)
 {
     for (int i = 0; i < NFFT; ++i)
     {
-        data_[i].r = 0;
-        data_[i].i = 0;
+        data_[i].r = 0.0f;
+        data_[i].i = 0.0f;
     }
 }
 
@@ -16,7 +16,7 @@ FFTBuffer::FFTBuffer(const QByteArray& b)
     for (int i = 0; i < b.size(); ++i)
     {
         data_[i].r = static_cast<float>(b[i]);
-        data_[i].i = 0;
+        data_[i].i = 0.0f;
     }
 }
 
@@ -26,7 +26,7 @@ FFTBuffer::FFTBuffer(const int* data, const int size)
     for(int i = 0; i < size; ++i)
     {
         data_[i].r = static_cast<float>(data[i]);
-        data_[i].i = 0;
+        data_[i].i = 0.0f;
     }
 }
 

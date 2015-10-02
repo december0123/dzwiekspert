@@ -18,6 +18,11 @@ public:
     FFTBuffer(FFTBuffer&& lhs);
     FFTBuffer() = default;
     ~FFTBuffer() = default;
+    FFTBuffer operator=(FFTBuffer&& lhs)
+    {
+        data_ = std::move(lhs.data_);
+        return *this;
+    }
 
     void append(FFTBuffer buf);
     void eraseNFirst(const int N);
@@ -33,6 +38,10 @@ public:
                                 [&](const auto& lhs, const auto& rhs){return lhs.r < rhs.r;});
     }
 
+    auto capacity() const
+    {
+        return data_.capacity();
+    }
     auto size() const
     {
         return data_.size();
@@ -61,10 +70,6 @@ public:
     {
         data_.erase(data_.begin(), std::next(data_.begin(), data_.size() / 2));
         data_.erase(std::next(data_.begin(), data_.size() / 2), data_.end());
-    }
-    auto push_back(kiss_fft_cpx item)
-    {
-        return data_.push_back(item);
     }
 
 private:

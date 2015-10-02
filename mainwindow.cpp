@@ -75,14 +75,11 @@ void MainWindow::processBuffer(const QAudioBuffer& buf)
     FFTBuffer fft_in{QByteArray::fromRawData(buf.constData<const char>(), buf.byteCount())};
     fft_.appendToBuff(fft_in);
 
-    if (++bufferCtr == 10)
+    if (fft_.ready_)
     {
-        auto fft_buff = fft_.run();
-//        qDebug() << fft_buff.size();
+        auto fft_buff = fft_.outputBuff_;
         double biggest = std::distance(fft_buff.begin(), fft_buff.getMaxReal());
         qDebug() << audioRecorder.nyquistFreq / static_cast<double>(fft_buff.size()) * static_cast<double>(biggest);
-        fft_.clear();
-        bufferCtr = 0;
     }
 }
 

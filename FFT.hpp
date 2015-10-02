@@ -14,9 +14,12 @@ public:
     FFTBuffer run();
     void appendToBuff(FFTBuffer buf);
     void clear();
+    FFTBuffer outputBuff_;
+    bool ready_ = false;
 private:
     unsigned counter_ = 0;
     FFTBuffer buff_;
+
 };
 
 #endif // FFT_HPP
