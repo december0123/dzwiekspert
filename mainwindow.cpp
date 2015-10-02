@@ -80,7 +80,7 @@ void MainWindow::processBuffer(const QAudioBuffer& buf)
         auto fft_buff = fft_.run();
 //        qDebug() << fft_buff.size();
         double biggest = std::distance(fft_buff.begin(), fft_buff.getMaxReal());
-        qDebug() << 8000.0 / static_cast<double>(fft_buff.size()) * static_cast<double>(biggest);
+        qDebug() << audioRecorder.nyquistFreq / static_cast<double>(fft_buff.size()) * static_cast<double>(biggest);
         fft_.clear();
         bufferCtr = 0;
     }
