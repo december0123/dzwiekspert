@@ -5,6 +5,7 @@ extern "C"
     #include "kissfft/_kiss_fft_guts.h"
 }
 
+#include <cmath>
 #include <memory>
 #include <QDebug>
 
@@ -14,6 +15,7 @@ void FFT::appendToBuff(FFTBuffer buf)
     if (++counter_ == 30)
     {
         ready_ = true;
+        applyHann();
         outputBuff_ = run();
         buff_.eraseNFirst(buff_.size() * 0.5);
         counter_ = 15;
@@ -21,6 +23,15 @@ void FFT::appendToBuff(FFTBuffer buf)
     else
     {
         ready_ = false;
+    }
+}
+
+void FFT::applyHann()
+{
+    constexpr double pi = 3.141592653589793238462643383279502884197169399375105820974944;
+    for (unsigned int i = 0; i < buff_.size(); ++i)
+    {
+        buff_[i].r *= 0.5 * (1 - std::cos(2 * pi * i / (buff_.size() - 1)));
     }
 }
 

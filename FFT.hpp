@@ -20,6 +20,7 @@ private:
     unsigned counter_ = 0;
     FFTBuffer buff_;
 
+    void applyHann();
 };
 
 #endif // FFT_HPP
