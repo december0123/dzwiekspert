@@ -7,6 +7,7 @@
 
 class Recorder : public QAudioRecorder
 {
+    Q_OBJECT
 public:
     Recorder();
     QAudioProbe probe_;

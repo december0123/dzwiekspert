@@ -39,9 +39,7 @@ private:
 
     std::mutex m_;
     std::atomic<bool> CONTINUE_{false};
-    FFT fft_;
     InputSignal sig_;
-    Recorder audioRecorder;
     QMediaPlayer player;
 
     int freqToVal(const int freq) const;
@@ -62,7 +60,6 @@ private slots:
     void startRecord();
     void stopRecord();
     void goToRecord();
-    void processBuffer(const QAudioBuffer &buf);
     void play();
 };
 

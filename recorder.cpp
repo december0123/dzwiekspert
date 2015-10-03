@@ -8,5 +8,4 @@ Recorder::Recorder()
     settings_.setEncodingMode(QMultimedia::ConstantQualityEncoding);
     settings_.setSampleRate(samplingFreq);
     setEncodingSettings(settings_);
-    probe_.setSource(this);
 }

@@ -1,45 +1,46 @@
 #include "InputSignal.hpp"
 #include <QDebug>
-#include <random>
-#include <thread>
 
 InputSignal::InputSignal()
 {
+    probe_.setSource(&audioRecorder);
+    QObject::connect(&probe_, &QAudioProbe::audioBufferProbed,
+            this, &InputSignal::processBuffer);
 }
 
 int InputSignal::getFreq() const
 {
+    qDebug() << "Oddalem " << freq_.load();
     return freq_.load();
 }
 
-void InputSignal::startCapture(bool active)
+void InputSignal::capture(bool capture)
 {
-    contCapture_.store(active);
-    if (contCapture_.load())
+    contCapture_.store(capture);
+    if (capture && audioRecorder.isAvailable())
     {
-        std::thread t{&InputSignal::capture, this};
-        t.detach();
+        audioRecorder.record();
+    }
+    else
+    {
+        audioRecorder.stop();
     }
 }
 
-void InputSignal::capture()
+void InputSignal::processBuffer(QAudioBuffer buf)
 {
-//    // FAKE IMPLEMENTATION
-//    std::uniform_int_distribution<int> distr{-1, 1};
-//    std::mt19937_64 eng{std::random_device{}()};
-//    while(contCapture_.load())
-//    {
-//        qDebug() << "START CAPTURE";
-//        auto w = distr(eng);
-//        qDebug() << w;
-//        freq_ += w;
-//        qDebug() << freq_;
-//        qDebug() << "END CAPTURE";
-//        if (freq_ < 400 || freq_ > 460)
-//        {
-//            freq_ = 440;
-//        }
-//        std::this_thread::sleep_for(std::chrono::milliseconds(20));
-//    }
-//    freq_.store(440);
+    FFTBuffer fft_in{QByteArray::fromRawData(buf.constData<const char>(), buf.byteCount())};
+    fft_.appendToBuff(fft_in);
+
+    if (fft_.ready_)
+    {
+        auto fft_buff = fft_.outputBuff_;
+        double biggest = std::distance(fft_buff.begin(), fft_buff.getMaxReal());
+        auto w = audioRecorder.nyquistFreq / static_cast<double>(fft_buff.size()) * static_cast<double>(biggest) * 2;
+//        qDebug() << w << fft_buff.size() << biggest << fft_in.size();
+        freq_.store(w);
+        ready.notify_all();
+        fftReady = true;
+        fft_.ready_ = false;
+    }
 }

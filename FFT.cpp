@@ -10,14 +10,13 @@ extern "C"
 
 void FFT::appendToBuff(FFTBuffer buf)
 {
-    ++counter_;
     buff_.append(buf);
-    if (counter_ == 10)
+    if (++counter_ == 30)
     {
         ready_ = true;
         outputBuff_ = run();
         buff_.eraseNFirst(buff_.size() * 0.5);
-        counter_ = 5;
+        counter_ = 15;
     }
     else
     {

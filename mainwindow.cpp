@@ -10,7 +10,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui.setupUi(this);
     connectSlots();
-    setUpRecorder();
     ui.views->setCurrentIndex(MENU_VIEW);
     ui.note->setText(tr("Włącz stroik"));
 }
@@ -31,8 +30,6 @@ void MainWindow::connectSlots()
 
     QObject::connect(ui.tunerStateBtn, &QPushButton::toggled,
                      this, &MainWindow::setTunerState);
-    QObject::connect(ui.tunerStateBtn, &QPushButton::clicked,
-                     this, &MainWindow::startRecord);
     QObject::connect(ui.tunerStateBtn, &QPushButton::toggled,
                      this, &MainWindow::setCaptureButtonText);
 
@@ -45,17 +42,11 @@ void MainWindow::connectSlots()
     QObject::connect(ui.goToRecord, &QPushButton::clicked,
                      this, &MainWindow::goToRecord);
 
-    QObject::connect(&audioRecorder.probe_, &QAudioProbe::audioBufferProbed,
-            this, &MainWindow::processBuffer);
 }
 
 void MainWindow::goToRecord()
 {
     ui.views->setCurrentIndex(2);
-}
-
-void MainWindow::setUpRecorder()
-{
 }
 
 void MainWindow::play()
@@ -67,34 +58,17 @@ void MainWindow::play()
 
 void MainWindow::startRecord()
 {
-    audioRecorder.setOutputLocation(QUrl::fromLocalFile(ui.url->text()));
-    audioRecorder.record();
-}
-
-void MainWindow::processBuffer(const QAudioBuffer& buf)
-{
-    FFTBuffer fft_in{QByteArray::fromRawData(buf.constData<const char>(), buf.byteCount())};
-    fft_.appendToBuff(fft_in);
-
-    if (fft_.ready_)
-    {
-        auto fft_buff = fft_.outputBuff_;
-        double biggest = std::distance(fft_buff.begin(), fft_buff.getMaxReal());
-        auto w = audioRecorder.nyquistFreq / static_cast<double>(fft_buff.size()) * static_cast<double>(biggest);
-//        qDebug() << w << fft_buff.size() << biggest << fft_in.size();
-        sig_.freq_ = w;
-        fft_.ready_ = false;
-    }
+    sig_.capture(true);
 }
 
 void MainWindow::stopRecord()
 {
-    audioRecorder.stop();
+    sig_.capture(false);
 }
 
 int MainWindow::calcScaledError(const int ideal, const int freq) const
 {
-    return (ideal - freq) * 2;
+    return (ideal - freq);
 }
 
 void MainWindow::goToTuner()
@@ -114,27 +88,31 @@ void MainWindow::turnOffTuner()
     ui.freqIndicator->setPalette(this->style()->standardPalette());
     ui.note->setText(tr("Włącz stroik"));
     CONTINUE_.store(false);
-    sig_.startCapture(false);
     ui.tunerStateBtn->setChecked(false);
+
 }
 
 void MainWindow::keepUpdatingFreqIndicator()
 {
+    sig_.capture(true);
     while(CONTINUE_.load())
     {
+        std::unique_lock<std::mutex> l(sig_.m_);
+        sig_.ready.wait(l, [&]
+        {
+            return sig_.fftIsReady();
+        });
         auto f = sig_.getFreq();
-
         auto w = freqToVal(f);
         ui.freqIndicator->setValue(w);
-        std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
+    sig_.capture(false);
     turnOffTuner();
 }
 
 void MainWindow::setTunerState(bool cont)
 {
     CONTINUE_.store(cont);
-    sig_.startCapture(cont);
     if (CONTINUE_.load())
     {
         std::thread t{&MainWindow::keepUpdatingFreqIndicator, this};
@@ -172,7 +150,7 @@ void MainWindow::setCaptureButtonText(bool checked)
 
 int MainWindow::freqToVal(const int freq) const
 {
-    const auto ideal = 440;
+    const auto ideal = 750;
     const auto value = MIDDLE_VAL + calcScaledError(ideal, freq);
     return std::min(value, UPPER_RED);
 }
