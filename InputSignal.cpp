@@ -24,22 +24,22 @@ void InputSignal::startCapture(bool active)
 
 void InputSignal::capture()
 {
-    // FAKE IMPLEMENTATION
-    std::uniform_int_distribution<int> distr{-1, 1};
-    std::mt19937_64 eng{std::random_device{}()};
-    while(contCapture_.load())
-    {
-        qDebug() << "START CAPTURE";
-        auto w = distr(eng);
-        qDebug() << w;
-        freq_ += w;
-        qDebug() << freq_;
-        qDebug() << "END CAPTURE";
-        if (freq_ < 400 || freq_ > 460)
-        {
-            freq_ = 440;
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(20));
-    }
-    freq_.store(440);
+//    // FAKE IMPLEMENTATION
+//    std::uniform_int_distribution<int> distr{-1, 1};
+//    std::mt19937_64 eng{std::random_device{}()};
+//    while(contCapture_.load())
+//    {
+//        qDebug() << "START CAPTURE";
+//        auto w = distr(eng);
+//        qDebug() << w;
+//        freq_ += w;
+//        qDebug() << freq_;
+//        qDebug() << "END CAPTURE";
+//        if (freq_ < 400 || freq_ > 460)
+//        {
+//            freq_ = 440;
+//        }
+//        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+//    }
+//    freq_.store(440);
 }

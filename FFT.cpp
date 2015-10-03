@@ -15,7 +15,7 @@ void FFT::appendToBuff(FFTBuffer buf)
     if (counter_ == 10)
     {
         ready_ = true;
-        outputBuff_ = std::move(run());
+        outputBuff_ = run();
         buff_.eraseNFirst(buff_.size() * 0.5);
         counter_ = 5;
     }
@@ -36,6 +36,5 @@ FFTBuffer FFT::run()
     FFTBuffer outputBuffer(buff_.size());
     kiss_fft(state.get(), buff_.getData(), outputBuffer.getData());
     outputBuffer.eraseDataOverNyquistFreq();
-    qDebug() << outputBuffer.size();
     return outputBuffer;
 }

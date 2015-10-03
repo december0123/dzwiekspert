@@ -10,8 +10,9 @@ public:
     ~InputSignal() = default;
     int getFreq() const;
     void startCapture(bool active);
+    volatile std::atomic<int> freq_{440};
 private:
-    std::atomic<int> freq_{440};
+
     std::atomic<bool> contCapture_{false};
     void capture();
 };

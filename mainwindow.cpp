@@ -31,6 +31,8 @@ void MainWindow::connectSlots()
 
     QObject::connect(ui.tunerStateBtn, &QPushButton::toggled,
                      this, &MainWindow::setTunerState);
+    QObject::connect(ui.tunerStateBtn, &QPushButton::clicked,
+                     this, &MainWindow::startRecord);
     QObject::connect(ui.tunerStateBtn, &QPushButton::toggled,
                      this, &MainWindow::setCaptureButtonText);
 
@@ -71,7 +73,6 @@ void MainWindow::startRecord()
 
 void MainWindow::processBuffer(const QAudioBuffer& buf)
 {
-    static int bufferCtr = 0;
     FFTBuffer fft_in{QByteArray::fromRawData(buf.constData<const char>(), buf.byteCount())};
     fft_.appendToBuff(fft_in);
 
@@ -79,7 +80,10 @@ void MainWindow::processBuffer(const QAudioBuffer& buf)
     {
         auto fft_buff = fft_.outputBuff_;
         double biggest = std::distance(fft_buff.begin(), fft_buff.getMaxReal());
-        qDebug() << audioRecorder.nyquistFreq / static_cast<double>(fft_buff.size()) * static_cast<double>(biggest);
+        auto w = audioRecorder.nyquistFreq / static_cast<double>(fft_buff.size()) * static_cast<double>(biggest);
+//        qDebug() << w << fft_buff.size() << biggest << fft_in.size();
+        sig_.freq_ = w;
+        fft_.ready_ = false;
     }
 }
 
@@ -96,7 +100,6 @@ int MainWindow::calcScaledError(const int ideal, const int freq) const
 void MainWindow::goToTuner()
 {
     ui.views->setCurrentIndex(TUNER_VIEW);
-
 }
 
 void MainWindow::goToMenu()
@@ -122,7 +125,6 @@ void MainWindow::keepUpdatingFreqIndicator()
         auto f = sig_.getFreq();
 
         auto w = freqToVal(f);
-        qDebug() << f << w;
         ui.freqIndicator->setValue(w);
         std::this_thread::sleep_for(std::chrono::milliseconds(20));
     }
@@ -172,7 +174,6 @@ int MainWindow::freqToVal(const int freq) const
 {
     const auto ideal = 440;
     const auto value = MIDDLE_VAL + calcScaledError(ideal, freq);
-    qDebug() << value;
     return std::min(value, UPPER_RED);
 }
 
