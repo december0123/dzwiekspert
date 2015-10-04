@@ -37,8 +37,6 @@ void MainWindow::connectSlots()
                      this, &MainWindow::startRecord);
     QObject::connect(ui.stopRecord, &QPushButton::clicked,
                      this, &MainWindow::stopRecord);
-    QObject::connect(ui.stopRecord, &QPushButton::clicked,
-                     this, &MainWindow::play);
     QObject::connect(ui.goToRecord, &QPushButton::clicked,
                      this, &MainWindow::goToRecord);
 
@@ -89,7 +87,6 @@ void MainWindow::turnOffTuner()
     ui.note->setText(tr("Włącz stroik"));
     CONTINUE_.store(false);
     ui.tunerStateBtn->setChecked(false);
-
 }
 
 void MainWindow::keepUpdatingFreqIndicator()
@@ -110,7 +107,7 @@ void MainWindow::keepUpdatingFreqIndicator()
     turnOffTuner();
 }
 
-void MainWindow::setTunerState(bool cont)
+void MainWindow::setTunerState(const bool cont)
 {
     CONTINUE_.store(cont);
     if (CONTINUE_.load())
@@ -136,7 +133,7 @@ void MainWindow::setNoteInfo(const int value)
     }
 }
 
-void MainWindow::setCaptureButtonText(bool checked)
+void MainWindow::setCaptureButtonText(const bool checked)
 {
     if (checked)
     {
@@ -150,7 +147,7 @@ void MainWindow::setCaptureButtonText(bool checked)
 
 int MainWindow::freqToVal(const int freq) const
 {
-    const auto ideal = 750;
+    const auto ideal = 660;
     const auto value = MIDDLE_VAL + calcScaledError(ideal, freq);
     return std::min(value, UPPER_RED);
 }

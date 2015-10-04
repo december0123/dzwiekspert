@@ -23,7 +23,6 @@ public:
     ~MainWindow() { qDebug() << "Żegnam\n"; }
 
 private:
-
     Ui::MainWindow ui;
     const int MENU_VIEW = 0;
     const int TUNER_VIEW = 1;
@@ -48,15 +47,14 @@ private:
     int calcScaledError(const int ideal, const int freq) const;
     void setUpRecorder();
 
-
 private slots:
     void goToTuner();
     void goToMenu();
     void setFreqIndicColor(const int freqVal);
-    void setTunerState(bool cont);
+    void setTunerState(const bool cont);
     void keepUpdatingFreqIndicator();
     void setNoteInfo(const int value);
-    void setCaptureButtonText(bool checked);
+    void setCaptureButtonText(const bool checked);
     void startRecord();
     void stopRecord();
     void goToRecord();

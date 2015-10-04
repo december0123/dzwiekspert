@@ -29,6 +29,7 @@ void InputSignal::capture(bool capture)
 
 void InputSignal::processBuffer(QAudioBuffer buf)
 {
+    std::lock_guard<std::mutex> l(m_);
     FFTBuffer fft_in{QByteArray::fromRawData(buf.constData<const char>(), buf.byteCount())};
     fft_.appendToBuff(fft_in);
 

@@ -24,7 +24,16 @@ public:
     Recorder audioRecorder;
     std::mutex m_;
 
-    bool fftIsReady() const {return fftReady;}
+    bool fftIsReady()
+    {
+        if (fftReady)
+        {
+            fftReady = false;
+            return !fftReady;
+        }
+        return fftReady;
+    }
+
     int getFreq() const;
     void capture(bool capture);
 private:
