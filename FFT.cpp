@@ -7,53 +7,29 @@ extern "C"
 
 #include <cmath>
 #include <memory>
-#include <QDebug>
 
 void FFT::appendToBuff(FFTBuffer buf)
 {
-    buff_.append(buf);
-    if (++counter_ == 30)
+    internalBuffer_.append(buf);
+    if (++samplesBufferCounter_ == FFT_THRESHOLD)
     {
-        ready_ = true;
-        FFTBuffer b{buff_};
-//        substractAvg(b);
-        applyHann(b);
-        outputBuff_ = run(b);
-        buff_.eraseNFirst(buff_.size() * 0.5);
-        counter_ = 15;
+        FFTBuffer tmpBuffer{internalBuffer_};
+        applyHannWindow(tmpBuffer);
+        outputBuff_ = run(tmpBuffer);
+        // overlap factor 50%
+        internalBuffer_.eraseNFirst(internalBuffer_.size() * 0.5);
+        ready_.store(true);
+        samplesBufferCounter_ = OVERLAP_FACTOR;
     }
     else
     {
-        ready_ = false;
-    }
-}
-
-void FFT::substractAvg(FFTBuffer& b)
-{
-    long acc{0};
-    for (const auto& i : b)
-    {
-        acc += i.r;
-    }
-    acc /= b.size();
-    for (auto& i : b)
-    {
-        i.r -= acc;
-    }
-}
-
-void FFT::applyHann(FFTBuffer& b)
-{
-    constexpr long double pi = 3.141592653589793238462643383279502884197169399375105820974944;
-    for (long double i = 0; i < b.size(); ++i)
-    {
-        b[i].r *= 0.5 * (1.0L - std::cos(2.0L * pi * i / (b.size() - 1)));
+        ready_.store(false);
     }
 }
 
 void FFT::clear()
 {
-    buff_.clear();
+    internalBuffer_.clear();
 }
 
 FFTBuffer FFT::run(const FFTBuffer& input)
@@ -67,4 +43,25 @@ FFTBuffer FFT::run(const FFTBuffer& input)
         i.r = std::abs(i.r);
     }
     return outputBuffer;
+}
+
+FFTBuffer FFT::getFFTBuffer()
+{
+    ready_.store(false);
+    FFTBuffer b = std::move(outputBuff_);
+    return b;
+}
+
+bool FFT::FFTIsReady() const
+{
+    return ready_.load();
+}
+
+void FFT::applyHannWindow(FFTBuffer& b)
+{
+    constexpr long double pi = 3.141592653589793238462643383279502884197169399375105820974944;
+    for (long double i = 0; i < b.size(); ++i)
+    {
+        b[i].r *= 0.5L * (1.0L - std::cos(2.0L * pi * i / (b.size() - 1)));
+    }
 }

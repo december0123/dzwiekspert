@@ -11,18 +11,14 @@ extern "C" {
 class FFTBuffer
 {
 public:
-    FFTBuffer(const int NFFT);
+    explicit FFTBuffer(const int NFFT);
     FFTBuffer(const QByteArray& b);
-    FFTBuffer(const int* data, const int size);
     FFTBuffer(const FFTBuffer& lhs);
     FFTBuffer(FFTBuffer&& lhs);
     FFTBuffer() = default;
     ~FFTBuffer() = default;
-    FFTBuffer operator=(FFTBuffer&& lhs)
-    {
-        data_ = std::move(lhs.data_);
-        return *this;
-    }
+    FFTBuffer operator=(const FFTBuffer& lhs);
+    FFTBuffer operator=(FFTBuffer&& lhs);
 
     void append(FFTBuffer buf);
     void eraseNFirst(const int N);
@@ -31,13 +27,13 @@ public:
     kiss_fft_cpx* getData();
     kiss_fft_cpx& operator[](const std::size_t index);
     const kiss_fft_cpx& operator[](const std::size_t index) const;
+    void eraseDataOverNyquistFreq();
 
     auto getMaxReal()
     {
-        return std::max_element(std::next(data_.begin(), 20), std::next(data_.begin(), 100),
+        return std::max_element(std::next(data_.begin(), LOWER_BOUND_FREQ), std::next(data_.begin(), UPPER_BOUND_FREQ),
                                 [&](const auto& lhs, const auto& rhs){return lhs.r < rhs.r;});
     }
-
     auto capacity() const
     {
         return data_.capacity();
@@ -66,14 +62,11 @@ public:
     {
         return data_.cend();
     }
-    auto eraseDataOverNyquistFreq()
-    {
-        data_.erase(data_.begin(), std::next(data_.begin(), data_.size() / 2));
-        data_.erase(std::next(data_.begin(), data_.size() / 2), data_.end());
-    }
 
 private:
     std::vector<kiss_fft_cpx> data_;
+    const int LOWER_BOUND_FREQ{20};
+    const int UPPER_BOUND_FREQ{100};
 };
 
 

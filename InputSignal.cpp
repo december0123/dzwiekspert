@@ -3,9 +3,19 @@
 
 InputSignal::InputSignal()
 {
-    probe_.setSource(&audioRecorder);
+    probe_.setSource(&recorder_);
     QObject::connect(&probe_, &QAudioProbe::audioBufferProbed,
             this, &InputSignal::processBuffer);
+}
+
+bool InputSignal::fftIsReady()
+{
+    if (fftReady.load())
+    {
+        fftReady.store(false);
+        return !fftReady.load();
+    }
+    return fftReady.load();
 }
 
 int InputSignal::getFreq() const
@@ -17,13 +27,13 @@ int InputSignal::getFreq() const
 void InputSignal::capture(bool capture)
 {
     contCapture_.store(capture);
-    if (capture && audioRecorder.isAvailable())
+    if (capture && recorder_.isAvailable())
     {
-        audioRecorder.record();
+        recorder_.record();
     }
     else
     {
-        audioRecorder.stop();
+        recorder_.stop();
     }
 }
 
@@ -33,14 +43,13 @@ void InputSignal::processBuffer(QAudioBuffer buf)
     FFTBuffer fft_in{QByteArray::fromRawData(buf.constData<const char>(), buf.byteCount())};
     fft_.appendToBuff(fft_in);
 
-    if (fft_.ready_)
+    if (fft_.FFTIsReady())
     {
-        auto fft_buff = fft_.outputBuff_;
+        auto fft_buff = fft_.getFFTBuffer();
         double biggest = std::distance(fft_buff.begin(), fft_buff.getMaxReal());
-        auto w = static_cast<long double>(audioRecorder.nyquistFreq) / static_cast<long double>(fft_buff.size()) * static_cast<long double>(biggest) * 2;
+        auto w = static_cast<long double>(recorder_.NYQUIST_FREQ) / static_cast<long double>(fft_buff.size()) * static_cast<long double>(biggest) * 2;
         freq_.store(w);
-        ready.notify_all();
-        fftReady = true;
-        fft_.ready_ = false;
+        ready_.notify_all();
+        fftReady.store(true);
     }
 }

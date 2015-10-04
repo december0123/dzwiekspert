@@ -6,6 +6,6 @@ Recorder::Recorder()
     settings_.setCodec("");
     settings_.setQuality(QMultimedia::NormalQuality);
     settings_.setEncodingMode(QMultimedia::ConstantQualityEncoding);
-    settings_.setSampleRate(samplingFreq);
+    settings_.setSampleRate(SAMPLING_FREQ);
     setEncodingSettings(settings_);
 }

@@ -13,6 +13,8 @@ TARGET = Inzynierka
 TEMPLATE = app
 
 CONFIG += c++14
+QMAKE_CXXFLAGS += "-Wextra"
+QMAKE_CXXFLAGS_RELEASE += "-Werror"
 
 LIBS += -lgtest -pthread
 

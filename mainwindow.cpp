@@ -39,45 +39,17 @@ void MainWindow::connectSlots()
                      this, &MainWindow::stopRecord);
     QObject::connect(ui.goToRecord, &QPushButton::clicked,
                      this, &MainWindow::goToRecord);
-
 }
 
-void MainWindow::goToRecord()
-{
-    ui.views->setCurrentIndex(2);
-}
-
-void MainWindow::play()
-{
-    player.setMedia(QUrl::fromLocalFile(ui.url->text()));
-    player.setVolume(50);
-    player.play();
-}
-
-void MainWindow::startRecord()
-{
-    sig_.capture(true);
-}
-
-void MainWindow::stopRecord()
-{
-    sig_.capture(false);
-}
-
-int MainWindow::calcScaledError(const int ideal, const int freq) const
+int MainWindow::calcError(const int ideal, const int freq) const
 {
     return (freq - ideal);
 }
 
-void MainWindow::goToTuner()
+int MainWindow::freqToVal(const int freq) const
 {
-    ui.views->setCurrentIndex(TUNER_VIEW);
-}
-
-void MainWindow::goToMenu()
-{
-    turnOffTuner();
-    ui.views->setCurrentIndex(MENU_VIEW);
+    const auto value = MIDDLE_VAL + calcError(ui.idealFreq->value(), freq);
+    return value;
 }
 
 void MainWindow::turnOffTuner()
@@ -89,48 +61,38 @@ void MainWindow::turnOffTuner()
     ui.tunerStateBtn->setChecked(false);
 }
 
+void MainWindow::goToMenu()
+{
+    turnOffTuner();
+    ui.views->setCurrentIndex(MENU_VIEW);
+}
+
+void MainWindow::goToTuner()
+{
+    ui.views->setCurrentIndex(TUNER_VIEW);
+}
+
+void MainWindow::goToRecord()
+{
+    ui.views->setCurrentIndex(2);
+}
+
 void MainWindow::keepUpdatingFreqIndicator()
 {
     sig_.capture(true);
     while(CONTINUE_.load())
     {
         std::unique_lock<std::mutex> l(sig_.m_);
-        sig_.ready.wait(l, [&]
+        sig_.ready_.wait(l, [&]
         {
             return sig_.fftIsReady();
         });
-        auto f = sig_.getFreq();
-        auto w = freqToVal(f);
-        ui.freqIndicator->setValue(w);
+        auto freq = sig_.getFreq();
+        ui.freqIndicator->setValue(freqToVal(freq));
+        ui.currFreq->setText(QString::number(freq));
     }
     sig_.capture(false);
     turnOffTuner();
-}
-
-void MainWindow::setTunerState(const bool cont)
-{
-    CONTINUE_.store(cont);
-    if (CONTINUE_.load())
-    {
-        std::thread t{&MainWindow::keepUpdatingFreqIndicator, this};
-        t.detach();
-    }
-}
-
-void MainWindow::setNoteInfo(const int value)
-{
-    if (value >= UPPER_YELLOW || value <= BOTTOM_YELLOW)
-    {
-        ui.note->setText(tr("Żopa!"));
-    }
-    else if (value >= UPPER_GREEN || value <= BOTTOM_GREEN)
-    {
-        ui.note->setText(tr("Prawie!"));
-    }
-    else
-    {
-        ui.note->setText(tr("Super!"));
-    }
 }
 
 void MainWindow::setCaptureButtonText(const bool checked)
@@ -145,31 +107,59 @@ void MainWindow::setCaptureButtonText(const bool checked)
     }
 }
 
-int MainWindow::freqToVal(const int freq) const
-{
-    const auto ideal = 660;
-    const auto value = MIDDLE_VAL + calcScaledError(ideal, freq);
-    return value;
-}
-
 void MainWindow::setFreqIndicColor(const int freqVal)
 {
     auto pal = QPalette(Qt::green);
-    if ((freqVal < UPPER_RED) && (freqVal > BOTTOM_RED))
+    if ((freqVal < UPPER_RED) && (freqVal > LOWER_RED))
     {
-        if ((freqVal < BOTTOM_YELLOW) || (freqVal > UPPER_YELLOW))
+        if ((freqVal < LOWER_YELLOW) || (freqVal > UPPER_YELLOW))
         {
             pal = QPalette{Qt::red};
-            qDebug() << "czerwone " << freqVal;
         }
-        else if ((freqVal < BOTTOM_GREEN) || (freqVal > UPPER_GREEN))
+        else if ((freqVal < LOWER_GREEN) || (freqVal > UPPER_GREEN))
         {
             pal = QPalette(Qt::yellow);
         }
     }
     else
-    {qDebug() << "czerwone " << freqVal;
+    {
         pal = QPalette(Qt::red);
     }
     ui.freqIndicator->setPalette(pal);
+}
+
+void MainWindow::setNoteInfo(const int value)
+{
+    if (value >= UPPER_YELLOW || value <= LOWER_YELLOW)
+    {
+        ui.note->setText(tr("Żopa!"));
+    }
+    else if (value >= UPPER_GREEN || value <= LOWER_GREEN)
+    {
+        ui.note->setText(tr("Prawie!"));
+    }
+    else
+    {
+        ui.note->setText(tr("Super!"));
+    }
+}
+
+void MainWindow::setTunerState(const bool cont)
+{
+    CONTINUE_.store(cont);
+    if (CONTINUE_.load())
+    {
+        std::thread t{&MainWindow::keepUpdatingFreqIndicator, this};
+        t.detach();
+    }
+}
+
+void MainWindow::startRecord()
+{
+    sig_.capture(true);
+}
+
+void MainWindow::stopRecord()
+{
+    sig_.capture(false);
 }

@@ -17,29 +17,21 @@ class InputSignal : public QObject
 public:
     InputSignal();
 
-    volatile std::atomic<int> freq_{440};
-    std::condition_variable ready;
     FFT fft_;
+    Recorder recorder_;
     QAudioProbe probe_;
-    Recorder audioRecorder;
+    std::condition_variable ready_;
     std::mutex m_;
 
-    bool fftIsReady()
-    {
-        if (fftReady)
-        {
-            fftReady = false;
-            return !fftReady;
-        }
-        return fftReady;
-    }
+    bool fftIsReady();
 
     int getFreq() const;
     void capture(bool capture);
-private:
 
+private:
     std::atomic<bool> contCapture_{false};
-    volatile bool fftReady{false};
+    std::atomic<int> freq_{0};
+    std::atomic<bool> fftReady{false};
     void processBuffer(QAudioBuffer buf);
 };
 

@@ -20,21 +20,23 @@ FFTBuffer::FFTBuffer(const QByteArray& b)
     }
 }
 
-FFTBuffer::FFTBuffer(const int* data, const int size)
-    : data_(size)
-{
-    for(int i = 0; i < size; ++i)
-    {
-        data_[i].r = static_cast<long double>(data[i]);
-        data_[i].i = 0.0L;
-    }
-}
-
 FFTBuffer::FFTBuffer(const FFTBuffer& lhs)
     : data_{lhs.data_} {}
 
 FFTBuffer::FFTBuffer(FFTBuffer&& lhs)
     : data_{std::move(lhs.data_)} {}
+
+FFTBuffer FFTBuffer::operator=(const FFTBuffer& lhs)
+{
+    data_ = lhs.data_;
+    return *this;
+}
+
+FFTBuffer FFTBuffer::operator=(FFTBuffer&& lhs)
+{
+    data_ = std::move(lhs.data_);
+    return *this;
+}
 
 void FFTBuffer::append(FFTBuffer buf)
 {
@@ -64,4 +66,10 @@ kiss_fft_cpx& FFTBuffer::operator[](const std::size_t index)
 const kiss_fft_cpx& FFTBuffer::operator[](const std::size_t index) const
 {
     return data_[index];
+}
+
+void FFTBuffer::eraseDataOverNyquistFreq()
+{
+    data_.erase(data_.begin(), std::next(data_.begin(), data_.size() / 2));
+    data_.erase(std::next(data_.begin(), data_.size() / 2), data_.end());
 }
