@@ -44,10 +44,10 @@ void FFT::substractAvg(FFTBuffer& b)
 
 void FFT::applyHann(FFTBuffer& b)
 {
-    constexpr double pi = 3.141592653589793238462643383279502884197169399375105820974944;
-    for (unsigned int i = 0; i < b.size(); ++i)
+    constexpr long double pi = 3.141592653589793238462643383279502884197169399375105820974944;
+    for (long double i = 0; i < b.size(); ++i)
     {
-        b[i].r *= 0.5 * (1 - std::cos(2 * pi * i / (b.size() - 1)));
+        b[i].r *= 0.5 * (1.0L - std::cos(2.0L * pi * i / (b.size() - 1)));
     }
 }
 
@@ -62,5 +62,9 @@ FFTBuffer FFT::run(const FFTBuffer& input)
     FFTBuffer outputBuffer(input.size());
     kiss_fft(state.get(), input.getData(), outputBuffer.getData());
     outputBuffer.eraseDataOverNyquistFreq();
+    for (auto& i : outputBuffer)
+    {
+        i.r = std::abs(i.r);
+    }
     return outputBuffer;
 }
