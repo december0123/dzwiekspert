@@ -37,8 +37,7 @@ void InputSignal::processBuffer(QAudioBuffer buf)
     {
         auto fft_buff = fft_.outputBuff_;
         double biggest = std::distance(fft_buff.begin(), fft_buff.getMaxReal());
-        auto w = audioRecorder.nyquistFreq / static_cast<double>(fft_buff.size()) * static_cast<double>(biggest) * 2;
-//        qDebug() << w << fft_buff.size() << biggest << fft_in.size();
+        auto w = static_cast<long double>(audioRecorder.nyquistFreq) / static_cast<long double>(fft_buff.size()) * static_cast<long double>(biggest) * 2;
         freq_.store(w);
         ready.notify_all();
         fftReady = true;

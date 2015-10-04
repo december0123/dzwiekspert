@@ -11,7 +11,7 @@ struct FreeDeleter
 class FFT
 {
 public:
-    FFTBuffer run();
+    FFTBuffer run(const FFTBuffer &input);
     void appendToBuff(FFTBuffer buf);
     void clear();
     FFTBuffer outputBuff_;
@@ -20,7 +20,8 @@ private:
     unsigned counter_ = 0;
     FFTBuffer buff_;
 
-    void applyHann();
+    void applyHann(FFTBuffer& b);
+    void substractAvg(FFTBuffer &b);
 };
 
 #endif // FFT_HPP

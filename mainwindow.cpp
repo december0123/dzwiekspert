@@ -66,7 +66,7 @@ void MainWindow::stopRecord()
 
 int MainWindow::calcScaledError(const int ideal, const int freq) const
 {
-    return (ideal - freq);
+    return (freq - ideal);
 }
 
 void MainWindow::goToTuner()
@@ -149,7 +149,7 @@ int MainWindow::freqToVal(const int freq) const
 {
     const auto ideal = 660;
     const auto value = MIDDLE_VAL + calcScaledError(ideal, freq);
-    return std::min(value, UPPER_RED);
+    return value;
 }
 
 void MainWindow::setFreqIndicColor(const int freqVal)
@@ -160,6 +160,7 @@ void MainWindow::setFreqIndicColor(const int freqVal)
         if ((freqVal < BOTTOM_YELLOW) || (freqVal > UPPER_YELLOW))
         {
             pal = QPalette{Qt::red};
+            qDebug() << "czerwone " << freqVal;
         }
         else if ((freqVal < BOTTOM_GREEN) || (freqVal > UPPER_GREEN))
         {
@@ -167,7 +168,7 @@ void MainWindow::setFreqIndicColor(const int freqVal)
         }
     }
     else
-    {
+    {qDebug() << "czerwone " << freqVal;
         pal = QPalette(Qt::red);
     }
     ui.freqIndicator->setPalette(pal);

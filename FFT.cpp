@@ -15,8 +15,10 @@ void FFT::appendToBuff(FFTBuffer buf)
     if (++counter_ == 30)
     {
         ready_ = true;
-        applyHann();
-        outputBuff_ = run();
+        FFTBuffer b{buff_};
+//        substractAvg(b);
+        applyHann(b);
+        outputBuff_ = run(b);
         buff_.eraseNFirst(buff_.size() * 0.5);
         counter_ = 15;
     }
@@ -26,12 +28,26 @@ void FFT::appendToBuff(FFTBuffer buf)
     }
 }
 
-void FFT::applyHann()
+void FFT::substractAvg(FFTBuffer& b)
+{
+    long acc{0};
+    for (const auto& i : b)
+    {
+        acc += i.r;
+    }
+    acc /= b.size();
+    for (auto& i : b)
+    {
+        i.r -= acc;
+    }
+}
+
+void FFT::applyHann(FFTBuffer& b)
 {
     constexpr double pi = 3.141592653589793238462643383279502884197169399375105820974944;
-    for (unsigned int i = 0; i < buff_.size(); ++i)
+    for (unsigned int i = 0; i < b.size(); ++i)
     {
-        buff_[i].r *= 0.5 * (1 - std::cos(2 * pi * i / (buff_.size() - 1)));
+        b[i].r *= 0.5 * (1 - std::cos(2 * pi * i / (b.size() - 1)));
     }
 }
 
@@ -40,11 +56,11 @@ void FFT::clear()
     buff_.clear();
 }
 
-FFTBuffer FFT::run()
+FFTBuffer FFT::run(const FFTBuffer& input)
 {
-    std::unique_ptr<kiss_fft_state, FreeDeleter> state{kiss_fft_alloc(buff_.size(), 0, nullptr, nullptr)};
-    FFTBuffer outputBuffer(buff_.size());
-    kiss_fft(state.get(), buff_.getData(), outputBuffer.getData());
+    std::unique_ptr<kiss_fft_state, FreeDeleter> state{kiss_fft_alloc(input.size(), 0, nullptr, nullptr)};
+    FFTBuffer outputBuffer(input.size());
+    kiss_fft(state.get(), input.getData(), outputBuffer.getData());
     outputBuffer.eraseDataOverNyquistFreq();
     return outputBuffer;
 }
