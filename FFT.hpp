@@ -18,12 +18,13 @@ public:
     FFTBuffer run(const FFTBuffer &input);
     FFTBuffer getFFTBuffer();
     bool FFTIsReady() const;
+    double OUT_FREQ{0};
 
 private:
     FFTBuffer outputBuff_;
     FFTBuffer internalBuffer_;
     unsigned samplesBufferCounter_ = 0;
-    const unsigned FFT_THRESHOLD = 40;
+    const unsigned FFT_THRESHOLD = 20;
     const unsigned OVERLAP_FACTOR = FFT_THRESHOLD / 2;
     std::atomic<bool> ready_{false};
 

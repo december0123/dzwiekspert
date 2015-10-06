@@ -5,7 +5,9 @@ extern "C"
     #include "kissfft/_kiss_fft_guts.h"
 }
 
+#include <string>
 #include <cmath>
+#include <QDebug>
 #include <memory>
 
 void FFT::appendToBuff(FFTBuffer buf)
@@ -16,6 +18,8 @@ void FFT::appendToBuff(FFTBuffer buf)
         FFTBuffer tmpBuffer{internalBuffer_};
         applyHannWindow(tmpBuffer);
         outputBuff_ = run(tmpBuffer);
+//        OUT_FREQ = tmpBuffer.autoCor();
+//        qDebug() << "LISU PLS: " << OUT_FREQ;
         // overlap factor 50%
         internalBuffer_.eraseNFirst(internalBuffer_.size() * 0.5);
         ready_.store(true);
@@ -59,7 +63,8 @@ bool FFT::FFTIsReady() const
 
 void FFT::applyHannWindow(FFTBuffer& b)
 {
-    constexpr long double pi = 3.141592653589793238462643383279502884197169399375105820974944;
+    constexpr long double pi{std::acos(-1.0L)};
+
     for (long double i = 0; i < b.size(); ++i)
     {
         b[i].r *= 0.5L * (1.0L - std::cos(2.0L * pi * i / (b.size() - 1)));

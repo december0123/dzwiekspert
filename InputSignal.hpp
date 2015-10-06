@@ -30,7 +30,7 @@ public:
 
 private:
     std::atomic<bool> contCapture_{false};
-    std::atomic<int> freq_{0};
+    std::atomic<int> freq_{7};
     std::atomic<bool> fftReady{false};
     void processBuffer(QAudioBuffer buf);
 };

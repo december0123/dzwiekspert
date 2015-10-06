@@ -255,7 +255,7 @@ QSlider::sub-page:vertical {
           <item>
            <widget class="QLabel" name="label">
             <property name="text">
-             <string>E3 = 164Hz</string>
+             <string>E2 = 82Hz</string>
             </property>
            </widget>
           </item>
