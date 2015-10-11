@@ -63,7 +63,7 @@ bool FFT::FFTIsReady() const
 
 void FFT::applyHannWindow(FFTBuffer& b)
 {
-    constexpr long double pi{std::acos(-1.0L)};
+    constexpr long double pi{3.141592653589793238513L};
 
     for (long double i = 0; i < b.size(); ++i)
     {
