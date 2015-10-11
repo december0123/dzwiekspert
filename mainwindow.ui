@@ -262,35 +262,35 @@ QSlider::sub-page:vertical {
           <item>
            <widget class="QLabel" name="label_2">
             <property name="text">
-             <string>A3 = 220Hz</string>
+             <string>A3 = 110Hz</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>D4 = 293Hz</string>
+             <string>D4 = 147Hz</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_3">
             <property name="text">
-             <string>G4 = 392Hz</string>
+             <string>G4 = 196Hz</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_5">
             <property name="text">
-             <string>B4 = 493Hz</string>
+             <string>B4 = 246Hz</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QLabel" name="label_6">
             <property name="text">
-             <string>E5 = 659Hz</string>
+             <string>E5 = 330Hz</string>
             </property>
            </widget>
           </item>
