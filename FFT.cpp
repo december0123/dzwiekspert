@@ -18,7 +18,7 @@ void FFT::appendToBuff(FFTBuffer buf)
     {
         FFTBuffer tmpBuffer{internalBuffer_};
         applyHannWindow(tmpBuffer);
-        outputBuff_ = run(tmpBuffer);
+        outputBuff_ = HPS(tmpBuffer);
 //        OUT_FREQ = tmpBuffer.autoCor();
 //        qDebug() << "LISU PLS: " << OUT_FREQ;
         // overlap factor 50%
@@ -48,6 +48,30 @@ FFTBuffer FFT::run(const FFTBuffer& input)
         i.r = std::abs(i.r);
     }
     return outputBuffer;
+}
+
+FFTBuffer FFT::HPS(const FFTBuffer &input)
+{
+    std::unique_ptr<kiss_fft_state, FreeDeleter> state{kiss_fft_alloc(input.size(), 0, nullptr, nullptr)};
+    FFTBuffer outputBuffer(input.size());
+    kiss_fft(state.get(), input.getData(), outputBuffer.getData());
+    outputBuffer.eraseDataOverNyquistFreq();
+    for (auto& i : outputBuffer)
+    {
+        i.r = std::abs(i.r);
+    }
+    FFTBuffer hps{outputBuffer};
+    // Go through each downsampling factor
+    constexpr int N = 20;
+    for (int downsamplingFactor = 1; downsamplingFactor <= N; ++downsamplingFactor)
+    {
+        // Go through samples of the downsampled signal and compute HPS at this iteration
+        for(int idx = 0; idx < outputBuffer.size()/downsamplingFactor; ++idx)
+        {
+            hps[idx].r *= outputBuffer[idx * downsamplingFactor].r;
+        }
+    }
+    return hps;
 }
 
 FFTBuffer FFT::getFFTBuffer()

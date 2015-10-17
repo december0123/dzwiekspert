@@ -16,6 +16,7 @@ public:
     void appendToBuff(FFTBuffer buf);
     void clear();
     FFTBuffer run(const FFTBuffer &input);
+    FFTBuffer HPS(const FFTBuffer& input);
     FFTBuffer getFFTBuffer();
     bool FFTIsReady() const;
     double OUT_FREQ{0};
