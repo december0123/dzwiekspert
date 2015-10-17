@@ -97,7 +97,7 @@ public:
 private:
     std::vector<kiss_fft_cpx> data_;
     const int LOWER_BOUND_FREQ{7};
-    const int UPPER_BOUND_FREQ{100};
+    const int UPPER_BOUND_FREQ{200};
 };
 
 

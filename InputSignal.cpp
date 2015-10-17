@@ -46,8 +46,10 @@ void InputSignal::processBuffer(QAudioBuffer buf)
     if (fft_.FFTIsReady())
     {
         auto fft_buff = fft_.getFFTBuffer();
-        long double biggest = std::distance(fft_buff.begin(), fft_buff.getMaxReal());
+        auto max = fft_buff.getMaxReal();
+        long double biggest = std::distance(fft_buff.begin(), max);
         auto w = static_cast<long double>(recorder_.NYQUIST_FREQ) / static_cast<long double>(fft_buff.size()) * biggest;
+        qDebug() << "Freq: " << (double)w << "Moc: " << (double)max->r;
         freq_.store(w);
 //        freq_.store(fft_.OUT_FREQ);
         ready_.notify_all();
