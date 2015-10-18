@@ -1,5 +1,5 @@
-#ifndef FFT_HPP
-#define FFT_HPP
+#ifndef ANALYSER_HPP
+#define ANALYSER_HPP
 
 #include "FFTBuffer.hpp"
 
@@ -10,7 +10,7 @@ struct FreeDeleter
     void operator()(void* p) {free(p);}
 };
 
-class FFT
+class Analyser
 {
 public:
     void appendToBuff(FFTBuffer buf);
@@ -32,4 +32,4 @@ private:
     void applyHannWindow(FFTBuffer& b);
 };
 
-#endif // FFT_HPP
+#endif // ANALYSER_HPP

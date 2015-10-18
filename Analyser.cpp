@@ -1,4 +1,4 @@
-#include "FFT.hpp"
+#include "Analyser.hpp"
 extern "C"
 {
     #include "kissfft/kiss_fft.h"
@@ -11,7 +11,7 @@ extern "C"
 #include <QDebug>
 #include <memory>
 
-void FFT::appendToBuff(FFTBuffer buf)
+void Analyser::appendToBuff(FFTBuffer buf)
 {
     internalBuffer_.append(buf);
     if (++samplesBufferCounter_ == FFT_THRESHOLD)
@@ -32,12 +32,12 @@ void FFT::appendToBuff(FFTBuffer buf)
     }
 }
 
-void FFT::clear()
+void Analyser::clear()
 {
     internalBuffer_.clear();
 }
 
-FFTBuffer FFT::run(const FFTBuffer& input)
+FFTBuffer Analyser::run(const FFTBuffer& input)
 {
     std::unique_ptr<kiss_fft_state, FreeDeleter> state{kiss_fft_alloc(input.size(), 0, nullptr, nullptr)};
     FFTBuffer outputBuffer(input.size());
@@ -50,7 +50,7 @@ FFTBuffer FFT::run(const FFTBuffer& input)
     return outputBuffer;
 }
 
-FFTBuffer FFT::HPS(const FFTBuffer &input)
+FFTBuffer Analyser::HPS(const FFTBuffer &input)
 {
     std::unique_ptr<kiss_fft_state, FreeDeleter> state{kiss_fft_alloc(input.size(), 0, nullptr, nullptr)};
     FFTBuffer outputBuffer(input.size());
@@ -74,19 +74,19 @@ FFTBuffer FFT::HPS(const FFTBuffer &input)
     return hps;
 }
 
-FFTBuffer FFT::getFFTBuffer()
+FFTBuffer Analyser::getFFTBuffer()
 {
     ready_.store(false);
     FFTBuffer b = std::move(outputBuff_);
     return b;
 }
 
-bool FFT::FFTIsReady() const
+bool Analyser::FFTIsReady() const
 {
     return ready_.load();
 }
 
-void FFT::applyHannWindow(FFTBuffer& b)
+void Analyser::applyHannWindow(FFTBuffer& b)
 {
     constexpr long double pi{3.141592653589793238513L};
 

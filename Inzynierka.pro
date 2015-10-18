@@ -22,18 +22,18 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     InputSignal.cpp \
     recorder.cpp \
-    FFT.cpp \
     kissfft/kiss_fft.c \
     FFTBuffer.cpp \
-    dywapitchtrack/dywapitchtrack.c
+    dywapitchtrack/dywapitchtrack.c \
+    Analyser.cpp
 
 HEADERS  += mainwindow.hpp \
     InputSignal.hpp \
     recorder.hpp \
-    FFT.hpp \
     kissfft/kiss_fft.h \
     kissfft/_kiss_fft_guts.h \
     FFTBuffer.hpp \
-    dywapitchtrack/dywapitchtrack.h
+    dywapitchtrack/dywapitchtrack.h \
+    Analyser.hpp
 
 FORMS    += mainwindow.ui

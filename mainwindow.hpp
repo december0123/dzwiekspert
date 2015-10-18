@@ -9,7 +9,7 @@
 
 #include "InputSignal.hpp"
 #include "recorder.hpp"
-#include "FFT.hpp"
+#include "Analyser.hpp"
 
 
 class MainWindow : public QMainWindow

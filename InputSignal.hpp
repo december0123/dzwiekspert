@@ -1,7 +1,7 @@
 #ifndef INPUT_SIGNAL_HPP
 #define INPUT_SIGNAL_HPP
 
-#include "FFT.hpp"
+#include "Analyser.hpp"
 #include "FFTBuffer.hpp"
 #include "recorder.hpp"
 
@@ -17,7 +17,7 @@ class InputSignal : public QObject
 public:
     InputSignal();
 
-    FFT fft_;
+    Analyser fft_;
     Recorder recorder_;
     QAudioProbe probe_;
     std::condition_variable ready_;
