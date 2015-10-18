@@ -4,7 +4,6 @@ extern "C"
     #include "kissfft/kiss_fft.h"
     #include "kissfft/_kiss_fft_guts.h"
 }
-#include "dywapitchtrack/dywapitchtrack.h"
 
 #include <string>
 #include <cmath>

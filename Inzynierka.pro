@@ -24,7 +24,6 @@ SOURCES += main.cpp\
     recorder.cpp \
     kissfft/kiss_fft.c \
     FFTBuffer.cpp \
-    dywapitchtrack/dywapitchtrack.c \
     Analyser.cpp
 
 HEADERS  += mainwindow.hpp \
@@ -33,7 +32,6 @@ HEADERS  += mainwindow.hpp \
     kissfft/kiss_fft.h \
     kissfft/_kiss_fft_guts.h \
     FFTBuffer.hpp \
-    dywapitchtrack/dywapitchtrack.h \
     Analyser.hpp
 
 FORMS    += mainwindow.ui

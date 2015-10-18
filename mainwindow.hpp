@@ -28,8 +28,6 @@ private:
     Ui::MainWindow ui;
     const int MENU_VIEW = 0;
     const int TUNER_VIEW = 1;
-    const int RED = 255;
-    const int GREEN = 0;
     const int UPPER_GREEN = 55;
     const int LOWER_GREEN = 45;
     const int UPPER_YELLOW = 65;

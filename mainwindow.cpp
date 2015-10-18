@@ -61,8 +61,7 @@ int MainWindow::calcError(const int ideal, const int freq) const
 
 int MainWindow::freqToVal(const int freq) const
 {
-    const auto value = MIDDLE_VAL + calcError(idealFreq_, freq);
-    return value;
+    return MIDDLE_VAL + calcError(idealFreq_, freq);
 }
 
 void MainWindow::turnOffTuner()
