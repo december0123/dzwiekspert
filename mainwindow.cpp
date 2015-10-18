@@ -39,6 +39,19 @@ void MainWindow::connectSlots()
                      this, &MainWindow::stopRecord);
     QObject::connect(ui.goToRecord, &QPushButton::clicked,
                      this, &MainWindow::goToRecord);
+
+    QObject::connect(ui.tune_e2, &QRadioButton::clicked,
+                     this, &MainWindow::setIdealFreq);
+    QObject::connect(ui.tune_a3, &QRadioButton::clicked,
+                     this, &MainWindow::setIdealFreq);
+    QObject::connect(ui.tune_d4, &QRadioButton::clicked,
+                     this, &MainWindow::setIdealFreq);
+    QObject::connect(ui.tune_g4, &QRadioButton::clicked,
+                     this, &MainWindow::setIdealFreq);
+    QObject::connect(ui.tune_b4, &QRadioButton::clicked,
+                     this, &MainWindow::setIdealFreq);
+    QObject::connect(ui.tune_e5, &QRadioButton::clicked,
+                     this, &MainWindow::setIdealFreq);
 }
 
 int MainWindow::calcError(const int ideal, const int freq) const
@@ -48,7 +61,7 @@ int MainWindow::calcError(const int ideal, const int freq) const
 
 int MainWindow::freqToVal(const int freq) const
 {
-    const auto value = MIDDLE_VAL + calcError(ui.idealFreq->value(), freq);
+    const auto value = MIDDLE_VAL + calcError(idealFreq_, freq);
     return value;
 }
 
@@ -59,6 +72,34 @@ void MainWindow::turnOffTuner()
     ui.note->setText(tr("Włącz stroik"));
     CONTINUE_.store(false);
     ui.tunerStateBtn->setChecked(false);
+}
+
+void MainWindow::setIdealFreq()
+{
+    if (ui.tune_e2->isChecked())
+    {
+        idealFreq_ = E2;
+    }
+    else if (ui.tune_a3->isChecked())
+    {
+        idealFreq_ = A3;
+    }
+    else if (ui.tune_d4->isChecked())
+    {
+        idealFreq_ = D4;
+    }
+    else if (ui.tune_g4->isChecked())
+    {
+        idealFreq_ = G4;
+    }
+    else if (ui.tune_b4->isChecked())
+    {
+        idealFreq_ = B4;
+    }
+    else if (ui.tune_e5->isChecked())
+    {
+        idealFreq_ = E5;
+    }
 }
 
 void MainWindow::goToMenu()

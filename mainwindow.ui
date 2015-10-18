@@ -125,29 +125,6 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="1">
-         <spacer name="verticalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="4" column="1">
-         <widget class="QSpinBox" name="idealFreq">
-          <property name="maximum">
-           <number>9999</number>
-          </property>
-          <property name="value">
-           <number>392</number>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="0" colspan="3">
          <spacer name="verticalSpacer">
           <property name="orientation">
@@ -187,7 +164,7 @@
           </property>
          </spacer>
         </item>
-        <item row="7" column="0">
+        <item row="6" column="0">
          <widget class="QPushButton" name="goToMenu">
           <property name="text">
            <string>Powrót do menu</string>
@@ -243,58 +220,113 @@ QSlider::sub-page:vertical {
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
+        <item row="4" column="1">
          <widget class="QLabel" name="currFreq">
           <property name="text">
            <string>0</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="0">
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>E2 = 82Hz</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>A3 = 110Hz</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>D4 = 147Hz</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_3">
-            <property name="text">
-             <string>G4 = 196Hz</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_5">
-            <property name="text">
-             <string>B4 = 246Hz</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>E5 = 330Hz</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <item row="5" column="1">
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="4" column="0" rowspan="2">
+         <widget class="QGroupBox" name="groupBox">
+          <property name="title">
+           <string/>
+          </property>
+          <widget class="QRadioButton" name="tune_e2">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>0</y>
+             <width>101</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>E2 = 82Hz</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QRadioButton" name="tune_a3">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>30</y>
+             <width>101</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>A3 = 110Hz</string>
+           </property>
+          </widget>
+          <widget class="QRadioButton" name="tune_d4">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>60</y>
+             <width>101</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>D4 = 147Hz</string>
+           </property>
+          </widget>
+          <widget class="QRadioButton" name="tune_e5">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>150</y>
+             <width>101</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>E5 = 330Hz</string>
+           </property>
+          </widget>
+          <widget class="QRadioButton" name="tune_g4">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>90</y>
+             <width>101</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>G4 = 196Hz</string>
+           </property>
+          </widget>
+          <widget class="QRadioButton" name="tune_b4">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>120</y>
+             <width>101</width>
+             <height>24</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>B4 = 246Hz</string>
+           </property>
+          </widget>
+         </widget>
         </item>
        </layout>
       </widget>
