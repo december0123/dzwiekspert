@@ -7,8 +7,16 @@
 class Note
 {
 public:
+    Note()
+        : name_{""}, freq_{0_Hz} {}
     Note(std::string name, Frequency freq)
         : name_{name}, freq_{freq} {}
+    Note(const Note& rhs) = default;
+    Note(Note&& rhs) = default;
+
+    Note& operator=(const Note& rhs) = default;
+    Note& operator=(Note&& rhs) = default;
+
     std::string getName() const
     {
         return name_;
@@ -19,8 +27,8 @@ public:
     }
 
 private:
-    const std::string name_;
-    const Frequency freq_;
+    std::string name_;
+    Frequency freq_;
 };
 
 #endif // NOTE_HPP_
