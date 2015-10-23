@@ -1,10 +1,6 @@
-#include <iostream>
-
-using namespace std;
-
+#include "SoundRecognizer_test.cpp"
+#include <gtest/gtest.h>
 int main()
 {
-    cout << "Hello World!" << endl;
-    return 0;
 }
 

@@ -15,8 +15,8 @@ class Analyser
 public:
     void appendToBuff(FFTBuffer buf);
     void clear();
-    FFTBuffer run(const FFTBuffer &input);
-    FFTBuffer HPS(const FFTBuffer& input);
+    void FFT(FFTBuffer &input);
+    void HPS(FFTBuffer& input);
     FFTBuffer getFFTBuffer();
     bool FFTIsReady() const;
     double OUT_FREQ{0};

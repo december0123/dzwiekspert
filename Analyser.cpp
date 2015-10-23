@@ -12,18 +12,17 @@ extern "C"
 
 void Analyser::appendToBuff(FFTBuffer buf)
 {
-    internalBuffer_.append(buf);
+    internalBuffer_.append(std::move(buf));
     if (++samplesBufferCounter_ == FFT_THRESHOLD)
     {
         FFTBuffer tmpBuffer{internalBuffer_};
         applyHannWindow(tmpBuffer);
-        outputBuff_ = HPS(tmpBuffer);
-//        OUT_FREQ = tmpBuffer.autoCor();
-//        qDebug() << "LISU PLS: " << OUT_FREQ;
-        // overlap factor 50%
+        HPS(tmpBuffer);
+        outputBuff_ = std::move(tmpBuffer);
         internalBuffer_.eraseNFirst(internalBuffer_.size() * 0.5);
         ready_.store(true);
         samplesBufferCounter_ = OVERLAP_FACTOR;
+        qDebug() << "appendToBuff: ready";
     }
     else
     {
@@ -36,48 +35,41 @@ void Analyser::clear()
     internalBuffer_.clear();
 }
 
-FFTBuffer Analyser::run(const FFTBuffer& input)
+// Fast Fourier Transform
+void Analyser::FFT(FFTBuffer& input)
 {
     std::unique_ptr<kiss_fft_state, FreeDeleter> state{kiss_fft_alloc(input.size(), 0, nullptr, nullptr)};
-    FFTBuffer outputBuffer(input.size());
-    kiss_fft(state.get(), input.getData(), outputBuffer.getData());
-    outputBuffer.eraseDataOverNyquistFreq();
-    for (auto& i : outputBuffer)
+//    FFTBuffer fft(input.size());
+    kiss_fft(state.get(), input.getData(), input.getData());
+    input.eraseDataOverNyquistFreq();
+    for (auto& i : input)
     {
         i.r = std::abs(i.r);
     }
-    return outputBuffer;
 }
 
-FFTBuffer Analyser::HPS(const FFTBuffer &input)
+// Harmonic Product Spectrum
+void Analyser::HPS(FFTBuffer &input)
 {
-    std::unique_ptr<kiss_fft_state, FreeDeleter> state{kiss_fft_alloc(input.size(), 0, nullptr, nullptr)};
-    FFTBuffer outputBuffer(input.size());
-    kiss_fft(state.get(), input.getData(), outputBuffer.getData());
-    outputBuffer.eraseDataOverNyquistFreq();
-    for (auto& i : outputBuffer)
-    {
-        i.r = std::abs(i.r);
-    }
-    FFTBuffer hps{outputBuffer};
+    FFT(input);
+    FFTBuffer hps{input};
     // Go through each downsampling factor
     constexpr int N = 20;
     for (int downsamplingFactor = 1; downsamplingFactor <= N; ++downsamplingFactor)
     {
         // Go through samples of the downsampled signal and compute HPS at this iteration
-        for(int idx = 0; idx < outputBuffer.size()/downsamplingFactor; ++idx)
+        for (int idx = 0; idx < input.size() / downsamplingFactor; ++idx)
         {
-            hps[idx].r *= outputBuffer[idx * downsamplingFactor].r;
+            hps[idx].r *= input[idx * downsamplingFactor].r;
         }
     }
-    return hps;
+    input = std::move(hps);
 }
 
 FFTBuffer Analyser::getFFTBuffer()
 {
     ready_.store(false);
-    FFTBuffer b = std::move(outputBuff_);
-    return b;
+    return std::move(outputBuff_);
 }
 
 bool Analyser::FFTIsReady() const

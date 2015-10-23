@@ -60,11 +60,6 @@ public:
         return 0.0;
     }
 
-    auto getMaxReal()
-    {
-        return std::max_element(std::next(data_.begin(), LOWER_BOUND_FREQ), std::next(data_.begin(), UPPER_BOUND_FREQ),
-                                [&](const auto& lhs, const auto& rhs){return lhs.r < rhs.r;});
-    }
     auto capacity() const
     {
         return data_.capacity();
@@ -96,8 +91,6 @@ public:
 
 private:
     std::vector<kiss_fft_cpx> data_;
-    const int LOWER_BOUND_FREQ{7};
-    const int UPPER_BOUND_FREQ{200};
 };
 
 

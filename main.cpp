@@ -5,17 +5,10 @@
 
 // #define TESTING_ON
 
-TEST(InputSignal, tellsCurrentFrequency)
-{
-    InputSignal sig;
-    ASSERT_EQ(sig.getFreq(), 440);
-}
 
 int main(int argc, char *argv[])
 {
 #ifndef TESTING_ON
-
-
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

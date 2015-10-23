@@ -24,7 +24,10 @@ SOURCES += main.cpp\
     recorder.cpp \
     kissfft/kiss_fft.c \
     FFTBuffer.cpp \
-    Analyser.cpp
+    Analyser.cpp \
+    SoundRecognizer.cpp \
+    SoundRecognizer_test.cpp \
+    Note_test.cpp
 
 HEADERS  += mainwindow.hpp \
     InputSignal.hpp \
@@ -32,6 +35,9 @@ HEADERS  += mainwindow.hpp \
     kissfft/kiss_fft.h \
     kissfft/_kiss_fft_guts.h \
     FFTBuffer.hpp \
-    Analyser.hpp
+    Analyser.hpp \
+    Utils.hpp \
+    SoundRecognizer.hpp \
+    Note.hpp
 
 FORMS    += mainwindow.ui
