@@ -12,22 +12,9 @@
 class SoundRecognizer
 {
 public:
-    SoundRecognizer();
-    std::string recognizeNote(const Frequency f)
-    {
-        auto sound = std::find_if(sounds.begin(), sounds.end(),
-                     [&](const Note& s)
-                     {
-                         return std::abs(1 - (s.getFreq() / f)) < 0.02;
-                     });
-        if (sound != sounds.end())
-        {
-            return sound->getName();
-        }
-        return "Not recognized";
-    }
+    std::string recognizeNote(const Frequency f) const;
 private:
-    std::vector<Note> sounds{{"C2",     65.41_Hz},
+    std::vector<Note> notes_{{"C2",     65.41_Hz},
                              {"C#2",    69.30_Hz},
                              {"D2",     73.42_Hz},
                              {"D#2",    77.78_Hz},

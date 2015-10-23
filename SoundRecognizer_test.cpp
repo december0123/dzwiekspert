@@ -6,22 +6,26 @@
 #include <vector>
 #include <string>
 
-TEST(SoundRecognizer, shouldRecognizePerfectSingleNotes)
+class SoundRecognizerFixture : public ::testing::Test
 {
+protected:
     SoundRecognizer s;
-    std::vector<Note> sounds{{"E2", 82.41_Hz}, {"A2", 110.0_Hz}};
-    for (const auto& sound : sounds)
+};
+
+TEST_F(SoundRecognizerFixture, shouldRecognizePerfectSingleNotes)
+{
+    std::vector<Note> notes{{"E2", 82.41_Hz}, {"A2", 110.0_Hz}};
+    for (const auto& note : notes)
     {
-        ASSERT_EQ(sound.getName(), s.recognizeNote(sound.getFreq()));
+        ASSERT_EQ(note.getName(), s.recognizeNote(note.getFreq()));
     }
 }
 
-TEST(SoundRecognizer, shouldRecognizeImperfectSingleNotes)
+TEST_F(SoundRecognizerFixture, shouldRecognizeImperfectSingleNotes)
 {
-    SoundRecognizer s;
-    std::vector<Note> sounds{{"E2", 82_Hz}, {"E2", 84.0_Hz}, {"A2", 110.5_Hz}, {"A2", 112.12_Hz}};
-    for (const auto& sound : sounds)
+    std::vector<Note> notes{{"E2", 82_Hz}, {"E2", 84.0_Hz}, {"F2", 85_Hz}, {"A2", 110.5_Hz}, {"A2", 112.12_Hz}};
+    for (const auto& note : notes)
     {
-        ASSERT_EQ(sound.getName(), s.recognizeNote(sound.getFreq()));
+        ASSERT_EQ(note.getName(), s.recognizeNote(note.getFreq()));
     }
 }
