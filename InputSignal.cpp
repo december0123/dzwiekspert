@@ -35,7 +35,6 @@ void InputSignal::capture(bool capture)
 
 void InputSignal::processBuffer(QAudioBuffer buf)
 {
-//    std::lock_guard<std::mutex> l(m_);
     FFTBuffer fft_in{QByteArray::fromRawData(buf.constData<const char>(), buf.byteCount())};
     analyser_.appendToBuff(fft_in);
 
@@ -45,9 +44,8 @@ void InputSignal::processBuffer(QAudioBuffer buf)
         auto max = getMaxReal(fft_buff);
         long double biggest = std::distance(fft_buff.begin(), max);
         auto w = static_cast<long double>(recorder_.NYQUIST_FREQ) / static_cast<long double>(fft_buff.size()) * biggest;
-//        qDebug() << "Freq: " << (double)w << "Moc: " << (double)max->r;
         freq_.store(w);
-//        freq_.store(fft_.OUT_FREQ);
+        note_ = s_.recognizeNote(w);
         ready_.notify_all();
         fftReady.store(true);
     }

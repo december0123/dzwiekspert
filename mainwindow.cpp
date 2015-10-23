@@ -61,7 +61,7 @@ int MainWindow::calcError(const int ideal, const int freq) const
 
 int MainWindow::freqToVal(const int freq) const
 {
-    return MIDDLE_VAL + calcError(idealFreq_, freq);
+    return MIDDLE_VAL + calcError(idealFreq_.getFreq(), freq);
 }
 
 void MainWindow::turnOffTuner()
@@ -126,7 +126,7 @@ void MainWindow::keepUpdatingFreqIndicator()
         {
             auto freq = sig_.getFreqAndInvalidate();
             ui.freqIndicator->setValue(freqToVal(freq));
-            ui.currFreq->setText(QString::number(freq));
+            ui.currFreq->setText(QString::fromStdString(sig_.note_));
         }
     }
     sig_.capture(false);

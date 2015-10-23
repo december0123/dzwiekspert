@@ -4,6 +4,7 @@
 #include "Analyser.hpp"
 #include "FFTBuffer.hpp"
 #include "recorder.hpp"
+#include "SoundRecognizer.hpp"
 
 #include <atomic>
 #include <condition_variable>
@@ -20,6 +21,7 @@ public:
     Analyser analyser_;
     Recorder recorder_;
     QAudioProbe probe_;
+    SoundRecognizer s_;
     std::condition_variable ready_;
     std::mutex m_;
 
@@ -32,10 +34,11 @@ public:
         return std::max_element(std::next(buf.begin(), LOWER_BOUND_FREQ), std::next(buf.begin(), UPPER_BOUND_FREQ),
                                 [&](const auto& lhs, const auto& rhs){return lhs.r < rhs.r;});
     }
-
+    std::string note_;
 private:
     std::atomic<bool> contCapture_{false};
     std::atomic<double> freq_{7};
+
     std::atomic<bool> fftReady{false};
     void processBuffer(QAudioBuffer buf);
     // 8000 czestotliwosci

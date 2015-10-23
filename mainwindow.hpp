@@ -8,6 +8,7 @@
 #include <QAudioProbe>
 
 #include "InputSignal.hpp"
+#include "Note.hpp"
 #include "recorder.hpp"
 #include "Analyser.hpp"
 #include "Utils.hpp"
@@ -31,13 +32,13 @@ private:
     const int UPPER_RED = 99;
     const int LOWER_RED = 0;
     const int MIDDLE_VAL = 50;
-    const int E2 = 82_Hz;
-    const int A2 = 110_Hz;
-    const int D3 = 147_Hz;
-    const int G3 = 196_Hz;
-    const int B3 = 246_Hz;
-    const int E4 = 330_Hz;
-    int idealFreq_ = 82;
+    const Note E2{"E2", 82.41_Hz};
+    const Note A2{"A2", 110.00_Hz};
+    const Note D3{"D3", 146.83_Hz};
+    const Note G3 {"G3", 196.00_Hz};
+    const Note B3{"B3", 246.94_Hz};
+    const Note E4{"E4", 329.63_Hz};
+    Note idealFreq_ = E2;
 
     std::atomic<bool> CONTINUE_{false};
     InputSignal sig_;
