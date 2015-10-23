@@ -10,11 +10,7 @@
 #include "InputSignal.hpp"
 #include "recorder.hpp"
 #include "Analyser.hpp"
-
-constexpr unsigned long long operator "" _Hz(unsigned long long freq)
-{
-    return freq;
-}
+#include "Utils.hpp"
 
 class MainWindow : public QMainWindow
 {
@@ -36,11 +32,11 @@ private:
     const int LOWER_RED = 0;
     const int MIDDLE_VAL = 50;
     const int E2 = 82_Hz;
-    const int A3 = 110_Hz;
-    const int D4 = 147_Hz;
-    const int G4 = 196_Hz;
-    const int B4 = 246_Hz;
-    const int E5 = 330_Hz;
+    const int A2 = 110_Hz;
+    const int D3 = 147_Hz;
+    const int G3 = 196_Hz;
+    const int B3 = 246_Hz;
+    const int E4 = 330_Hz;
     int idealFreq_ = 82;
 
     std::atomic<bool> CONTINUE_{false};

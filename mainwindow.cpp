@@ -66,10 +66,10 @@ int MainWindow::freqToVal(const int freq) const
 
 void MainWindow::turnOffTuner()
 {
+    CONTINUE_.store(false);
     ui.freqIndicator->setValue(MIDDLE_VAL);
     ui.freqIndicator->setPalette(this->style()->standardPalette());
     ui.note->setText(tr("Włącz stroik"));
-    CONTINUE_.store(false);
     ui.tunerStateBtn->setChecked(false);
 }
 
@@ -81,23 +81,23 @@ void MainWindow::setIdealFreq()
     }
     else if (ui.tune_a3->isChecked())
     {
-        idealFreq_ = A3;
+        idealFreq_ = A2;
     }
     else if (ui.tune_d4->isChecked())
     {
-        idealFreq_ = D4;
+        idealFreq_ = D3;
     }
     else if (ui.tune_g4->isChecked())
     {
-        idealFreq_ = G4;
+        idealFreq_ = G3;
     }
     else if (ui.tune_b4->isChecked())
     {
-        idealFreq_ = B4;
+        idealFreq_ = B3;
     }
     else if (ui.tune_e5->isChecked())
     {
-        idealFreq_ = E5;
+        idealFreq_ = E4;
     }
 }
 
@@ -122,14 +122,12 @@ void MainWindow::keepUpdatingFreqIndicator()
     sig_.capture(true);
     while(CONTINUE_.load())
     {
-        std::unique_lock<std::mutex> l(sig_.m_);
-        sig_.ready_.wait(l, [&]
+        if (sig_.fftIsReady())
         {
-            return sig_.fftIsReady();
-        });
-        auto freq = sig_.getFreq();
-        ui.freqIndicator->setValue(freqToVal(freq));
-        ui.currFreq->setText(QString::number(freq));
+            auto freq = sig_.getFreqAndInvalidate();
+            ui.freqIndicator->setValue(freqToVal(freq));
+            ui.currFreq->setText(QString::number(freq));
+        }
     }
     sig_.capture(false);
     turnOffTuner();
