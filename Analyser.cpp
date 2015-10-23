@@ -22,7 +22,6 @@ void Analyser::appendToBuff(FFTBuffer buf)
         internalBuffer_.eraseNFirst(internalBuffer_.size() * 0.5);
         ready_.store(true);
         samplesBufferCounter_ = OVERLAP_FACTOR;
-        qDebug() << "appendToBuff: ready";
     }
     else
     {

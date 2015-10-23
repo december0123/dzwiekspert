@@ -15,7 +15,6 @@ bool InputSignal::fftIsReady() const
 
 int InputSignal::getFreqAndInvalidate()
 {
-    qDebug() << "Oddalem " << freq_.load();
     fftReady.store(false);
     return freq_.load();
 }
