@@ -4,6 +4,7 @@
 #include "Note.hpp"
 #include "Utils.hpp"
 #include <algorithm>
+#include <cmath>
 #include <string>
 #include <vector>
 #include <QDebug>
@@ -17,7 +18,7 @@ public:
         auto sound = std::find_if(sounds.begin(), sounds.end(),
                      [&](const Note& s)
                      {
-                         return s.getFreq() == f;
+                         return std::abs(1 - (s.getFreq() / f)) < 0.02;
                      });
         if (sound != sounds.end())
         {
