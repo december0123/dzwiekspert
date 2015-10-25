@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 #include "InputSignal.hpp"
 
-//#define TESTING_ON
+#define TESTING_ON
 
 
 int main(int argc, char *argv[])

@@ -12,7 +12,7 @@
 class SoundRecognizer
 {
 public:
-    std::string recognizeNote(const Frequency f) const;
+    Note recognizeNote(const Frequency f) const;
 private:
     std::vector<Note> notes_{{"C2",     65.41_Hz},
                              {"C#2",    69.30_Hz},
@@ -79,6 +79,7 @@ private:
                              {"A#6",    1864.66_Hz},
                              {"B6",     1975.53_Hz},
                              };
+    double calcRelativeError(const Note& note, const double freq) const;
 };
 
 #endif // SOUNDRECOGNIZER_HPP

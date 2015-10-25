@@ -8,9 +8,12 @@ class Note
 {
 public:
     Note()
-        : name_{""}, freq_{0_Hz} {}
+        : name_{""}, freq_{0_Hz}, error_{0.0} {}
     Note(std::string name, Frequency freq)
-        : name_{name}, freq_{freq} {}
+        : name_{name}, freq_{freq}, error_{0.0} {}
+    Note(std::string name, Frequency freq, double error)
+        : name_{name}, freq_{freq}, error_{error} {}
+
     Note(const Note& rhs) = default;
     Note(Note&& rhs) = default;
 
@@ -26,9 +29,15 @@ public:
         return freq_;
     }
 
+    double getError() const
+    {
+        return error_;
+    }
+
 private:
     std::string name_;
     Frequency freq_;
+    double error_{0.0};
 };
 
 #endif // NOTE_HPP_
