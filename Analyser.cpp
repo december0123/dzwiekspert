@@ -1,14 +1,16 @@
 #include "Analyser.hpp"
+
 extern "C"
 {
     #include "kissfft/kiss_fft.h"
     #include "kissfft/_kiss_fft_guts.h"
 }
 
-#include <string>
-#include <cmath>
 #include <QDebug>
+
+#include <cmath>
 #include <memory>
+#include <string>
 
 void Analyser::appendToBuff(FFTBuffer buf)
 {

@@ -1,7 +1,9 @@
-#include <gtest/gtest.h>
+#include "Note.hpp"
 #include "SoundRecognizer.hpp"
 #include "Utils.hpp"
-#include "Note.hpp"
+
+#include <gtest/gtest.h>
+
 #include <vector>
 
 class SoundRecognizerFixture : public ::testing::Test

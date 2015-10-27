@@ -2,8 +2,8 @@
 
 #include <algorithm>
 #include <chrono>
-#include <thread>
 #include <fstream>
+#include <thread>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)

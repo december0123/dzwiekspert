@@ -3,15 +3,17 @@
 
 #include "ui_mainwindow.h"
 
-#include <QDebug>
-#include <QAudioBuffer>
-#include <QAudioProbe>
-
+#include "Analyser.hpp"
 #include "InputSignal.hpp"
 #include "Note.hpp"
 #include "recorder.hpp"
-#include "Analyser.hpp"
 #include "Utils.hpp"
+
+#include <QAudioBuffer>
+#include <QAudioProbe>
+#include <QDebug>
+
+#include <atomic>
 
 class MainWindow : public QMainWindow
 {

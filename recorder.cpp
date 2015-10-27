@@ -1,5 +1,7 @@
 #include "recorder.hpp"
+
 #include <QUrl>
+
 Recorder::Recorder()
 {
     settings_.setChannelCount(1);

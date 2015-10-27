@@ -6,11 +6,12 @@
 #include "recorder.hpp"
 #include "SoundRecognizer.hpp"
 
+#include <QAudioProbe>
+#include <QObject>
+
 #include <atomic>
 #include <condition_variable>
 #include <mutex>
-#include <QAudioProbe>
-#include <QObject>
 
 class InputSignal : public QObject
 {

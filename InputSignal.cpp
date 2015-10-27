@@ -1,4 +1,5 @@
 #include "InputSignal.hpp"
+
 #include <QDebug>
 
 InputSignal::InputSignal()

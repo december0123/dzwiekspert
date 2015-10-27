@@ -6,8 +6,9 @@ extern "C" {
 }
 
 #include <QByteArray>
-#include <vector>
 #include <QDebug>
+
+#include <vector>
 
 class FFTBuffer
 {
@@ -72,7 +73,7 @@ public:
     {
         return data_.clear();
     }
-    auto begin()
+    auto    begin()
     {
         return data_.begin();
     }

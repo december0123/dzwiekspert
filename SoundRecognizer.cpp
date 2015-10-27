@@ -1,6 +1,7 @@
 #include "SoundRecognizer.hpp"
-#include <stdexcept>
+
 #include <deque>
+#include <stdexcept>
 #include <QDebug>
 
 SoundRecognizer::SoundRecognizer()
@@ -46,7 +47,7 @@ Note SoundRecognizer::recognizeNote(const Frequency f) const
     auto sound = std::find_if(notes_.begin(), notes_.end(),
                  [&](const Note& s)
                  {
-                     return std::abs(1.0 - (s.getFreq() / f)) < ACCEPTABLE_ERROR;
+                     return std::abs(1.0 - (s.getFreq() / f)) < ERROR_THRESHOLD;
                  });
     if (sound != notes_.end())
     {

@@ -3,12 +3,15 @@
 
 #include "Note.hpp"
 #include "Utils.hpp"
+
+#include <QDebug>
+
 #include <algorithm>
 #include <cmath>
 #include <deque>
 #include <string>
 #include <vector>
-#include <QDebug>
+
 
 class SoundRecognizer
 {

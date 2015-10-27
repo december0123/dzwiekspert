@@ -1,6 +1,8 @@
-#include <gtest/gtest.h>
 #include "SoundRecognizer.hpp"
 #include "Utils.hpp"
+
+#include <gtest/gtest.h>
+
 #include <vector>
 #include <string>
 

@@ -1,8 +1,9 @@
 #ifndef NOTE_HPP_
 #define NOTE_HPP_
 
-#include <string>
 #include <Utils.hpp>
+
+#include <string>
 
 class Note
 {
