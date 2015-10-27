@@ -19,6 +19,7 @@ public:
 
     Note& operator=(const Note& rhs) = default;
     Note& operator=(Note&& rhs) = default;
+    ~Note() = default;
 
     std::string getName() const
     {
