@@ -13,15 +13,15 @@ bool InputSignal::fftIsReady() const
     return fftReady.load();
 }
 
-int InputSignal::getFreqAndInvalidate()
+Note InputSignal::getNoteAndInvalidate()
 {
+//    std::lock_guard<std::mutex> l{m_};
     fftReady.store(false);
-    return freq_.load();
+    return note_;
 }
 
 void InputSignal::capture(bool capture)
 {
-    contCapture_.store(capture);
     if (capture && recorder_.isAvailable())
     {
         recorder_.record();
@@ -30,6 +30,7 @@ void InputSignal::capture(bool capture)
     {
         recorder_.stop();
         analyser_.clear();
+        qDebug() << "Recorder stop segfault";
     }
 }
 
@@ -40,12 +41,12 @@ void InputSignal::processBuffer(QAudioBuffer buf)
 
     if (analyser_.FFTIsReady())
     {
+        qDebug() << "fftisReady()";
         auto fft_buff = analyser_.getFFTBuffer();
         auto max = getMaxReal(fft_buff);
         long double biggest = std::distance(fft_buff.begin(), max);
         auto w = static_cast<long double>(recorder_.NYQUIST_FREQ) / static_cast<long double>(fft_buff.size()) * biggest;
-        freq_.store(w);
-        note_ = s_.recognizeNote(w).getName();
+        note_ = s_.recognizeNote(w);
         ready_.notify_all();
         fftReady.store(true);
     }

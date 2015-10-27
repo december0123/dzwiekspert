@@ -38,23 +38,22 @@ private:
     const Note G3 {"G3", 196.00_Hz};
     const Note B3{"B3", 246.94_Hz};
     const Note E4{"E4", 329.63_Hz};
-    Note idealFreq_ = E2;
+    Note idealNote_{E2};
 
     std::atomic<bool> CONTINUE_{false};
     InputSignal sig_;
 
     int calcError(const int ideal, const int freq) const;
     void connectSlots();
-    int freqToVal(const int freq) const;
+    int noteToVal(const Note &note) const;
     void turnOffTuner();
-    void setIdealFreq();
+    void setIdealNote();
 
 private slots:
     void goToMenu();
     void goToTuner();
     void goToRecord();
     void keepUpdatingFreqIndicator();
-    void setCaptureButtonText(const bool checked);
     void setFreqIndicColor(const int freqVal);
     void setNoteInfo(const int value);
     void setTunerState(const bool cont);

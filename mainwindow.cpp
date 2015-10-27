@@ -30,8 +30,6 @@ void MainWindow::connectSlots()
 
     QObject::connect(ui.tunerStateBtn, &QPushButton::toggled,
                      this, &MainWindow::setTunerState);
-    QObject::connect(ui.tunerStateBtn, &QPushButton::toggled,
-                     this, &MainWindow::setCaptureButtonText);
 
     QObject::connect(ui.startRecord, &QPushButton::clicked,
                      this, &MainWindow::startRecord);
@@ -41,17 +39,17 @@ void MainWindow::connectSlots()
                      this, &MainWindow::goToRecord);
 
     QObject::connect(ui.tune_e2, &QRadioButton::clicked,
-                     this, &MainWindow::setIdealFreq);
+                     this, &MainWindow::setIdealNote);
     QObject::connect(ui.tune_a3, &QRadioButton::clicked,
-                     this, &MainWindow::setIdealFreq);
+                     this, &MainWindow::setIdealNote);
     QObject::connect(ui.tune_d4, &QRadioButton::clicked,
-                     this, &MainWindow::setIdealFreq);
+                     this, &MainWindow::setIdealNote);
     QObject::connect(ui.tune_g4, &QRadioButton::clicked,
-                     this, &MainWindow::setIdealFreq);
+                     this, &MainWindow::setIdealNote);
     QObject::connect(ui.tune_b4, &QRadioButton::clicked,
-                     this, &MainWindow::setIdealFreq);
+                     this, &MainWindow::setIdealNote);
     QObject::connect(ui.tune_e5, &QRadioButton::clicked,
-                     this, &MainWindow::setIdealFreq);
+                     this, &MainWindow::setIdealNote);
 }
 
 int MainWindow::calcError(const int ideal, const int freq) const
@@ -59,9 +57,9 @@ int MainWindow::calcError(const int ideal, const int freq) const
     return (freq - ideal);
 }
 
-int MainWindow::freqToVal(const int freq) const
+int MainWindow::noteToVal(const Note& note) const
 {
-    return MIDDLE_VAL + calcError(idealFreq_.getFreq(), freq);
+    return MIDDLE_VAL + calcError(idealNote_.getFreq(), note.getFreq());
 }
 
 void MainWindow::turnOffTuner()
@@ -71,33 +69,34 @@ void MainWindow::turnOffTuner()
     ui.freqIndicator->setPalette(this->style()->standardPalette());
     ui.note->setText(tr("Włącz stroik"));
     ui.tunerStateBtn->setChecked(false);
+    ui.freqIndicator->repaint();
 }
 
-void MainWindow::setIdealFreq()
+void MainWindow::setIdealNote()
 {
     if (ui.tune_e2->isChecked())
     {
-        idealFreq_ = E2;
+        idealNote_ = E2;
     }
     else if (ui.tune_a3->isChecked())
     {
-        idealFreq_ = A2;
+        idealNote_ = A2;
     }
     else if (ui.tune_d4->isChecked())
     {
-        idealFreq_ = D3;
+        idealNote_ = D3;
     }
     else if (ui.tune_g4->isChecked())
     {
-        idealFreq_ = G3;
+        idealNote_ = G3;
     }
     else if (ui.tune_b4->isChecked())
     {
-        idealFreq_ = B3;
+        idealNote_ = B3;
     }
     else if (ui.tune_e5->isChecked())
     {
-        idealFreq_ = E4;
+        idealNote_ = E4;
     }
 }
 
@@ -122,27 +121,15 @@ void MainWindow::keepUpdatingFreqIndicator()
     sig_.capture(true);
     while(CONTINUE_.load())
     {
-        if (sig_.fftIsReady())
-        {
-            auto freq = sig_.getFreqAndInvalidate();
-            ui.freqIndicator->setValue(freqToVal(freq));
-            ui.currFreq->setText(QString::fromStdString(sig_.note_));
-        }
+        qDebug() << "keepUpdatingFreqIndicator()";
+        std::unique_lock<std::mutex> l(sig_.m_);
+        sig_.ready_.wait(l, [&](){return sig_.fftIsReady();});
+        ui.freqIndicator->setValue(noteToVal(sig_.getNoteAndInvalidate()));
+        ui.currFreq->setText(QString::fromStdString(sig_.note_.getName()));
     }
+    qDebug() << "Continue false";
     sig_.capture(false);
     turnOffTuner();
-}
-
-void MainWindow::setCaptureButtonText(const bool checked)
-{
-    if (checked)
-    {
-        ui.tunerStateBtn->setText(tr("Stop"));
-    }
-    else
-    {
-        ui.tunerStateBtn->setText(tr("Start"));
-    }
 }
 
 void MainWindow::setFreqIndicColor(const int freqVal)
@@ -184,11 +171,18 @@ void MainWindow::setNoteInfo(const int value)
 
 void MainWindow::setTunerState(const bool cont)
 {
+    qDebug() << cont;
     CONTINUE_.store(cont);
     if (CONTINUE_.load())
     {
         std::thread t{&MainWindow::keepUpdatingFreqIndicator, this};
         t.detach();
+        ui.tunerStateBtn->setText(tr("Stop"));
+    }
+    else
+    {
+        qDebug() << "Powinno wylaczyc CONTINUE";
+        ui.tunerStateBtn->setText(tr("Start"));
     }
 }
 
