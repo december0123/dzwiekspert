@@ -15,8 +15,10 @@ class Analyser
 public:
     void appendToBuff(FFTBuffer buf);
     void clear();
-    void FFT(FFTBuffer &input);
+    void FFT(FFTBuffer& input);
+    void IFFT(FFTBuffer& input);
     void HPS(FFTBuffer& input);
+    void autoCor(FFTBuffer& input);
     FFTBuffer getFFTBuffer();
     bool FFTIsReady() const;
     double OUT_FREQ{0};
@@ -29,7 +31,7 @@ private:
     const unsigned OVERLAP_FACTOR = FFT_THRESHOLD / 2;
     std::atomic<bool> ready_{false};
 
-    void applyHannWindow(FFTBuffer& b);
+    void applyHannWindow(FFTBuffer& input);
 };
 
 #endif // ANALYSER_HPP

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 import numpy as np
 samples = []
-with open("/tmp/fft") as f:
+with open("/tmp/hps") as f:
     for line in f:
         samples.append(float(line.split()[0]))
 

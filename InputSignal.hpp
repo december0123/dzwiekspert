@@ -22,7 +22,7 @@ public:
     Analyser analyser_;
     Recorder recorder_;
     QAudioProbe probe_;
-    SoundRecognizer s_{440};
+    SoundRecognizer s_;
     std::condition_variable ready_;
     std::mutex m_;
 

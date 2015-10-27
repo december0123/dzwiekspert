@@ -26,15 +26,37 @@ FFTBuffer::FFTBuffer(const FFTBuffer& lhs)
 FFTBuffer::FFTBuffer(FFTBuffer&& lhs)
     : data_{std::move(lhs.data_)} {}
 
-FFTBuffer FFTBuffer::operator=(const FFTBuffer& lhs)
+FFTBuffer::FFTBuffer(const std::vector<long double>& rhs)
+    : data_(rhs.size())
+{
+    for(unsigned long i = 0; i < rhs.size(); ++i)
+    {
+        data_[i].r = rhs[i];
+        data_[i].i = 0.0;
+    }
+}
+
+FFTBuffer& FFTBuffer::operator=(const FFTBuffer& lhs)
 {
     data_ = lhs.data_;
     return *this;
 }
 
-FFTBuffer FFTBuffer::operator=(FFTBuffer&& lhs)
+FFTBuffer& FFTBuffer::operator=(FFTBuffer&& lhs)
 {
     data_ = std::move(lhs.data_);
+    return *this;
+}
+
+FFTBuffer& FFTBuffer::operator=(std::vector<kiss_fft_scalar>&& rhs)
+{
+    data_.clear();
+    data_.resize(rhs.size());
+    for(unsigned long i = 0; i < rhs.size(); ++i)
+    {
+        data_[i].r = rhs[i];
+        data_[i].i = 0.0;
+    }
     return *this;
 }
 

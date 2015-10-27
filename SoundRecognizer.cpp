@@ -2,6 +2,7 @@
 
 #include <deque>
 #include <stdexcept>
+#include <string>
 #include <QDebug>
 
 SoundRecognizer::SoundRecognizer()
@@ -53,7 +54,7 @@ Note SoundRecognizer::recognizeNote(const Frequency f) const
     {
         return {sound->getName(), f, calcRelativeError(*sound, f)};
     }
-    throw std::logic_error{"NOTE NOT RECOGNIZED"};
+    throw std::logic_error{"NOTE NOT RECOGNIZED: " + std::to_string(f)};
 }
 
 double SoundRecognizer::calcRelativeError(const Note &note, const double freq) const

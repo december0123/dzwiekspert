@@ -17,10 +17,12 @@ public:
     FFTBuffer(const QByteArray& b);
     FFTBuffer(const FFTBuffer& lhs);
     FFTBuffer(FFTBuffer&& lhs);
+    FFTBuffer(const std::vector<long double> &rhs);
     FFTBuffer() = default;
     ~FFTBuffer() = default;
-    FFTBuffer operator=(const FFTBuffer& lhs);
-    FFTBuffer operator=(FFTBuffer&& lhs);
+    FFTBuffer& operator=(const FFTBuffer& lhs);
+    FFTBuffer& operator=(FFTBuffer&& lhs);
+    FFTBuffer& operator=(std::vector<kiss_fft_scalar>&& rhs);
 
     void append(FFTBuffer buf);
     void eraseNFirst(const int N);
@@ -73,7 +75,7 @@ public:
     {
         return data_.clear();
     }
-    auto    begin()
+    auto begin()
     {
         return data_.begin();
     }

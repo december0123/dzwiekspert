@@ -42,12 +42,20 @@ void InputSignal::processBuffer(QAudioBuffer buf)
 
     if (analyser_.FFTIsReady())
     {
-        qDebug() << "fftisReady()";
         auto fft_buff = analyser_.getFFTBuffer();
         auto max = getMaxReal(fft_buff);
         long double biggest = std::distance(fft_buff.begin(), max);
         auto w = static_cast<long double>(recorder_.NYQUIST_FREQ) / static_cast<long double>(fft_buff.size()) * biggest;
-        note_ = s_.recognizeNote(w);
+        try
+        {
+            note_ = s_.recognizeNote(w);
+        }
+        catch(const std::logic_error& e)
+        {
+            qDebug() << e.what();
+        }
+
+        qDebug() << double(note_.getFreq());
         ready_.notify_all();
         fftReady.store(true);
     }

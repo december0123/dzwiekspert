@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import scipy.fftpack
 
 samples = []
-files = {"a": "note_a_samples", "noise": "noise_samples", "e": "nie_tykac_kurwa_e_samples", "tmp": "/tmp/samples"}
+files = {"a": "note_a_samples", "noise": "noise_samples", "e": "nie_tykac_kurwa_e_samples", "tmp": "/tmp/fft"}
 with open(files["tmp"]) as f:
     for line in f:
         samples.append(float(line.split()[0]))

@@ -1,13 +1,11 @@
-#include "mainwindow.hpp"
-
 #include "InputSignal.hpp"
+#include "mainwindow.hpp"
 
 #include <gtest/gtest.h>
 
 #include <QApplication>
 
-#define TESTING_ON
-
+//#define TESTING_ON
 
 int main(int argc, char *argv[])
 {
