@@ -23,6 +23,10 @@ void MainWindow::connectSlots()
     QObject::connect(ui.goToTuner, &QPushButton::clicked,
                      this, &MainWindow::goToTuner);
 
+    QObject::connect(this, &MainWindow::valueChanged,
+                     ui.freqIndicator, &QSlider::setValue);
+    QObject::connect(this, &MainWindow::noteChanged,
+                     ui.currFreq, &QLabel::setText);
     QObject::connect(ui.freqIndicator, &QSlider::valueChanged,
                      this, &MainWindow::setFreqIndicColor);
     QObject::connect(ui.freqIndicator, &QSlider::valueChanged,
@@ -69,7 +73,6 @@ void MainWindow::turnOffTuner()
     ui.freqIndicator->setPalette(this->style()->standardPalette());
     ui.note->setText(tr("Włącz stroik"));
     ui.tunerStateBtn->setChecked(false);
-    ui.freqIndicator->repaint();
 }
 
 void MainWindow::setIdealNote()
@@ -121,11 +124,10 @@ void MainWindow::keepUpdatingFreqIndicator()
     sig_.capture(true);
     while(CONTINUE_.load())
     {
-        qDebug() << "keepUpdatingFreqIndicator()";
         std::unique_lock<std::mutex> l(sig_.m_);
         sig_.ready_.wait(l, [&](){return sig_.fftIsReady();});
-        ui.freqIndicator->setValue(noteToVal(sig_.getNoteAndInvalidate()));
-        ui.currFreq->setText(QString::fromStdString(sig_.note_.getName()));
+        emit valueChanged(noteToVal(sig_.getNoteAndInvalidate()));
+        emit noteChanged(QString::fromStdString(sig_.note_.getName()));
     }
     qDebug() << "Continue false";
     sig_.capture(false);

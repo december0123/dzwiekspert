@@ -61,7 +61,9 @@ private slots:
     void setTunerState(const bool cont);
     void startRecord();
     void stopRecord();
-
+signals:
+    void noteChanged(QString note);
+    void valueChanged(int val);
 };
 
 #endif // MAINWINDOW_HPP
