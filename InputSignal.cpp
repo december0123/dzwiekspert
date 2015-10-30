@@ -5,7 +5,6 @@
 InputSignal::InputSignal()
 {
     probe_.setSource(&recorder_);
-
 }
 
 bool InputSignal::fftIsReady() const

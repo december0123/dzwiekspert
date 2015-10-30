@@ -43,7 +43,7 @@ void Analyser::HPS(FFTBuffer &input)
     FFT(input);
     FFTBuffer hps{input};
     // Go through each downsampling factor
-    constexpr int N = 20;
+    constexpr int N = 3;
     for (int downsamplingFactor = 1; downsamplingFactor <= N; ++downsamplingFactor)
     {
         // Go through samples of the downsampled signal and compute HPS at this iteration
