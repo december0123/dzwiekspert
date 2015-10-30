@@ -4,6 +4,7 @@
 
 InputSignal::InputSignal()
 {
+
     probe_.setSource(&recorder_);
 }
 
@@ -40,6 +41,7 @@ void InputSignal::capture(bool capture)
 
 void InputSignal::processBuffer(QAudioBuffer buf)
 {
+    static_assert(FFT_THRESHOLD % 2 == 0, "FFT_THRESHOLD SHOULD BE EVEN");
     FFTBuffer fft_in{QByteArray::fromRawData(buf.constData<const char>(), buf.byteCount())};
     internalBuffer_.append(std::move(fft_in));
     if (++samplesBufferCounter_ == FFT_THRESHOLD)
@@ -49,13 +51,12 @@ void InputSignal::processBuffer(QAudioBuffer buf)
         analyser_.HPS(tmpBuffer);
         outputBuff_ = std::move(tmpBuffer);
         internalBuffer_.eraseNFirst(internalBuffer_.size() * 0.5L);
-        samplesBufferCounter_ = OVERLAP_FACTOR;
-        auto max = getMaxReal(outputBuff_);
-        long double biggest = std::distance(outputBuff_.begin(), max);
-        auto w = recorder_.NYQUIST_FREQ / outputBuff_.size() * biggest;
+        samplesBufferCounter_ = FFT_THRESHOLD * OVERLAP_FACTOR;
+        long double freqIndex = std::distance(outputBuff_.begin(), getMaxReal(outputBuff_));
+        auto recognizedFrequency = recorder_.NYQUIST_FREQ / outputBuff_.size() * freqIndex;
         try
         {
-            note_ = s_.recognizeNote(w);
+            note_ = s_.recognizeNote(recognizedFrequency);
         }
         catch(const std::logic_error& e)
         {

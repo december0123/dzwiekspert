@@ -42,11 +42,11 @@ private:
     // 8000 czestotliwosci
     // 3200 rozmiar bufora
     // 2.5 na jeden, wiec 26 == 65Hz
-    const int LOWER_BOUND_FREQ{26};
-    const int UPPER_BOUND_FREQ{800};
+    constexpr static int LOWER_BOUND_FREQ{26};
+    constexpr static int UPPER_BOUND_FREQ{800};
     unsigned samplesBufferCounter_ = 0;
-    const unsigned FFT_THRESHOLD = 40;
-    const unsigned OVERLAP_FACTOR = FFT_THRESHOLD / 2;
+    constexpr static unsigned FFT_THRESHOLD = 40;
+    constexpr static float OVERLAP_FACTOR = 0.5;
     FFTBuffer outputBuff_;
     FFTBuffer internalBuffer_;
 
