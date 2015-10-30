@@ -12,29 +12,6 @@ extern "C"
 #include <memory>
 #include <string>
 
-void Analyser::appendToBuff(FFTBuffer buf)
-{
-    internalBuffer_.append(std::move(buf));
-    if (++samplesBufferCounter_ == FFT_THRESHOLD)
-    {
-        FFTBuffer tmpBuffer{internalBuffer_};
-        applyHannWindow(tmpBuffer);
-        HPS(tmpBuffer);
-        outputBuff_ = std::move(tmpBuffer);
-        internalBuffer_.eraseNFirst(internalBuffer_.size() * 0.5L);
-        ready_.store(true);
-        samplesBufferCounter_ = OVERLAP_FACTOR;
-    }
-    else
-    {
-        ready_.store(false);
-    }
-}
-
-void Analyser::clear()
-{
-    internalBuffer_.clear();
-}
 
 // Fast Fourier Transform
 void Analyser::FFT(FFTBuffer& input)
@@ -98,17 +75,6 @@ void Analyser::autoCor(FFTBuffer &input)
 
     FFT(fft);
     input = std::move(fft);
-}
-
-FFTBuffer Analyser::getFFTBuffer()
-{
-    ready_.store(false);
-    return std::move(outputBuff_);
-}
-
-bool Analyser::FFTIsReady() const
-{
-    return ready_.load();
 }
 
 void Analyser::applyHannWindow(FFTBuffer& input)

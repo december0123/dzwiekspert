@@ -5,8 +5,7 @@
 InputSignal::InputSignal()
 {
     probe_.setSource(&recorder_);
-    QObject::connect(&probe_, &QAudioProbe::audioBufferProbed,
-            this, &InputSignal::processBuffer);
+
 }
 
 bool InputSignal::fftIsReady() const
@@ -16,7 +15,6 @@ bool InputSignal::fftIsReady() const
 
 Note InputSignal::getNoteAndInvalidate()
 {
-//    std::lock_guard<std::mutex> l{m_};
     fftReady.store(false);
     return note_;
 }
@@ -25,27 +23,37 @@ void InputSignal::capture(bool capture)
 {
     if (capture && recorder_.isAvailable())
     {
+        QObject::connect(&probe_, &QAudioProbe::audioBufferProbed,
+                this, &InputSignal::processBuffer);
         recorder_.record();
     }
     else
     {
         recorder_.stop();
-        analyser_.clear();
+        internalBuffer_.clear();
+        outputBuff_.clear();
+        samplesBufferCounter_ = 0;
         qDebug() << "Recorder stop segfault";
+        QObject::disconnect(&probe_, &QAudioProbe::audioBufferProbed,
+                this, &InputSignal::processBuffer);
     }
 }
 
 void InputSignal::processBuffer(QAudioBuffer buf)
 {
     FFTBuffer fft_in{QByteArray::fromRawData(buf.constData<const char>(), buf.byteCount())};
-    analyser_.appendToBuff(fft_in);
-
-    if (analyser_.FFTIsReady())
+    internalBuffer_.append(std::move(fft_in));
+    if (++samplesBufferCounter_ == FFT_THRESHOLD)
     {
-        auto fft_buff = analyser_.getFFTBuffer();
-        auto max = getMaxReal(fft_buff);
-        long double biggest = std::distance(fft_buff.begin(), max);
-        auto w = static_cast<long double>(recorder_.NYQUIST_FREQ) / static_cast<long double>(fft_buff.size()) * biggest;
+        FFTBuffer tmpBuffer{internalBuffer_};
+        analyser_.applyHannWindow(tmpBuffer);
+        analyser_.HPS(tmpBuffer);
+        outputBuff_ = std::move(tmpBuffer);
+        internalBuffer_.eraseNFirst(internalBuffer_.size() * 0.5L);
+        samplesBufferCounter_ = OVERLAP_FACTOR;
+        auto max = getMaxReal(outputBuff_);
+        long double biggest = std::distance(outputBuff_.begin(), max);
+        auto w = recorder_.NYQUIST_FREQ / outputBuff_.size() * biggest;
         try
         {
             note_ = s_.recognizeNote(w);
@@ -55,8 +63,7 @@ void InputSignal::processBuffer(QAudioBuffer buf)
             qDebug() << e.what();
         }
 
-        qDebug() << double(note_.getFreq());
-        ready_.notify_all();
         fftReady.store(true);
+        ready_.notify_all();
     }
 }

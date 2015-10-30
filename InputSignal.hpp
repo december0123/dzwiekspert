@@ -39,12 +39,18 @@ public:
 private:
 
     std::atomic<bool> fftReady{false};
-    void processBuffer(QAudioBuffer buf);
     // 8000 czestotliwosci
     // 3200 rozmiar bufora
     // 2.5 na jeden, wiec 26 == 65Hz
     const int LOWER_BOUND_FREQ{26};
-    const int UPPER_BOUND_FREQ{200};
+    const int UPPER_BOUND_FREQ{800};
+    unsigned samplesBufferCounter_ = 0;
+    const unsigned FFT_THRESHOLD = 40;
+    const unsigned OVERLAP_FACTOR = FFT_THRESHOLD / 2;
+    FFTBuffer outputBuff_;
+    FFTBuffer internalBuffer_;
+
+    void processBuffer(QAudioBuffer buf);
 };
 
 #endif // INPUT_SIGNAL_HPP
