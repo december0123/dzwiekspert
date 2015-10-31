@@ -250,12 +250,12 @@ QSlider::sub-page:vertical {
             <rect>
              <x>60</x>
              <y>0</y>
-             <width>101</width>
+             <width>111</width>
              <height>24</height>
             </rect>
            </property>
            <property name="text">
-            <string>E2 = 82Hz</string>
+            <string>E2 = 82.41Hz</string>
            </property>
            <property name="checked">
             <bool>true</bool>
@@ -266,12 +266,12 @@ QSlider::sub-page:vertical {
             <rect>
              <x>60</x>
              <y>30</y>
-             <width>101</width>
+             <width>111</width>
              <height>24</height>
             </rect>
            </property>
            <property name="text">
-            <string>A3 = 110Hz</string>
+            <string>A2 = 110.00Hz</string>
            </property>
           </widget>
           <widget class="QRadioButton" name="tune_d4">
@@ -279,12 +279,12 @@ QSlider::sub-page:vertical {
             <rect>
              <x>60</x>
              <y>60</y>
-             <width>101</width>
+             <width>111</width>
              <height>24</height>
             </rect>
            </property>
            <property name="text">
-            <string>D4 = 147Hz</string>
+            <string>D3 = 146.83Hz</string>
            </property>
           </widget>
           <widget class="QRadioButton" name="tune_e5">
@@ -292,12 +292,12 @@ QSlider::sub-page:vertical {
             <rect>
              <x>60</x>
              <y>150</y>
-             <width>101</width>
+             <width>111</width>
              <height>24</height>
             </rect>
            </property>
            <property name="text">
-            <string>E5 = 330Hz</string>
+            <string>E4 = 329.63Hz</string>
            </property>
           </widget>
           <widget class="QRadioButton" name="tune_g4">
@@ -305,12 +305,12 @@ QSlider::sub-page:vertical {
             <rect>
              <x>60</x>
              <y>90</y>
-             <width>101</width>
+             <width>111</width>
              <height>24</height>
             </rect>
            </property>
            <property name="text">
-            <string>G4 = 196Hz</string>
+            <string>G3 = 196.00Hz</string>
            </property>
           </widget>
           <widget class="QRadioButton" name="tune_b4">
@@ -318,12 +318,12 @@ QSlider::sub-page:vertical {
             <rect>
              <x>60</x>
              <y>120</y>
-             <width>101</width>
+             <width>111</width>
              <height>24</height>
             </rect>
            </property>
            <property name="text">
-            <string>B4 = 246Hz</string>
+            <string>B3 = 246.94Hz</string>
            </property>
           </widget>
          </widget>
