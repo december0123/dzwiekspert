@@ -1,5 +1,9 @@
 #ifndef UTILS
 #define UTILS
+#include <stdexcept>
+
+class NoNoteRecognized : public std::logic_error
+{};
 
 using Frequency = long double;
 

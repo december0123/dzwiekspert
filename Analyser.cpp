@@ -10,8 +10,6 @@ extern "C"
 #include <QDebug>
 #include <cmath>
 #include <memory>
-#include <string>
-
 
 // Fast Fourier Transform
 void Analyser::FFT(FFTBuffer& input)
@@ -20,6 +18,7 @@ void Analyser::FFT(FFTBuffer& input)
     FFTBuffer fft(input.size());
     kiss_fft(state.get(), input.getData(), fft.getData());
     fft.eraseDataOverNyquistFreq();
+
     for (auto& i : fft)
     {
         i.r = std::abs(i.r);
@@ -40,10 +39,9 @@ void Analyser::IFFT(FFTBuffer &input)
 // Harmonic Product Spectrum
 void Analyser::HPS(FFTBuffer &input)
 {
-    FFT(input);
     FFTBuffer hps{input};
     // Go through each downsampling factor
-    constexpr int N = 3;
+    constexpr int N = 1;
     for (int downsamplingFactor = 1; downsamplingFactor <= N; ++downsamplingFactor)
     {
         // Go through samples of the downsampled signal and compute HPS at this iteration

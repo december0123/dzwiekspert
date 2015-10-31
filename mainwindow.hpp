@@ -43,6 +43,7 @@ private:
     Note idealNote_{E2};
 
     std::atomic<bool> CONTINUE_{false};
+
     InputSignal sig_;
 
     int calcError(const int ideal, const int freq) const;

@@ -125,9 +125,12 @@ void MainWindow::keepUpdatingFreqIndicator()
     while(CONTINUE_.load())
     {
         std::unique_lock<std::mutex> l(sig_.m_);
+//        qDebug() << "test";
         sig_.ready_.wait(l, [&](){return sig_.fftIsReady();});
-        emit valueChanged(noteToVal(sig_.getNoteAndInvalidate()));
-        emit noteChanged(QString::fromStdString(sig_.note_.getName()));
+//        qDebug() << "Po waicie";
+        Note gowno{sig_.getNoteAndInvalidate()};
+        emit valueChanged(noteToVal(gowno));
+        emit noteChanged(QString::fromStdString(std::to_string(gowno.getFreq()) + gowno.getName()));
     }
     qDebug() << "Continue false";
     sig_.capture(false);
