@@ -125,12 +125,21 @@ void MainWindow::keepUpdatingFreqIndicator()
     while(CONTINUE_.load())
     {
         std::unique_lock<std::mutex> l(sig_.m_);
-//        qDebug() << "test";
         sig_.ready_.wait(l, [&](){return sig_.fftIsReady();});
-//        qDebug() << "Po waicie";
-        Note gowno{sig_.getNoteAndInvalidate()};
-        emit valueChanged(noteToVal(gowno));
-        emit noteChanged(QString::fromStdString(std::to_string(gowno.getFreq()) + gowno.getName()));
+        Note note{sig_.getNoteAndInvalidate()};
+        auto witam = std::find_if(sig_.notes_.begin(), sig_.notes_.end(),
+                                  [&](const Note& n){return n.getName() == idealNote_.getName();});
+        if ( witam != sig_.notes_.end())
+        {
+            note = *witam;
+        }
+        else
+        {
+            qDebug() << "kurwa";
+        }
+
+        emit valueChanged(noteToVal(note));
+        emit noteChanged(QString::fromStdString(std::to_string(note.getFreq()) + " " + note.getName()));
     }
     qDebug() << "Continue false";
     sig_.capture(false);

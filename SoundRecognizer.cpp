@@ -8,15 +8,15 @@
 SoundRecognizer::SoundRecognizer()
     : SoundRecognizer(65.41_Hz) {}
 
-std::deque<std::string> SoundRecognizer::generateNoteNames() const
+std::deque<std::pair<std::string, unsigned>> SoundRecognizer::generateNoteNames() const
 {
     std::vector<std::string> names{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
-    std::deque<std::string> numberedNames;
+    std::deque<std::pair<std::string, unsigned>> numberedNames;
     for (int octave = LOW_OCTAVE; octave < HIGH_OCTAVE; ++octave)
     {
         for (auto& name : names)
         {
-            numberedNames.emplace_back(name + std::to_string(octave));
+            numberedNames.emplace_back(name, octave);
         }
     }
     return numberedNames;
@@ -24,13 +24,13 @@ std::deque<std::string> SoundRecognizer::generateNoteNames() const
 
 void SoundRecognizer::initNotes()
 {
-    std::deque<std::string> noteNames{generateNoteNames()};
+    std::deque<std::pair<std::string, unsigned>> noteNames{generateNoteNames()};
 
     for (int octave = 0; octave < HIGH_OCTAVE - LOW_OCTAVE; ++octave)
     {
         for (int note = 0; note < NOTES_IN_OCTAVE; ++note)
         {
-            notes_.emplace_back(noteNames.front(),
+            notes_.emplace_back(noteNames.front().first, noteNames.front().second,
                                 calcFreqOfNNoteRelativeToBasicFreq(note + octave * NOTES_IN_OCTAVE));
             noteNames.pop_front();
         }
@@ -52,9 +52,10 @@ Note SoundRecognizer::recognizeNote(const Frequency f) const
                  });
     if (sound != notes_.end())
     {
-        return {sound->getName(), f, calcRelativeError(*sound, f)};
+        return {sound->getName(), sound->getOctave(), f, calcRelativeError(*sound, f)};
     }
-    throw std::logic_error{"NOTE NOT RECOGNIZED: " + std::to_string(f)};
+    return {};
+//    throw std::logic_error{"NOTE NOT RECOGNIZED: " + std::to_string(f)};
 }
 
 double SoundRecognizer::calcRelativeError(const Note &note, const double freq) const

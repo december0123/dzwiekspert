@@ -44,26 +44,53 @@ public:
         auto max = getMaxReal(buf);
 
         auto nm = std::find_if(std::next(buf.begin(), LOWER_BOUND_FREQ), std::next(buf.begin(), UPPER_BOUND_FREQ),
-                                [&](const auto& lhs){return lhs.r >= max->r * 0.9;});
-        qDebug () << "Max: " << double(max->r) << "Nowe max: " << double(nm->r);
-        if (nm == buf.end())
-        {
-            throw;
-        }
+                                [&](const auto& lhs){return lhs.r >= max->r * 0.8;});
         return nm;
     }
+
+    void findStrongestNotes(FFTBuffer& buf)
+    {
+        // basically, an array of length 5, initialized to the minimum integer
+        std::vector<Note> maxima(3, Note{});
+        // go through all numbers.
+        for (unsigned long freqIndex = LOWER_BOUND_FREQ; freqIndex < UPPER_BOUND_FREQ; ++freqIndex)
+        {
+            // find smallest in maxima.
+            auto smallestIndex = 0U;
+            for (auto m = 0U; m != maxima.size(); ++m)
+            {
+                if (maxima[m].getFreq() < maxima[smallestIndex].getFreq())
+                {
+                    smallestIndex = m;
+                }
+            }
+
+            // check if smallest is smaller than current number
+            if (maxima[smallestIndex].getFreq() < buf[freqIndex].r && buf[freqIndex].r > 10000)
+            {
+                maxima[smallestIndex] = Note{"", 0, buf[freqIndex].r, static_cast<double>(freqIndex)};
+            }
+        }
+        for (Note& n : maxima)
+        {
+            n = s_.recognizeNote(recorder_.NYQUIST_FREQ / buf.size() * n.getError());
+        }
+        notes_ = std::move(maxima);
+        for (const Note& i : notes_)
+        {
+            qDebug() << QString::fromStdString(i.getName());
+        }
+    }
+    std::vector<Note> notes_;
     Note note_;
 private:
 
     std::atomic<bool> fftReady{false};
-    std::deque<Note> lastNotes_;
-    // 8000 czestotliwosci
-    // 3200 rozmiar bufora
-    // 2.5 na jeden, wiec 26 == 65Hz
-    constexpr static int LOWER_BOUND_FREQ{11};
-    constexpr static int UPPER_BOUND_FREQ{100};
+
+    constexpr static int LOWER_BOUND_FREQ{65};
+    constexpr static int UPPER_BOUND_FREQ{1000};
     unsigned samplesBufferCounter_ = 0;
-    constexpr static unsigned FFT_THRESHOLD = 20;
+    constexpr static unsigned FFT_THRESHOLD = 100;
     constexpr static float OVERLAP_FACTOR = 0.5;
     FFTBuffer internalBuffer_;
     FFTBuffer noise_;

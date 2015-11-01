@@ -9,15 +9,26 @@
 class NoteFixture : public ::testing::Test
 {
 protected:
-    std::string name{"E2"};
+    std::string name{"E"};
+    unsigned octave{0U};
     Frequency freq{82.41_Hz};
     double error{0.015};
-    Note E2{name, freq, error};
+    Note E2{name, octave, freq, error};
 };
 
 TEST_F(NoteFixture, shouldReturnName)
 {
     ASSERT_EQ(name, E2.getName());
+}
+
+TEST_F(NoteFixture, shouldReturnOctave)
+{
+    ASSERT_EQ(octave, E2.getOctave());
+}
+
+TEST_F(NoteFixture, shouldReturnFullName)
+{
+    ASSERT_EQ(name+std::to_string(octave), E2.getFullName());
 }
 
 TEST_F(NoteFixture, shouldReturnFrequency)

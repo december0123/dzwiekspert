@@ -21,7 +21,7 @@ void Analyser::FFT(FFTBuffer& input)
 
     for (auto& i : fft)
     {
-        i.r = std::abs(i.r);
+        i.r = std::abs(i.r * i.i);
     }
     input = std::move(fft);
 }

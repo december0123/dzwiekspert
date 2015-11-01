@@ -9,11 +9,11 @@ class Note
 {
 public:
     Note()
-        : name_{""}, freq_{0_Hz}, error_{0.0} {}
-    Note(std::string name, Frequency freq)
-        : name_{name}, freq_{freq}, error_{0.0} {}
-    Note(std::string name, Frequency freq, double error)
-        : name_{name}, freq_{freq}, error_{error} {}
+        : name_{""}, octave_{0}, freq_{0_Hz}, error_{0.0} {}
+    Note(std::string name, unsigned octave, Frequency freq)
+        : name_{name}, octave_{octave}, freq_{freq}, error_{0.0} {}
+    Note(std::string name, unsigned octave, Frequency freq, double error)
+        : name_{name}, octave_{octave}, freq_{freq}, error_{error} {}
 
     Note(const Note& rhs) = default;
     Note(Note&& rhs) = default;
@@ -26,6 +26,17 @@ public:
     {
         return name_;
     }
+
+    unsigned getOctave() const
+    {
+        return octave_;
+    }
+
+    std::string getFullName() const
+    {
+        return name_ + std::to_string(octave_);
+    }
+
     Frequency getFreq() const
     {
         return freq_;
@@ -38,6 +49,7 @@ public:
 
 private:
     std::string name_;
+    unsigned octave_{2};
     Frequency freq_;
     double error_{0.0};
 };

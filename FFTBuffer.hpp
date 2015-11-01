@@ -47,7 +47,6 @@ public:
             R[delta] = sum;
         }
         auto max = 1.0 / ( std::distance(R.begin(), std::max_element(std::next(R.begin(), 50), R.end())) / 16000.0);
-//        auto witam2 = 1.0 / ( getLocalMaxIndex(R) / 16000.0);
         return max;
     }
 

@@ -34,12 +34,12 @@ private:
     const int UPPER_RED = 99;
     const int LOWER_RED = 0;
     const int MIDDLE_VAL = 50;
-    const Note E2{"E2", 82.41_Hz};
-    const Note A2{"A2", 110.00_Hz};
-    const Note D3{"D3", 146.83_Hz};
-    const Note G3 {"G3", 196.00_Hz};
-    const Note B3{"B3", 246.94_Hz};
-    const Note E4{"E4", 329.63_Hz};
+    const Note E2{"E", 2, 82.41_Hz};
+    const Note A2{"A", 2, 110.00_Hz};
+    const Note D3{"D", 3, 146.83_Hz};
+    const Note G3 {"G", 3, 196.00_Hz};
+    const Note B3{"B", 3, 246.94_Hz};
+    const Note E4{"E", 4, 329.63_Hz};
     Note idealNote_{E2};
 
     std::atomic<bool> CONTINUE_{false};

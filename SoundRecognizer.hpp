@@ -31,7 +31,7 @@ private:
     double calcRelativeError(const Note& note, const double freq) const;
     double calcFreqOfNNoteRelativeToBasicFreq(const int N) const;
 
-    std::deque<std::string> generateNoteNames() const;
+    std::deque<std::pair<std::string, unsigned> > generateNoteNames() const;
     void initNotes();
 };
 
