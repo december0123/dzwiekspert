@@ -35,13 +35,6 @@ void MainWindow::connectSlots()
     QObject::connect(ui.tunerStateBtn, &QPushButton::toggled,
                      this, &MainWindow::setTunerState);
 
-    QObject::connect(ui.startRecord, &QPushButton::clicked,
-                     this, &MainWindow::startRecord);
-    QObject::connect(ui.stopRecord, &QPushButton::clicked,
-                     this, &MainWindow::stopRecord);
-    QObject::connect(ui.goToRecord, &QPushButton::clicked,
-                     this, &MainWindow::goToRecord);
-
     QObject::connect(ui.tune_e2, &QRadioButton::clicked,
                      this, &MainWindow::setIdealNote);
     QObject::connect(ui.tune_a3, &QRadioButton::clicked,
@@ -198,14 +191,4 @@ void MainWindow::setTunerState(const bool cont)
         qDebug() << "Powinno wylaczyc CONTINUE";
         ui.tunerStateBtn->setText(tr("Start"));
     }
-}
-
-void MainWindow::startRecord()
-{
-    sig_.capture(true);
-}
-
-void MainWindow::stopRecord()
-{
-    sig_.capture(false);
 }
