@@ -10,10 +10,6 @@ InputSignal::InputSignal()
     probe_.setSource(&recorder_);
     QObject::connect(&probe_, &QAudioProbe::audioBufferProbed,
             this, &InputSignal::processBuffer);
-
-    noiseProbe_.setSource(&noiseRecorder_);
-    QObject::connect(&noiseProbe_, &QAudioProbe::audioBufferProbed,
-            this, &InputSignal::processNoise);
 }
 
 bool InputSignal::fftIsReady() const
@@ -31,7 +27,6 @@ void InputSignal::capture(bool capture)
 {
     if (capture)
     {
-//        recordNoise();
         if (recorder_.isAvailable())
         {
             recorder_.record();
