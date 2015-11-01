@@ -21,7 +21,8 @@ void Analyser::FFT(FFTBuffer& input)
 
     for (auto& i : fft)
     {
-        i.r = std::abs(i.r * i.i);
+//        i.r = std::abs(i.r * i.i);
+        i.r = std::abs(i.r);
     }
     input = std::move(fft);
 }
@@ -77,10 +78,10 @@ void Analyser::autoCor(FFTBuffer &input)
 
 void Analyser::applyHannWindow(FFTBuffer& input)
 {
-    constexpr long double pi{3.141592653589793238513L};
+    constexpr long double PI{3.141592653589793238513L};
 
     for (long double i = 0; i < input.size(); ++i)
     {
-        input[i].r *= 0.5L * (1.0L - std::cos(2.0L * pi * i / (input.size() - 1)));
+        input[i].r *= 0.5L * (1.0L - std::cos(2.0L * PI * i / (input.size() - 1)));
     }
 }

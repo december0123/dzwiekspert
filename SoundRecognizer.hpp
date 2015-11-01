@@ -29,9 +29,9 @@ private:
     Frequency basicFreq_{65.41_Hz};
 
     double calcRelativeError(const Note& note, const double freq) const;
-    double calcFreqOfNNoteRelativeToBasicFreq(const int N) const;
+    double calcFreqOfNthNoteRelativeToBasicFreq(const int N) const;
 
-    std::deque<std::pair<std::string, unsigned> > generateNoteNames() const;
+    std::deque<std::string> generateNoteNames() const;
     void initNotes();
 };
 

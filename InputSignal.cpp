@@ -46,6 +46,38 @@ void InputSignal::capture(bool capture)
     }
 }
 
+std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
+{
+    std::vector<Note> strongestNotes(3, Note{});
+    for (unsigned long freqIndex = LOWER_BOUND_FREQ; freqIndex < UPPER_BOUND_FREQ; ++freqIndex)
+    {
+        // find smallest in maxima.
+        auto smallestIndex = 0U;
+        for (auto m = 0U; m != strongestNotes.size(); ++m)
+        {
+            if (strongestNotes[m].getFreq() < strongestNotes[smallestIndex].getFreq())
+            {
+                smallestIndex = m;
+            }
+        }
+
+        // check if smallest is smaller than current number
+        if (strongestNotes[smallestIndex].getFreq() < buf[freqIndex].r && buf[freqIndex].r > 10000)
+        {
+            strongestNotes[smallestIndex] = Note{"", buf[freqIndex].r, static_cast<double>(freqIndex)};
+        }
+    }
+    for (Note& n : strongestNotes)
+    {
+        n = s_.recognizeNote(recorder_.NYQUIST_FREQ / buf.size() * n.getError());
+    }
+    for (const Note& i : strongestNotes_)
+    {
+        qDebug() << QString::fromStdString(i.getName());
+    }
+    return strongestNotes;
+}
+
 void InputSignal::processBuffer(QAudioBuffer buf)
 {
     static_assert(FFT_THRESHOLD % 2 == 0, "FFT_THRESHOLD SHOULD BE EVEN");
@@ -59,7 +91,7 @@ void InputSignal::processBuffer(QAudioBuffer buf)
         analyser_.HPS(tmpBuffer);
         internalBuffer_.eraseNFirst(internalBuffer_.size() * 0.5L);
         samplesBufferCounter_ = FFT_THRESHOLD * OVERLAP_FACTOR;
-        findStrongestNotes(tmpBuffer);
+        strongestNotes_ = findStrongestNotes(tmpBuffer);
         long double freqIndex = std::distance(tmpBuffer.begin(), getSecondMaxReal(tmpBuffer));
         auto recognizedFrequency = recorder_.NYQUIST_FREQ / tmpBuffer.size() * freqIndex;
         try

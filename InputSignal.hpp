@@ -48,40 +48,8 @@ public:
         return nm;
     }
 
-    void findStrongestNotes(FFTBuffer& buf)
-    {
-        // basically, an array of length 5, initialized to the minimum integer
-        std::vector<Note> maxima(3, Note{});
-        // go through all numbers.
-        for (unsigned long freqIndex = LOWER_BOUND_FREQ; freqIndex < UPPER_BOUND_FREQ; ++freqIndex)
-        {
-            // find smallest in maxima.
-            auto smallestIndex = 0U;
-            for (auto m = 0U; m != maxima.size(); ++m)
-            {
-                if (maxima[m].getFreq() < maxima[smallestIndex].getFreq())
-                {
-                    smallestIndex = m;
-                }
-            }
-
-            // check if smallest is smaller than current number
-            if (maxima[smallestIndex].getFreq() < buf[freqIndex].r && buf[freqIndex].r > 10000)
-            {
-                maxima[smallestIndex] = Note{"", 0, buf[freqIndex].r, static_cast<double>(freqIndex)};
-            }
-        }
-        for (Note& n : maxima)
-        {
-            n = s_.recognizeNote(recorder_.NYQUIST_FREQ / buf.size() * n.getError());
-        }
-        notes_ = std::move(maxima);
-        for (const Note& i : notes_)
-        {
-            qDebug() << QString::fromStdString(i.getName());
-        }
-    }
-    std::vector<Note> notes_;
+    std::vector<Note> findStrongestNotes(FFTBuffer& buf) const;
+    std::vector<Note> strongestNotes_;
     Note note_;
 private:
 
@@ -90,7 +58,7 @@ private:
     constexpr static int LOWER_BOUND_FREQ{65};
     constexpr static int UPPER_BOUND_FREQ{1000};
     unsigned samplesBufferCounter_ = 0;
-    constexpr static unsigned FFT_THRESHOLD = 100;
+    constexpr static unsigned FFT_THRESHOLD{100U};
     constexpr static float OVERLAP_FACTOR = 0.5;
     FFTBuffer internalBuffer_;
     FFTBuffer noise_;

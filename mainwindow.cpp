@@ -119,20 +119,22 @@ void MainWindow::keepUpdatingFreqIndicator()
     {
         std::unique_lock<std::mutex> l(sig_.m_);
         sig_.ready_.wait(l, [&](){return sig_.fftIsReady();});
-        Note note{sig_.getNoteAndInvalidate()};
-        auto witam = std::find_if(sig_.notes_.begin(), sig_.notes_.end(),
+        Note currentNote{sig_.getNoteAndInvalidate()};
+        auto candidate = std::find_if(sig_.strongestNotes_.begin(), sig_.strongestNotes_.end(),
                                   [&](const Note& n){return n.getName() == idealNote_.getName();});
-        if ( witam != sig_.notes_.end())
+        if ( candidate != sig_.strongestNotes_.end())
         {
-            note = *witam;
+            currentNote = *candidate;
         }
         else
         {
             qDebug() << "kurwa";
         }
 
-        emit valueChanged(noteToVal(note));
-        emit noteChanged(QString::fromStdString(std::to_string(note.getFreq()) + " " + note.getName()));
+        emit valueChanged(noteToVal(currentNote));
+        emit noteChanged(
+                    QString::fromStdString(
+                        std::to_string(currentNote.getFreq()) + " " + currentNote.getName()));
     }
     qDebug() << "Continue false";
     sig_.capture(false);

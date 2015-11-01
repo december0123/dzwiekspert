@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import scipy.fftpack
 
 samples = []
-files = {"a": "note_a_samples", "noise": "noise_samples", "e": "nie_tykac_kurwa_e_samples", "tmp": "/tmp/fft"}
+files = {"a": "note_a_samples", "noise": "noise_samples", "e": "nie_tykac_kurwa_e_samples", "tmp": "/tmp/samples"}
 with open(files["tmp"]) as f:
     for line in f:
         samples.append(float(line.split()[0]))
@@ -16,6 +16,7 @@ samples = samples * np.hanning(number_of_samples)
 
 fig, ax = plt.subplots(2, 1)
 time = np.arange(0, number_of_samples / sampling_rate, 1 / sampling_rate)
+#time = np.arange(0, 4096, 1)
 ax[0].plot(time, samples)
 
 # dodatna czesc fft, tylko czesc rzeczywista, wychodzi polowa sampli

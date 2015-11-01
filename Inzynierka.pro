@@ -28,7 +28,9 @@ SOURCES += main.cpp\
     SoundRecognizer.cpp \
     SoundRecognizer_test.cpp \
     Note_test.cpp \
-    kissfft/kiss_fftr.c
+    kissfft/kiss_fftr.c \
+    FFTBuffer_test.cpp \
+    Analyser_test.cpp
 
 HEADERS  += mainwindow.hpp \
     InputSignal.hpp \
