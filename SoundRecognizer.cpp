@@ -57,6 +57,13 @@ Note SoundRecognizer::recognizeNote(const Frequency f) const
     return {};
 }
 
+Note SoundRecognizer::getRandomNote() const
+{
+    std::uniform_int_distribution<> distr(0, notes_.size() - 1);
+    std::mt19937_64 eng{std::random_device{}()};
+    return notes_.at(distr(eng));
+}
+
 double SoundRecognizer::calcRelativeError(const Note &note, const double freq) const
 {
     return 1.0 - (note.getFreq() / freq);

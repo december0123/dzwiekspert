@@ -6,9 +6,8 @@
 
 #include <QDebug>
 
-#include <algorithm>
-#include <cmath>
 #include <deque>
+#include <random>
 #include <string>
 #include <vector>
 
@@ -19,6 +18,8 @@ public:
     SoundRecognizer();
     SoundRecognizer(const Frequency basicFreq);
     Note recognizeNote(const Frequency f) const;
+    Note getRandomNote() const;
+
 private:
     std::vector<Note> notes_;
 

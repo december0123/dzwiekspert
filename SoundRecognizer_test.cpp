@@ -43,6 +43,14 @@ TEST_F(SoundRecognizerFixture, shouldRecognizeImperfectSingleNotesAndCalculateEr
     }
 }
 
+TEST_F(SoundRecognizerFixture, shouldGiveRandomNote)
+{
+    Note defaultNote{"", 0};
+    defaultNote = s.getRandomNote();
+    ASSERT_NE("", defaultNote.getFullName());
+    ASSERT_NE(0, defaultNote.getFreq());
+}
+
 //    std::vector<Note> notes_{{"C2",     65.41_Hz},
 //                             {"C#2",    69.30_Hz},
 //                             {"D2",     73.42_Hz},
