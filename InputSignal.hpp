@@ -29,7 +29,7 @@ public:
 
     bool fftIsReady() const;
 
-    Note getNoteAndInvalidate();
+    std::vector<Note> getNotesAndInvalidate();
     void capture(bool capture);
     auto getMaxReal(FFTBuffer& buf) const
     {
@@ -48,18 +48,17 @@ public:
 
     std::vector<Note> findStrongestNotes(FFTBuffer& buf) const;
     std::vector<Note> strongestNotes_;
-    Note note_;
 private:
-
     std::atomic<bool> fftReady{false};
-
     constexpr static int LOWER_BOUND_FREQ{65};
     constexpr static int UPPER_BOUND_FREQ{1000};
-    unsigned samplesBufferCounter_ = 0;
+    unsigned samplesBufferCounter_{0U};
+    constexpr static unsigned NUM_OF_STRONGEST_NOTES_TO_FIND{5U};
     constexpr static unsigned FFT_THRESHOLD{100U};
-    constexpr static float OVERLAP_FACTOR = 0.5;
+    constexpr static float OVERLAP_FACTOR{0.5};
     FFTBuffer internalBuffer_;
 
+private slots:
     void processBuffer(QAudioBuffer buf);
 };
 

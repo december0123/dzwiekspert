@@ -1,4 +1,3 @@
-#include "InputSignal.hpp"
 #include "mainwindow.hpp"
 
 #include <gtest/gtest.h>

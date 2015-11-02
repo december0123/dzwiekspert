@@ -1,8 +1,6 @@
 #include "mainwindow.hpp"
 
 #include <algorithm>
-#include <chrono>
-#include <fstream>
 #include <thread>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -124,16 +122,17 @@ void MainWindow::keepUpdatingFreqIndicator()
     {
         std::unique_lock<std::mutex> l(sig_.m_);
         sig_.ready_.wait(l, [&](){return sig_.fftIsReady();});
-        Note currentNote{sig_.getNoteAndInvalidate()};
-        auto candidate = std::find_if(sig_.strongestNotes_.begin(), sig_.strongestNotes_.end(),
+        Note currentNote;
+        auto strongestNotes = sig_.getNotesAndInvalidate();
+        auto candidate = std::find_if(strongestNotes.begin(), strongestNotes.end(),
                                   [&](const Note& n){return n.getFullName() == idealNote_.getFullName();});
-        if ( candidate != sig_.strongestNotes_.end())
+        if ( candidate != strongestNotes.end())
         {
             currentNote = *candidate;
         }
         else
         {
-            auto n = *std::min_element(sig_.strongestNotes_.begin(), sig_.strongestNotes_.end(),
+            auto n = *std::min_element(strongestNotes.begin(), strongestNotes.end(),
                              [&](const Note& lhs, const Note&rhs){return lhs.getFreq() < rhs.getFreq();});
             currentNote = std::move(n);
             qDebug() << "kurwa";

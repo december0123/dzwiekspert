@@ -1,25 +1,20 @@
 #include "SoundRecognizer.hpp"
 
-#include <deque>
-#include <stdexcept>
-#include <string>
 #include <QDebug>
+
+#include <cmath>
+#include <deque>
+#include <random>
+#include <vector>
+#include <string>
 
 SoundRecognizer::SoundRecognizer()
     : SoundRecognizer(65.41_Hz) {}
 
-std::deque<std::string> SoundRecognizer::generateNoteNames() const
+SoundRecognizer::SoundRecognizer(const Frequency basicFreq)
+    : basicFreq_{basicFreq}
 {
-    std::vector<std::string> names{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
-    std::deque<std::string> numberedNames;
-    for (int octave = LOW_OCTAVE; octave < HIGH_OCTAVE; ++octave)
-    {
-        for (auto& name : names)
-        {
-            numberedNames.emplace_back(name + std::to_string(octave));
-        }
-    }
-    return numberedNames;
+    initNotes();
 }
 
 void SoundRecognizer::initNotes()
@@ -37,10 +32,18 @@ void SoundRecognizer::initNotes()
     }
 }
 
-SoundRecognizer::SoundRecognizer(const Frequency basicFreq)
-    : basicFreq_{basicFreq}
+std::deque<std::string> SoundRecognizer::generateNoteNames() const
 {
-    initNotes();
+    std::vector<std::string> names{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+    std::deque<std::string> numberedNames;
+    for (int octave = LOW_OCTAVE; octave < HIGH_OCTAVE; ++octave)
+    {
+        for (auto& name : names)
+        {
+            numberedNames.emplace_back(name + std::to_string(octave));
+        }
+    }
+    return numberedNames;
 }
 
 Note SoundRecognizer::recognizeNote(const Frequency f) const
@@ -54,7 +57,7 @@ Note SoundRecognizer::recognizeNote(const Frequency f) const
     {
         return {sound->getFullName(), f, calcRelativeError(*sound, f)};
     }
-    return {};
+    return {"UNKNOWN", 0_Hz};
 }
 
 Note SoundRecognizer::getRandomNote() const

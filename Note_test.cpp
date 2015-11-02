@@ -1,4 +1,6 @@
 #include "SoundRecognizer.hpp"
+
+#include "Note.hpp"
 #include "Utils.hpp"
 
 #include <gtest/gtest.h>

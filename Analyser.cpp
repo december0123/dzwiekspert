@@ -3,7 +3,6 @@
 extern "C"
 {
     #include "kissfft/kiss_fft.h"
-    #include "kissfft/kiss_fftr.h"
     #include "kissfft/_kiss_fft_guts.h"
 }
 
@@ -22,19 +21,8 @@ void Analyser::FFT(FFTBuffer& input)
     for (auto& i : fft)
     {
         i.r = std::abs(i.r * i.i);
-//        i.r = std::abs(i.r);
     }
     input = std::move(fft);
-}
-
-void Analyser::IFFT(FFTBuffer &input)
-{
-    std::unique_ptr<kiss_fftr_state, FreeDeleter> state{kiss_fftr_alloc(input.size(), 0, nullptr, nullptr)};
-    FFTBuffer fft(input.size());
-    std::vector<kiss_fft_scalar> ifft(input.size());
-    kiss_fftri(state.get(), input.getData(), ifft.data());
-    ifft.shrink_to_fit();
-    input = std::move(ifft);
 }
 
 // Harmonic Product Spectrum
@@ -52,28 +40,6 @@ void Analyser::HPS(FFTBuffer &input)
         }
     }
     input = std::move(hps);
-}
-
-void Analyser::autoCor(FFTBuffer &input)
-{
-//    FFT(input);
-//    IFFT(input);
-    std::vector<long double> R(input.size());
-
-    long double sum{0.0L};
-    for (unsigned long long delta = 0; delta < input.size(); ++delta)
-    {
-        sum = 0.0L;
-        for (unsigned long long index = 0; index < input.size() - delta; ++index)
-        {
-            sum += input[index].r * input[index+delta].r;
-        }
-        R[delta] = sum;
-    }
-    FFTBuffer fft{R};
-
-    FFT(fft);
-    input = std::move(fft);
 }
 
 void Analyser::applyHannWindow(FFTBuffer& input)

@@ -3,8 +3,6 @@
 
 #include "FFTBuffer.hpp"
 
-#include <atomic>
-
 struct FreeDeleter
 {
     void operator()(void* p) {free(p);}

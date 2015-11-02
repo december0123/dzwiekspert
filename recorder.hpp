@@ -13,8 +13,8 @@ class Recorder : public QAudioRecorder
 public:
     Recorder();
     QAudioProbe probe_;
-    const Frequency SAMPLING_FREQ = 16000;
-    const Frequency NYQUIST_FREQ = SAMPLING_FREQ * 0.5;
+    const Frequency SAMPLING_FREQ{16000};
+    const Frequency NYQUIST_FREQ{SAMPLING_FREQ * 0.5L};
 
 private:
     QAudioEncoderSettings settings_;

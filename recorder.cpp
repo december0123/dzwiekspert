@@ -1,7 +1,6 @@
 #include "recorder.hpp"
 
 #include <QUrl>
-#include <QAudioFormat>
 
 Recorder::Recorder()
 {

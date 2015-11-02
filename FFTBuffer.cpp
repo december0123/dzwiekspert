@@ -1,5 +1,9 @@
 #include "FFTBuffer.hpp"
 
+#include <QByteArray>
+
+#include <vector>
+
 FFTBuffer::FFTBuffer(const int NFFT)
     : data_(NFFT)
 {
@@ -45,18 +49,6 @@ FFTBuffer& FFTBuffer::operator=(const FFTBuffer& lhs)
 FFTBuffer& FFTBuffer::operator=(FFTBuffer&& lhs)
 {
     data_ = std::move(lhs.data_);
-    return *this;
-}
-
-FFTBuffer& FFTBuffer::operator=(std::vector<kiss_fft_scalar>&& rhs)
-{
-    data_.clear();
-    data_.resize(rhs.size());
-    for(unsigned long i = 0; i < rhs.size(); ++i)
-    {
-        data_[i].r = rhs[i];
-        data_[i].i = 0.0;
-    }
     return *this;
 }
 

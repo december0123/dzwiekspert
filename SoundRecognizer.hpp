@@ -7,7 +7,6 @@
 #include <QDebug>
 
 #include <deque>
-#include <random>
 #include <string>
 #include <vector>
 
@@ -22,7 +21,6 @@ public:
 
 private:
     std::vector<Note> notes_;
-
     const double ERROR_THRESHOLD{0.029};
     const int LOW_OCTAVE{2};
     const int HIGH_OCTAVE{7};
@@ -31,9 +29,8 @@ private:
 
     double calcRelativeError(const Note& note, const double freq) const;
     double calcFreqOfNthNoteRelativeToBasicFreq(const int N) const;
-
-    std::deque<std::string> generateNoteNames() const;
     void initNotes();
+    std::deque<std::string> generateNoteNames() const;
 };
 
 #endif // SOUNDRECOGNIZER_HPP

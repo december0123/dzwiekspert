@@ -1,9 +1,12 @@
 #include "InputSignal.hpp"
 
+#include "FFTBuffer.hpp"
+#include "Note.hpp"
 #include "Utils.hpp"
 
 #include <QDebug>
-#include <fstream>
+
+#include <vector>
 
 InputSignal::InputSignal()
 {
@@ -17,10 +20,10 @@ bool InputSignal::fftIsReady() const
     return fftReady.load();
 }
 
-Note InputSignal::getNoteAndInvalidate()
+std::vector<Note> InputSignal::getNotesAndInvalidate()
 {
     fftReady.store(false);
-    return note_;
+    return strongestNotes_;
 }
 
 void InputSignal::capture(bool capture)
@@ -47,7 +50,7 @@ void InputSignal::capture(bool capture)
 
 std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
 {
-    std::vector<Note> strongestNotes(5, Note{});
+    std::vector<Note> strongestNotes(NUM_OF_STRONGEST_NOTES_TO_FIND, Note{});
     for (unsigned long freqIndex = LOWER_BOUND_FREQ; freqIndex < UPPER_BOUND_FREQ; ++freqIndex)
     {
         // find smallest in maxima.
