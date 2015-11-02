@@ -24,7 +24,11 @@ public:
 
     std::string getName() const
     {
-        return {fullName_.begin(), fullName_.end() - 1};
+        if (fullName_.size())
+        {
+            return {fullName_.begin(), fullName_.end() - 1};
+        }
+        return fullName_;
     }
 
     std::string getFullName() const
