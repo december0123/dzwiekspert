@@ -48,7 +48,7 @@ void InputSignal::capture(bool capture)
 
 std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
 {
-    std::vector<Note> strongestNotes(3, Note{});
+    std::vector<Note> strongestNotes(5, Note{});
     for (unsigned long freqIndex = LOWER_BOUND_FREQ; freqIndex < UPPER_BOUND_FREQ; ++freqIndex)
     {
         // find smallest in maxima.
@@ -73,7 +73,7 @@ std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
     }
     for (const Note& i : strongestNotes_)
     {
-        qDebug() << QString::fromStdString(i.getName());
+        qDebug() << QString::fromStdString(i.getFullName());
     }
     return strongestNotes;
 }
