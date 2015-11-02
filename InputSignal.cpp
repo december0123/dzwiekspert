@@ -10,6 +10,10 @@ InputSignal::InputSignal()
     probe_.setSource(&recorder_);
     QObject::connect(&probe_, &QAudioProbe::audioBufferProbed,
             this, &InputSignal::processBuffer);
+
+//    noiseProbe_.setSource(&noiseRecorder_);
+//    QObject::connect(&noiseProbe_, &QAudioProbe::audioBufferProbed,
+//            this, &InputSignal::processNoise);
 }
 
 bool InputSignal::fftIsReady() const
@@ -27,6 +31,7 @@ void InputSignal::capture(bool capture)
 {
     if (capture)
     {
+//        recordNoise();
         if (recorder_.isAvailable())
         {
             recorder_.record();
@@ -62,7 +67,7 @@ std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
         }
 
         // check if smallest is smaller than current number
-        if (strongestNotes[smallestIndex].getFreq() < buf[freqIndex].r && buf[freqIndex].r > 10000)
+        if ((strongestNotes[smallestIndex].getFreq() < buf[freqIndex].r))
         {
             strongestNotes[smallestIndex] = Note{"", buf[freqIndex].r, static_cast<double>(freqIndex)};
         }
@@ -88,20 +93,15 @@ void InputSignal::processBuffer(QAudioBuffer buf)
         FFTBuffer tmpBuffer{internalBuffer_};
         analyser_.applyHannWindow(tmpBuffer);
         analyser_.FFT(tmpBuffer);
+//        for (unsigned long i = 0; i < tmpBuffer.size(); ++i)
+//        {
+//            tmpBuffer[i].r -= noise_[i].r;
+//            tmpBuffer[i].i -= noise_[i].i;
+//        }
         analyser_.HPS(tmpBuffer);
         internalBuffer_.eraseNFirst(internalBuffer_.size() * 0.5L);
         samplesBufferCounter_ = FFT_THRESHOLD * OVERLAP_FACTOR;
         strongestNotes_ = findStrongestNotes(tmpBuffer);
-        long double freqIndex = std::distance(tmpBuffer.begin(), getSecondMaxReal(tmpBuffer));
-        auto recognizedFrequency = recorder_.NYQUIST_FREQ / tmpBuffer.size() * freqIndex;
-        try
-        {
-            note_ = s_.recognizeNote(recognizedFrequency);
-        }
-        catch(const std::logic_error& e)
-        {
-            qDebug() << e.what();
-        }
         fftReady.store(true);
         ready_.notify_all();
     }
