@@ -22,9 +22,7 @@ public:
 
     Analyser analyser_;
     Recorder recorder_;
-    Recorder noiseRecorder_;
     QAudioProbe probe_;
-    QAudioProbe noiseProbe_;
     SoundRecognizer s_;
     std::condition_variable ready_;
     std::mutex m_;
@@ -61,11 +59,8 @@ private:
     constexpr static unsigned FFT_THRESHOLD{100U};
     constexpr static float OVERLAP_FACTOR = 0.5;
     FFTBuffer internalBuffer_;
-    FFTBuffer noise_;
 
     void processBuffer(QAudioBuffer buf);
-    void recordNoise();
-    void processNoise(QAudioBuffer buf);
 };
 
 #endif // INPUT_SIGNAL_HPP
