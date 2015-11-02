@@ -123,7 +123,6 @@ void MainWindow::keepUpdatingFreqIndicator()
         std::unique_lock<std::mutex> l(sig_.m_);
         sig_.ready_.wait(l, [&](){return sig_.fftIsReady();});
         Note currentNote = sig_.getNote(idealNote_);
-
         emit valueChanged(noteToVal(currentNote));
         emit noteChanged(
                     QString::fromStdString(

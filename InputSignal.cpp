@@ -108,6 +108,7 @@ void InputSignal::processBuffer(QAudioBuffer buf)
         analyser_.applyHannWindow(tmpBuffer);
         analyser_.FFT(tmpBuffer);
         analyser_.HPS(tmpBuffer);
+        std::lock_guard<std::mutex> l(m_);
         internalBuffer_.eraseNFirst(internalBuffer_.size() * 0.5L);
         samplesBufferCounter_ = FFT_THRESHOLD * OVERLAP_FACTOR;
         strongestNotes_ = findStrongestNotes(tmpBuffer);
