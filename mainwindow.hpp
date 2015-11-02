@@ -27,6 +27,7 @@ private:
     Ui::MainWindow ui;
     const int MENU_VIEW = 0;
     const int TUNER_VIEW = 1;
+    const int LEARN_VIEW = 2;
     const int UPPER_GREEN = 55;
     const int LOWER_GREEN = 45;
     const int UPPER_YELLOW = 65;
@@ -52,14 +53,16 @@ private:
     void turnOffTuner();
     void setIdealNote();
 
+
 private slots:
     void goToMenu();
     void goToTuner();
-    void goToRecord();
+    void goToLearn();
     void keepUpdatingFreqIndicator();
     void setFreqIndicColor(const int freqVal);
     void setNoteInfo(const int value);
     void setTunerState(const bool cont);
+    void setRandomNote();
 signals:
     void noteChanged(QString note);
     void valueChanged(int val);

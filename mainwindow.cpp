@@ -22,6 +22,8 @@ void MainWindow::connectSlots()
                      this, &MainWindow::goToMenu);
     QObject::connect(ui.goToTuner, &QPushButton::clicked,
                      this, &MainWindow::goToTuner);
+    QObject::connect(ui.goToLearn, &QPushButton::clicked,
+                     this, &MainWindow::goToLearn);
 
     QObject::connect(this, &MainWindow::valueChanged,
                      ui.freqIndicator, &QSlider::setValue);
@@ -47,6 +49,9 @@ void MainWindow::connectSlots()
                      this, &MainWindow::setIdealNote);
     QObject::connect(ui.tune_e5, &QRadioButton::clicked,
                      this, &MainWindow::setIdealNote);
+
+    QObject::connect(ui.drawRandomNote, &QPushButton::clicked,
+                     this, &MainWindow::setRandomNote);
 }
 
 int MainWindow::calcError(const int ideal, const int freq) const
@@ -107,9 +112,9 @@ void MainWindow::goToTuner()
     ui.views->setCurrentIndex(TUNER_VIEW);
 }
 
-void MainWindow::goToRecord()
+void MainWindow::goToLearn()
 {
-    ui.views->setCurrentIndex(2);
+    ui.views->setCurrentIndex(LEARN_VIEW);
 }
 
 void MainWindow::keepUpdatingFreqIndicator()
@@ -193,4 +198,9 @@ void MainWindow::setTunerState(const bool cont)
         qDebug() << "Powinno wylaczyc CONTINUE";
         ui.tunerStateBtn->setText(tr("Start"));
     }
+}
+
+void MainWindow::setRandomNote()
+{
+    ui.noteToPlay->setText(QString::fromStdString(sig_.s_.getRandomNote().getFullName()));
 }
