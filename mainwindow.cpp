@@ -122,21 +122,7 @@ void MainWindow::keepUpdatingFreqIndicator()
     {
         std::unique_lock<std::mutex> l(sig_.m_);
         sig_.ready_.wait(l, [&](){return sig_.fftIsReady();});
-        Note currentNote;
-        auto strongestNotes = sig_.getNotesAndInvalidate();
-        auto candidate = std::find_if(strongestNotes.begin(), strongestNotes.end(),
-                                  [&](const Note& n){return n.getFullName() == idealNote_.getFullName();});
-        if ( candidate != strongestNotes.end())
-        {
-            currentNote = *candidate;
-        }
-        else
-        {
-            auto n = *std::min_element(strongestNotes.begin(), strongestNotes.end(),
-                             [&](const Note& lhs, const Note&rhs){return lhs.getFreq() < rhs.getFreq();});
-            currentNote = std::move(n);
-            qDebug() << "kurwa";
-        }
+        Note currentNote = sig_.getNote(idealNote_);
 
         emit valueChanged(noteToVal(currentNote));
         emit noteChanged(

@@ -47,8 +47,10 @@ public:
     }
 
     std::vector<Note> findStrongestNotes(FFTBuffer& buf) const;
-    std::vector<Note> strongestNotes_;
+    Note getNote(const Note& idealNote);
+
 private:
+    std::vector<Note> strongestNotes_;
     std::atomic<bool> fftReady{false};
     constexpr static int LOWER_BOUND_FREQ{65};
     constexpr static int UPPER_BOUND_FREQ{1000};

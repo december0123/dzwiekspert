@@ -80,6 +80,23 @@ std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
     return strongestNotes;
 }
 
+Note InputSignal::getNote(const Note& idealNote)
+{
+    auto strongestNotes = getNotesAndInvalidate();
+    auto candidate = std::find_if(strongestNotes.begin(), strongestNotes.end(),
+                              [&](const Note& n){return n.getFullName() == idealNote.getFullName();});
+    if ( candidate != strongestNotes.end())
+    {
+        return *candidate;
+    }
+    else
+    {
+        qDebug() << "Szukam najmniejszej";
+        return *std::min_element(strongestNotes.begin(), strongestNotes.end(),
+                         [&](const Note& lhs, const Note&rhs){return lhs.getFreq() < rhs.getFreq();});
+    }
+}
+
 void InputSignal::processBuffer(QAudioBuffer buf)
 {
     static_assert(FFT_THRESHOLD % 2 == 0, "FFT_THRESHOLD SHOULD BE EVEN");
