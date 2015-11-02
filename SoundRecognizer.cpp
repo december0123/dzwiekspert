@@ -57,7 +57,7 @@ Note SoundRecognizer::recognizeNote(const Frequency f) const
     {
         return {sound->getFullName(), f, calcRelativeError(*sound, f)};
     }
-    return {"UNKNOWN", 0_Hz};
+    return {"UNKNOWN", 100000_Hz};
 }
 
 Note SoundRecognizer::getRandomNote() const

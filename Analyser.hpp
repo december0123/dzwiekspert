@@ -11,11 +11,12 @@ struct FreeDeleter
 class Analyser
 {
 public:
-    void applyHannWindow(FFTBuffer& input);
-    void FFT(FFTBuffer& input);
-    void IFFT(FFTBuffer& input);
-    void HPS(FFTBuffer& input);
-    void autoCor(FFTBuffer& input);
+    Analyser() = delete;
+    static void applyHannWindow(FFTBuffer& input);
+    static void FFT(FFTBuffer& input);
+    static void IFFT(FFTBuffer& input);
+    static void HPS(FFTBuffer& input);
+    static void autoCor(FFTBuffer& input);
 };
 
 #endif // ANALYSER_HPP

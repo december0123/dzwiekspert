@@ -10,6 +10,7 @@
 
 InputSignal::InputSignal()
 {
+    static_assert(FFT_THRESHOLD % 2 == 0, "FFT_THRESHOLD SHOULD BE EVEN");
     probe_.setSource(&recorder_);
     QObject::connect(&probe_, &QAudioProbe::audioBufferProbed,
             this, &InputSignal::processBuffer);
@@ -36,7 +37,7 @@ void InputSignal::capture(bool capture)
         }
         else
         {
-            qDebug() << "jeblo";
+            qDebug() << "Nie udalo sie rozpoczac nagrywania";
         }
     }
     else
@@ -45,12 +46,19 @@ void InputSignal::capture(bool capture)
         internalBuffer_.clear();
         fftReady.store(false);
         samplesBufferCounter_ = 0;
+        qDebug() << "stop";
     }
 }
 
 std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
 {
     std::vector<Note> strongestNotes(NUM_OF_STRONGEST_NOTES_TO_FIND, Note{});
+    unsigned long long mean{0};
+    for (const auto& i : buf)
+    {
+        mean += i.r;
+    }
+    mean /= buf.size();
     for (unsigned long freqIndex = LOWER_BOUND_FREQ; freqIndex < UPPER_BOUND_FREQ; ++freqIndex)
     {
         // find smallest in maxima.
@@ -66,7 +74,10 @@ std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
         // check if smallest is smaller than current number
         if ((strongestNotes[smallestIndex].getFreq() < buf[freqIndex].r))
         {
-            strongestNotes[smallestIndex] = Note{"", buf[freqIndex].r, static_cast<double>(freqIndex)};
+            if (buf[freqIndex].r > mean * buf.size() / 6)
+            {
+                strongestNotes[smallestIndex] = Note{"", buf[freqIndex].r, static_cast<double>(freqIndex)};
+            }
         }
     }
     for (Note& n : strongestNotes)
@@ -82,9 +93,11 @@ std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
 
 Note InputSignal::getNote(const Note& idealNote)
 {
+//    std::unique_lock<std::mutex> l(m_);
+//    ready_.wait(l, [&](){return fftIsReady();});
     auto strongestNotes = getNotesAndInvalidate();
     auto candidate = std::find_if(strongestNotes.begin(), strongestNotes.end(),
-                              [&](const Note& n){return n.getFullName() == idealNote.getFullName();});
+                                  [&](const Note& n){return n.getFullName() == idealNote.getFullName();});
     if ( candidate != strongestNotes.end())
     {
         return *candidate;
@@ -93,21 +106,20 @@ Note InputSignal::getNote(const Note& idealNote)
     {
         qDebug() << "Szukam najmniejszej";
         return *std::min_element(strongestNotes.begin(), strongestNotes.end(),
-                         [&](const Note& lhs, const Note&rhs){return lhs.getFreq() < rhs.getFreq();});
+                                 [&](const Note& lhs, const Note&rhs){return lhs.getFreq() < rhs.getFreq();});
     }
 }
 
 void InputSignal::processBuffer(QAudioBuffer buf)
 {
-    static_assert(FFT_THRESHOLD % 2 == 0, "FFT_THRESHOLD SHOULD BE EVEN");
     FFTBuffer fft_in{QByteArray::fromRawData(buf.constData<const char>(), buf.byteCount())};
     internalBuffer_.append(std::move(fft_in));
     if (++samplesBufferCounter_ == FFT_THRESHOLD)
     {
         FFTBuffer tmpBuffer{internalBuffer_};
-        analyser_.applyHannWindow(tmpBuffer);
-        analyser_.FFT(tmpBuffer);
-        analyser_.HPS(tmpBuffer);
+        Analyser::applyHannWindow(tmpBuffer);
+        Analyser::FFT(tmpBuffer);
+        Analyser::HPS(tmpBuffer);
         std::lock_guard<std::mutex> l(m_);
         internalBuffer_.eraseNFirst(internalBuffer_.size() * 0.5L);
         samplesBufferCounter_ = FFT_THRESHOLD * OVERLAP_FACTOR;
