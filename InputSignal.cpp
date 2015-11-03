@@ -93,8 +93,8 @@ std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
 
 Note InputSignal::getNote(const Note& idealNote)
 {
-//    std::unique_lock<std::mutex> l(m_);
-//    ready_.wait(l, [&](){return fftIsReady();});
+    std::unique_lock<std::mutex> l(m_);
+    ready_.wait(l, [&](){return fftIsReady();});
     auto strongestNotes = getNotesAndInvalidate();
     auto candidate = std::find_if(strongestNotes.begin(), strongestNotes.end(),
                                   [&](const Note& n){return n.getFullName() == idealNote.getFullName();});
