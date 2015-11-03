@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connectSlots();
     ui.views->setCurrentIndex(MENU_VIEW);
     ui.note->setText(tr("Włącz stroik"));
+    ui.goToMenu->hide();
 }
 
 void MainWindow::connectSlots()
@@ -103,16 +104,19 @@ void MainWindow::goToMenu()
 {
     turnOffTuner();
     ui.views->setCurrentIndex(MENU_VIEW);
+    ui.goToMenu->hide();
 }
 
 void MainWindow::goToTuner()
 {
     ui.views->setCurrentIndex(TUNER_VIEW);
+    ui.goToMenu->show();
 }
 
 void MainWindow::goToLearn()
 {
     ui.views->setCurrentIndex(LEARN_VIEW);
+    ui.goToMenu->show();
 }
 
 void MainWindow::keepUpdatingFreqIndicator()
