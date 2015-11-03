@@ -84,7 +84,7 @@ std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
     {
         n = s_.recognizeNote(recorder_.NYQUIST_FREQ / buf.size() * n.getError());
     }
-    for (const Note& i : strongestNotes_)
+    for (const Note& i : strongestNotes)
     {
         qDebug() << QString::fromStdString(i.getFullName());
     }
