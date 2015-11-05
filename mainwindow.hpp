@@ -56,7 +56,6 @@ private:
     void turnOffTuner();
     void setIdealNote();
 
-
 private slots:
     void goToMenu();
     void goToTuner();
@@ -66,6 +65,7 @@ private slots:
     void setNoteInfo(const int value);
     void record(const bool cont);
     void setRandomNote();
+
 signals:
     void noteChanged(QString note);
     void valueChanged(int val);

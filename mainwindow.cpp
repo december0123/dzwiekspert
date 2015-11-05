@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui.note->setText(tr("Włącz stroik"));
     ui.goToMenu->hide();
     ui.switchRecorder->hide();
+    setRandomNote();
 }
 
 void MainWindow::connectSlots()
@@ -146,15 +147,12 @@ void MainWindow::keepUpdating()
         {
             if (currentNote.getFullName() == ui.noteToPlay->text().toStdString())
             {
-                qDebug() << "JEST OK";
                 ui.learnStatus->setText("Cacy");
             }
             else
             {
                 ui.learnStatus->setText("Nie cacy");
             }
-
-            //qDebug() << "co cos sie stalo";
         }
     }
     qDebug() << "Continue false";

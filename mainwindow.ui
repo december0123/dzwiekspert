@@ -18,7 +18,7 @@
     <item>
      <widget class="QStackedWidget" name="views">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="menu">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -327,20 +327,20 @@ QSlider::sub-page:vertical {
        <widget class="QLabel" name="noteToPlay">
         <property name="geometry">
          <rect>
-          <x>300</x>
-          <y>140</y>
-          <width>58</width>
+          <x>380</x>
+          <y>200</y>
+          <width>101</width>
           <height>17</height>
          </rect>
         </property>
         <property name="text">
-         <string/>
+         <string>NOTE TO PLAY</string>
         </property>
        </widget>
        <widget class="QPushButton" name="drawRandomNote">
         <property name="geometry">
          <rect>
-          <x>290</x>
+          <x>370</x>
           <y>230</y>
           <width>80</width>
           <height>25</height>
@@ -353,10 +353,10 @@ QSlider::sub-page:vertical {
        <widget class="QLabel" name="learnStatus">
         <property name="geometry">
          <rect>
-          <x>410</x>
-          <y>140</y>
+          <x>390</x>
+          <y>130</y>
           <width>58</width>
-          <height>17</height>
+          <height>20</height>
          </rect>
         </property>
         <property name="text">
@@ -366,8 +366,8 @@ QSlider::sub-page:vertical {
        <widget class="QLabel" name="label">
         <property name="geometry">
          <rect>
-          <x>90</x>
-          <y>110</y>
+          <x>160</x>
+          <y>170</y>
           <width>191</width>
           <height>71</height>
          </rect>
