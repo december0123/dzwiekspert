@@ -51,6 +51,19 @@ TEST_F(SoundRecognizerFixture, shouldGiveRandomNote)
     ASSERT_NE(0, defaultNote.getFreq());
 }
 
+TEST_F(SoundRecognizerFixture, shouldFindNote)
+{
+    std::string name{"E2"};
+    Note note{s.findNote(name)};
+    ASSERT_EQ(name, note.getFullName());
+    ASSERT_NEAR(82.4_Hz, note.getFreq(), 0.05);
+
+    std::string name2{"C#3"};
+    Note note2{s.findNote(name2)};
+    ASSERT_EQ(name2, note2.getFullName());
+    ASSERT_NEAR(138.5_Hz, note2.getFreq(), 0.1);
+}
+
 //    std::vector<Note> notes_{{"C2",     65.41_Hz},
 //                             {"C#2",    69.30_Hz},
 //                             {"D2",     73.42_Hz},

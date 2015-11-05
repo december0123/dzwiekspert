@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui.views->setCurrentIndex(MENU_VIEW);
     ui.note->setText(tr("Włącz stroik"));
     ui.goToMenu->hide();
+    ui.tunerStateBtn->hide();
 }
 
 void MainWindow::connectSlots()
@@ -34,7 +35,7 @@ void MainWindow::connectSlots()
                      this, &MainWindow::setNoteInfo);
 
     QObject::connect(ui.tunerStateBtn, &QPushButton::toggled,
-                     this, &MainWindow::setTunerState);
+                     this, &MainWindow::record);
 
     QObject::connect(ui.tune_e2, &QRadioButton::clicked,
                      this, &MainWindow::setIdealNote);
@@ -51,6 +52,9 @@ void MainWindow::connectSlots()
 
     QObject::connect(ui.drawRandomNote, &QPushButton::clicked,
                      this, &MainWindow::setRandomNote);
+
+    QObject::connect(ui.drawRandomNote, &QPushButton::toggled,
+                     this, &MainWindow::record);
 }
 
 int MainWindow::calcError(const int ideal, const int freq) const
@@ -103,32 +107,55 @@ void MainWindow::setIdealNote()
 void MainWindow::goToMenu()
 {
     turnOffTuner();
-    ui.views->setCurrentIndex(MENU_VIEW);
+    CURRENT_VIEW = MENU_VIEW;
+    ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->hide();
+    ui.tunerStateBtn->hide();
 }
 
 void MainWindow::goToTuner()
 {
-    ui.views->setCurrentIndex(TUNER_VIEW);
+    CURRENT_VIEW = TUNER_VIEW;
+    ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
+    ui.tunerStateBtn->show();
 }
 
 void MainWindow::goToLearn()
 {
-    ui.views->setCurrentIndex(LEARN_VIEW);
+    CURRENT_VIEW = LEARN_VIEW;
+    ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
+    ui.tunerStateBtn->show();
 }
 
-void MainWindow::keepUpdatingFreqIndicator()
+void MainWindow::keepUpdating()
 {
     sig_.capture(true);
     while(CONTINUE_.load())
     {
         Note currentNote = sig_.getNote(idealNote_);
-        emit valueChanged(noteToVal(currentNote));
-        emit noteChanged(
-                    QString::fromStdString(
-                        std::to_string(currentNote.getFreq()) + " " + currentNote.getName()));
+        if (CURRENT_VIEW == TUNER_VIEW)
+        {
+            emit valueChanged(noteToVal(currentNote));
+            emit noteChanged(
+                        QString::fromStdString(
+                            std::to_string(currentNote.getFreq()) + " " + currentNote.getName()));
+        }
+        else if (CURRENT_VIEW == LEARN_VIEW)
+        {
+            if (currentNote.getFullName() == ui.noteToPlay->text().toStdString())
+            {
+                qDebug() << "JEST OK";
+                ui.learnStatus->setText("Cacy");
+            }
+            else
+            {
+                ui.learnStatus->setText("Nie cacy");
+            }
+
+            //qDebug() << "co cos sie stalo";
+        }
     }
     qDebug() << "Continue false";
     sig_.capture(false);
@@ -160,7 +187,7 @@ void MainWindow::setNoteInfo(const int value)
 {
     if (value >= UPPER_YELLOW || value <= LOWER_YELLOW)
     {
-        ui.note->setText(tr("Żopa!"));
+        ui.note->setText(tr("Daleko!"));
     }
     else if (value >= UPPER_GREEN || value <= LOWER_GREEN)
     {
@@ -172,13 +199,13 @@ void MainWindow::setNoteInfo(const int value)
     }
 }
 
-void MainWindow::setTunerState(const bool cont)
+void MainWindow::record(const bool cont)
 {
     qDebug() << cont;
     CONTINUE_.store(cont);
     if (CONTINUE_.load())
     {
-        std::thread t{&MainWindow::keepUpdatingFreqIndicator, this};
+        std::thread t{&MainWindow::keepUpdating, this};
         t.detach();
         ui.tunerStateBtn->setText(tr("Stop"));
     }
@@ -192,4 +219,5 @@ void MainWindow::setTunerState(const bool cont)
 void MainWindow::setRandomNote()
 {
     ui.noteToPlay->setText(QString::fromStdString(sig_.s_.getRandomNote().getFullName()));
+    idealNote_ = sig_.s_.findNote(ui.noteToPlay->text().toStdString());
 }

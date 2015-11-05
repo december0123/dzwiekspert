@@ -22,12 +22,19 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow() = default;
+    void gowno()
+    {
+        qDebug() << "gowno";
+    }
 
 private:
     Ui::MainWindow ui;
+
     const int MENU_VIEW = 0;
     const int TUNER_VIEW = 1;
     const int LEARN_VIEW = 2;
+    int CURRENT_VIEW = MENU_VIEW;
+
     const int UPPER_GREEN = 55;
     const int LOWER_GREEN = 45;
     const int UPPER_YELLOW = 65;
@@ -35,6 +42,7 @@ private:
     const int UPPER_RED = 99;
     const int LOWER_RED = 0;
     const int MIDDLE_VAL = 50;
+
     const Note E2{"E2", 82.41_Hz};
     const Note A2{"A2", 110.00_Hz};
     const Note D3{"D3", 146.83_Hz};
@@ -58,10 +66,10 @@ private slots:
     void goToMenu();
     void goToTuner();
     void goToLearn();
-    void keepUpdatingFreqIndicator();
+    void keepUpdating();
     void setFreqIndicColor(const int freqVal);
     void setNoteInfo(const int value);
-    void setTunerState(const bool cont);
+    void record(const bool cont);
     void setRandomNote();
 signals:
     void noteChanged(QString note);

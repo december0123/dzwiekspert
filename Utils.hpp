@@ -2,9 +2,6 @@
 #define UTILS
 #include <stdexcept>
 
-class NoNoteRecognized : public std::logic_error
-{};
-
 using Frequency = long double;
 
 constexpr unsigned long long operator "" _Hz(unsigned long long freq)

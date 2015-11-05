@@ -18,6 +18,7 @@ public:
     SoundRecognizer(const Frequency basicFreq);
     Note recognizeNote(const Frequency f) const;
     Note getRandomNote() const;
+    Note findNote(const std::string name) const;
 
 private:
     std::vector<Note> notes_;

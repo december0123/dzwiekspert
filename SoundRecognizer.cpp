@@ -67,6 +67,20 @@ Note SoundRecognizer::getRandomNote() const
     return notes_.at(distr(eng));
 }
 
+Note SoundRecognizer::findNote(const std::string name) const
+{
+    auto note = std::find_if(notes_.begin(), notes_.end(),
+                             [&](const Note& n)
+                             {
+                                return n.getFullName() == name;
+                             });
+    if (note != notes_.end())
+    {
+        return *note;
+    }
+    return {"UNKNOW", 100000_Hz};
+}
+
 double SoundRecognizer::calcRelativeError(const Note &note, const double freq) const
 {
     return 1.0 - (note.getFreq() / freq);
