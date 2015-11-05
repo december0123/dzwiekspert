@@ -22,10 +22,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow() = default;
-    void gowno()
-    {
-        qDebug() << "gowno";
-    }
 
 private:
     Ui::MainWindow ui;
