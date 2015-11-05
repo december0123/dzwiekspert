@@ -65,5 +65,4 @@ private:
     std::vector<kiss_fft_cpx> data_;
 };
 
-
 #endif // FFTBUFFER_HPP

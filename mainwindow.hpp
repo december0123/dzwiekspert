@@ -30,18 +30,17 @@ public:
 private:
     Ui::MainWindow ui;
 
-    const int MENU_VIEW = 0;
-    const int TUNER_VIEW = 1;
-    const int LEARN_VIEW = 2;
-    int CURRENT_VIEW = MENU_VIEW;
+    enum VIEWS {MENU = 0, TUNER = 1, LEARN = 2};
 
-    const int UPPER_GREEN = 55;
-    const int LOWER_GREEN = 45;
-    const int UPPER_YELLOW = 65;
-    const int LOWER_YELLOW = 35;
-    const int UPPER_RED = 99;
-    const int LOWER_RED = 0;
-    const int MIDDLE_VAL = 50;
+    int CURRENT_VIEW{VIEWS::MENU};
+
+    const int UPPER_GREEN{55};
+    const int LOWER_GREEN{45};
+    const int UPPER_YELLOW{65};
+    const int LOWER_YELLOW{35};
+    const int UPPER_RED{99};
+    const int LOWER_RED{0};
+    const int MIDDLE_VAL{50};
 
     const Note E2{"E2", 82.41_Hz};
     const Note A2{"A2", 110.00_Hz};

@@ -9,6 +9,7 @@ extern "C"
 #include <QDebug>
 #include <cmath>
 #include <memory>
+#include <Utils.hpp>
 
 // Fast Fourier Transform
 void Analyser::FFT(FFTBuffer& input)
@@ -30,13 +31,13 @@ void Analyser::HPS(FFTBuffer &input)
 {
     FFTBuffer hps{input};
     // Go through each downsampling factor
-    constexpr int N = 1;
-    for (int downsamplingFactor = 1; downsamplingFactor <= N; ++downsamplingFactor)
+
+    for (int factor = 1; factor <= DOWNSAMPLING_FACTOR; ++factor)
     {
         // Go through samples of the downsampled signal and compute HPS at this iteration
-        for (unsigned long idx = 0; idx < input.size() / downsamplingFactor; ++idx)
+        for (unsigned long idx = 0; idx < input.size() / factor; ++idx)
         {
-            hps[idx].r *= input[idx * downsamplingFactor].r;
+            hps[idx].r *= input[idx * factor].r;
         }
     }
     input = std::move(hps);
@@ -44,10 +45,10 @@ void Analyser::HPS(FFTBuffer &input)
 
 void Analyser::applyHannWindow(FFTBuffer& input)
 {
-    constexpr long double PI{3.141592653589793238513L};
+
 
     for (long double i = 0; i < input.size(); ++i)
     {
-        input[i].r *= 0.5L * (1.0L - std::cos(2.0L * PI * i / (input.size() - 1)));
+        input[i].r *= 0.5L * (1.0L - std::cos(2.0L * PI<long double> * i / (input.size() - 1)));
     }
 }

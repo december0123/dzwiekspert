@@ -17,6 +17,9 @@ public:
     static void IFFT(FFTBuffer& input);
     static void HPS(FFTBuffer& input);
     static void autoCor(FFTBuffer& input);
+
+private:
+    constexpr static int DOWNSAMPLING_FACTOR{1};
 };
 
 #endif // ANALYSER_HPP

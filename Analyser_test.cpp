@@ -28,10 +28,9 @@ auto getMaxReal(FFTBuffer& buf)
 //    std::vector<long double> samples;
 //    constexpr Frequency FREQUENCY{440_Hz};
 //    constexpr Frequency SAMPLING_FREQUENCY{16000_Hz};
-//    constexpr long double PI{3.141592653589793238513L};
 //    for (int i = 0; i < 10000; ++i)
 //    {
-//        auto sample = std::sin(2.0 * PI * i / SAMPLING_FREQUENCY * FREQUENCY);
+//        auto sample = std::sin(2.0 * PI<long double> * i / SAMPLING_FREQUENCY * FREQUENCY);
 //        samples.push_back(sample);
 ////        f << sample << std::endl;
 //    }
