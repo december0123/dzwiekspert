@@ -45,8 +45,6 @@ void Analyser::HPS(FFTBuffer &input)
 
 void Analyser::applyHannWindow(FFTBuffer& input)
 {
-
-
     for (long double i = 0; i < input.size(); ++i)
     {
         input[i].r *= 0.5L * (1.0L - std::cos(2.0L * PI<long double> * i / (input.size() - 1)));

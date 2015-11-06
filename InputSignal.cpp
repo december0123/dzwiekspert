@@ -74,7 +74,7 @@ std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
         // check if smallest is smaller than current number
         if ((strongestNotes[smallestIndex].getFreq() < buf[freqIndex].r))
         {
-            if (buf[freqIndex].r > mean * buf.size() / 6)
+            if (buf[freqIndex].r > mean * buf.size() / 4)
             {
                 strongestNotes[smallestIndex] = Note{"", buf[freqIndex].r, static_cast<double>(freqIndex)};
             }
@@ -97,7 +97,7 @@ Note InputSignal::getNote(const Note& idealNote)
     ready_.wait(l, [&](){return fftIsReady();});
     auto strongestNotes = getNotesAndInvalidate();
     auto candidate = std::find_if(strongestNotes.begin(), strongestNotes.end(),
-                                  [&](const Note& n){return n.getFullName() == idealNote.getFullName();});
+                                  [&](const Note& n){return n.getName() == idealNote.getName();});
     if ( candidate != strongestNotes.end())
     {
         return *candidate;

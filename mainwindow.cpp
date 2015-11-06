@@ -145,7 +145,7 @@ void MainWindow::keepUpdating()
         }
         else if (CURRENT_VIEW == VIEWS::LEARN)
         {
-            if (currentNote.getFullName() == ui.noteToPlay->text().toStdString())
+            if (currentNote.getName() == ui.noteToPlay->text().toStdString())
             {
                 ui.learnStatus->setText("Cacy");
             }
@@ -216,6 +216,6 @@ void MainWindow::record(const bool cont)
 
 void MainWindow::setRandomNote()
 {
-    ui.noteToPlay->setText(QString::fromStdString(sig_.s_.getRandomNote().getFullName()));
+    ui.noteToPlay->setText(QString::fromStdString(sig_.s_.getRandomNote().getName()));
     idealNote_ = sig_.s_.findNote(ui.noteToPlay->text().toStdString());
 }

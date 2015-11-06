@@ -57,13 +57,13 @@ Note SoundRecognizer::recognizeNote(const Frequency f) const
     {
         return {sound->getFullName(), f, calcRelativeError(*sound, f)};
     }
-    return unknown;
+    return unknown_;
 }
 
 Note SoundRecognizer::getRandomNote() const
 {
-    std::uniform_int_distribution<> distr(0, notes_.size() - 1);
-    std::mt19937_64 eng{std::random_device{}()};
+    static std::uniform_int_distribution<> distr(0, notes_.size() - 1);
+    static std::mt19937_64 eng{std::random_device{}()};
     return notes_.at(distr(eng));
 }
 
@@ -78,7 +78,7 @@ Note SoundRecognizer::findNote(const std::string name) const
     {
         return *note;
     }
-    return unknown;
+    return unknown_;
 }
 
 double SoundRecognizer::calcRelativeError(const Note &note, const double freq) const

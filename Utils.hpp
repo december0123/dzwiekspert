@@ -16,6 +16,4 @@ constexpr long double operator "" _Hz(long double freq)
 template<typename T>
 constexpr T PI = T(3.141592653589793238513L);
 
-
 #endif // UTILS
-
