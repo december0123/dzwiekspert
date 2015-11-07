@@ -30,7 +30,9 @@ SOURCES += main.cpp\
     Note_test.cpp \
     kissfft/kiss_fftr.c \
     FFTBuffer_test.cpp \
-    Analyser_test.cpp
+    Analyser_test.cpp \
+    ConfigParser.cpp \
+    ConfigParser_test.cpp
 
 HEADERS  += mainwindow.hpp \
     InputSignal.hpp \
@@ -42,6 +44,7 @@ HEADERS  += mainwindow.hpp \
     Utils.hpp \
     SoundRecognizer.hpp \
     Note.hpp \
-    kissfft/kiss_fftr.h
+    kissfft/kiss_fftr.h \
+    ConfigParser.hpp
 
 FORMS    += mainwindow.ui
