@@ -127,37 +127,11 @@
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
-       <widget class="QLineEdit" name="basicFreqEdit">
-        <property name="geometry">
-         <rect>
-          <x>370</x>
-          <y>130</y>
-          <width>113</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>65.41</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_4">
-        <property name="geometry">
-         <rect>
-          <x>117</x>
-          <y>130</y>
-          <width>191</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Częstotliwość podstawowa</string>
-        </property>
-       </widget>
        <widget class="QPushButton" name="saveConfig">
         <property name="geometry">
          <rect>
-          <x>390</x>
-          <y>280</y>
+          <x>370</x>
+          <y>360</y>
           <width>80</width>
           <height>25</height>
          </rect>
@@ -165,6 +139,121 @@
         <property name="text">
          <string>Zapisz</string>
         </property>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>90</y>
+          <width>201</width>
+          <height>191</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Częstotliwość podstawowa</string>
+        </property>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>2</x>
+           <y>40</y>
+           <width>191</width>
+           <height>131</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <item>
+           <widget class="QRadioButton" name="basic_65">
+            <property name="text">
+             <string>65.41</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radioButton_2">
+            <property name="text">
+             <string>Jakaś inna nie wiem</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="basic_custom">
+            <property name="text">
+             <string>Własna</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="basic_customEdit">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>65.41</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="geometry">
+         <rect>
+          <x>290</x>
+          <y>90</y>
+          <width>191</width>
+          <height>191</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Strój</string>
+        </property>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>40</y>
+           <width>146</width>
+           <height>112</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QRadioButton" name="tuning_CLASSIC">
+            <property name="text">
+             <string>Klasyczny - EADGBE</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="tuning_DROP_D">
+            <property name="text">
+             <string>Drop D - DADGBE</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="tuning_CELTIC">
+            <property name="text">
+             <string>Celtic - DADGAD</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="tuning_OPEN_G">
+            <property name="text">
+             <string>Open G - DGDGBD</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="tuner">

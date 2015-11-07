@@ -61,6 +61,8 @@ void MainWindow::connectSlots()
 
     QObject::connect(ui.saveConfig, &QPushButton::clicked,
                      this, &MainWindow::saveConfig);
+    QObject::connect(ui.basic_custom, &QRadioButton::toggled,
+                     ui.basic_customEdit, &QLineEdit::setEnabled);
 }
 
 int MainWindow::calcError(const int ideal, const int freq) const
@@ -237,8 +239,36 @@ void MainWindow::setRandomNote()
 
 void MainWindow::saveConfig()
 {
+    std::string option;
+    if (ui.basic_65->isChecked())
+    {
+        option = ui.basic_65->text().toStdString();
+    }
+    else if (ui.basic_custom->isChecked())
+    {
+        option = ui.basic_customEdit->text().toStdString();
+    }
+    parser_.write("basic", option);
+    sig_.setBasic(std::stold(option));
 
-    parser_.write("basic", ui.basicFreqEdit->text().toStdString());
+    if (ui.tuning_CLASSIC->isChecked())
+    {
+        option = ui.tuning_CLASSIC->text().toStdString();
+    }
+    else if (ui.tuning_DROP_D->isChecked())
+    {
+        option = ui.tuning_DROP_D->text().toStdString();
+    }
+    else if (ui.tuning_CELTIC->isChecked())
+    {
+        option = ui.tuning_CELTIC->text().toStdString();
+    }
+    else if (ui.tuning_OPEN_G->isChecked())
+    {
+        option = ui.tuning_OPEN_G->text().toStdString();
+    }
+    auto pos = option.find("-");
+    parser_.write("tuning", option.substr(pos + 2));
     parser_.save();
-    sig_.setBasic(std::stold(ui.basicFreqEdit->text().toStdString()));
+
 }
