@@ -48,6 +48,7 @@ std::deque<std::string> SoundRecognizer::generateNoteNames() const
 
 Note SoundRecognizer::recognizeNote(const Frequency f) const
 {
+    qDebug() << double(f);
     auto sound = std::find_if(notes_.begin(), notes_.end(),
                  [&](const Note& s)
                  {

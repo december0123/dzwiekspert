@@ -53,40 +53,37 @@ void InputSignal::capture(bool capture)
 std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
 {
     std::vector<Note> strongestNotes(NUM_OF_STRONGEST_NOTES_TO_FIND, Note{});
-    unsigned long long mean{0};
+    unsigned long long energyThreshold{0};
     for (const auto& i : buf)
     {
-        mean += i.r;
+        energyThreshold += i.r;
     }
-    mean /= buf.size();
+    energyThreshold /= buf.size();
+    energyThreshold *= buf.size() / 5;
     for (unsigned long freqIndex = LOWER_BOUND_FREQ; freqIndex < UPPER_BOUND_FREQ; ++freqIndex)
     {
         // find smallest in maxima.
-        auto smallestIndex = 0U;
+        auto smallestElementIndex = 0U;
         for (auto m = 0U; m != strongestNotes.size(); ++m)
         {
-            if (strongestNotes[m].getFreq() < strongestNotes[smallestIndex].getFreq())
+            if (strongestNotes[m].getFreq() < strongestNotes[smallestElementIndex].getFreq())
             {
-                smallestIndex = m;
+                smallestElementIndex = m;
             }
         }
 
         // check if smallest is smaller than current number
-        if ((strongestNotes[smallestIndex].getFreq() < buf[freqIndex].r))
+        if ((strongestNotes[smallestElementIndex].getFreq() < buf[freqIndex].r))
         {
-            if (buf[freqIndex].r > mean * buf.size() / 4)
+            if (buf[freqIndex].r > energyThreshold)
             {
-                strongestNotes[smallestIndex] = Note{"", buf[freqIndex].r, static_cast<double>(freqIndex)};
+                strongestNotes[smallestElementIndex] = Note{"", buf[freqIndex].r, static_cast<double>(freqIndex)};
             }
         }
     }
     for (Note& n : strongestNotes)
     {
         n = s_.recognizeNote(recorder_.NYQUIST_FREQ / buf.size() * n.getError());
-    }
-    for (const Note& i : strongestNotes)
-    {
-        qDebug() << QString::fromStdString(i.getFullName());
     }
     return strongestNotes;
 }
@@ -96,17 +93,31 @@ Note InputSignal::getNote(const Note& idealNote)
     std::unique_lock<std::mutex> l(m_);
     ready_.wait(l, [&](){return fftIsReady();});
     auto strongestNotes = getNotesAndInvalidate();
+    qDebug() << "IDEALNA: " << idealNote.getFullName().c_str();
     auto candidate = std::find_if(strongestNotes.begin(), strongestNotes.end(),
                                   [&](const Note& n){return n.getName() == idealNote.getName();});
-    if ( candidate != strongestNotes.end())
+    if (candidate != strongestNotes.end())
     {
+        qDebug() << "Oddaje: " << candidate->getFullName().c_str();
         return *candidate;
     }
     else
     {
-        qDebug() << "Szukam najmniejszej";
-        return *std::min_element(strongestNotes.begin(), strongestNotes.end(),
-                                 [&](const Note& lhs, const Note&rhs){return lhs.getFreq() < rhs.getFreq();});
+        std::sort(strongestNotes.begin(), strongestNotes.end(),
+                  [&](const Note& lhs, const Note&rhs){return lhs.getFreq() < rhs.getFreq();});
+        candidate = std::find_if(strongestNotes.begin(), strongestNotes.end(),
+                                      [&](const Note& n){return n.getFreq() > 50_Hz;});
+        qDebug() << "Szukam najmniejszej" << double(candidate->getFreq());
+        if (candidate != strongestNotes.end())
+        {
+            return *candidate;
+        }
+        else
+        {
+            return {"UNKNOWN", 10000_Hz};
+        }
+//        return *std::min_element(strongestNotes.begin(), strongestNotes.end(),
+//                                 [&](const Note& lhs, const Note&rhs){return lhs.getFreq() < rhs.getFreq();});
     }
 }
 

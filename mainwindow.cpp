@@ -147,7 +147,7 @@ void MainWindow::keepUpdating()
         }
         else if (CURRENT_VIEW == VIEWS::LEARN)
         {
-            if (currentNote.getName() == ui.noteToPlay->text().toStdString())
+            if (currentNote.getName() == idealNote_.getName())
             {
                 ui.learnStatus->setText("Cacy");
             }
