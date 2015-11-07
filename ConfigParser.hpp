@@ -9,6 +9,7 @@ class ConfigParser
 {
 public:
     ConfigParser(std::string path);
+    ConfigParser(const ConfigParser&) = delete;
     std::string lookup(std::string name);
     void write(std::string name, std::string value);
     void save() const;

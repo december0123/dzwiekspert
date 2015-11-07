@@ -23,7 +23,12 @@ ConfigParser::ConfigParser(std::string path)
 
 std::string ConfigParser::lookup(std::string name)
 {
-    return configs_[name];
+    auto val = configs_.find(name);
+    if (val != configs_.end())
+    {
+        return val->second;
+    }
+    throw std::logic_error{"CONFIG FILE MALFORMED"};
 }
 
 void ConfigParser::write(std::string name, std::string value)

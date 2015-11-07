@@ -44,3 +44,15 @@ TEST_F(ConfigParserFixture, shouldSaveConfig)
     ConfigParser p2{PATH};
     ASSERT_EQ("left", p2.lookup("hand"));
 }
+
+TEST_F(ConfigParserFixture, shouldThrowOnMalformed)
+{
+    ASSERT_NO_THROW(p.lookup("hand"));
+    ASSERT_THROW(p.lookup("fake"), std::logic_error);
+    std::string MALFORMED_PATH{"test_malformed_file"};
+    std::ofstream malformed{MALFORMED_PATH};
+    malformed << "MALFORMED" << std::endl;
+//    ASSERT_THROW(ConfigParser(MALFORMED_PATH), std::logic_error);
+
+    std::remove(MALFORMED_PATH.c_str());
+}
