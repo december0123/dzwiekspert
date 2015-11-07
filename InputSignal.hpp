@@ -22,7 +22,7 @@ public:
 
     Recorder recorder_;
     QAudioProbe probe_;
-    SoundRecognizer s_;
+    SoundRecognizer recognizer_;
     std::condition_variable ready_;
     std::mutex m_;
 
@@ -31,6 +31,7 @@ public:
     void capture(bool capture);
     std::vector<Note> findStrongestNotes(FFTBuffer& buf) const;
     Note getNote(const Note& idealNote);
+    void setBasic(const Frequency f);
 
 private:
     std::vector<Note> strongestNotes_;

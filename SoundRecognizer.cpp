@@ -82,6 +82,13 @@ Note SoundRecognizer::findNote(const std::string name) const
     return Note::UNKNOWN();
 }
 
+void SoundRecognizer::setBasic(const Frequency f)
+{
+    basicFreq_ = f;
+    notes_.clear();
+    initNotes();
+}
+
 double SoundRecognizer::calcRelativeError(const Note &note, const double freq) const
 {
     return 1.0 - (note.getFreq() / freq);

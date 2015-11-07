@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui.note->setText(tr("Włącz stroik"));
     ui.goToMenu->hide();
     ui.switchRecorder->hide();
+    sig_.setBasic(std::stold(parser_.lookup("basic")));
 }
 
 void MainWindow::connectSlots()
@@ -218,6 +219,6 @@ void MainWindow::record(const bool cont)
 
 void MainWindow::setRandomNote()
 {
-    ui.noteToPlay->setText(QString::fromStdString(sig_.s_.getRandomNote().getFullName()));
-    idealNote_ = sig_.s_.findNote(ui.noteToPlay->text().toStdString());
+    ui.noteToPlay->setText(QString::fromStdString(sig_.recognizer_.getRandomNote().getFullName()));
+    idealNote_ = sig_.recognizer_.findNote(ui.noteToPlay->text().toStdString());
 }

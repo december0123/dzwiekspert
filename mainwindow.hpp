@@ -4,6 +4,7 @@
 #include "ui_mainwindow.h"
 
 #include "Analyser.hpp"
+#include "ConfigParser.hpp"
 #include "InputSignal.hpp"
 #include "Note.hpp"
 #include "recorder.hpp"
@@ -37,6 +38,8 @@ private:
     const int UPPER_RED{99};
     const int LOWER_RED{0};
     const int MIDDLE_VAL{50};
+
+    ConfigParser parser_{"config"};
 
     const Note E2{"E2", 82.41_Hz};
     const Note A2{"A2", 110.00_Hz};

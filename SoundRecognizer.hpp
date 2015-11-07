@@ -19,6 +19,7 @@ public:
     Note recognizeNote(const Frequency f) const;
     Note getRandomNote() const;
     Note findNote(const std::string name) const;
+    void setBasic(const Frequency f);
 
 private:
     std::vector<Note> notes_;

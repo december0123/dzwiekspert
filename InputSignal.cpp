@@ -83,7 +83,7 @@ std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
     }
     for (Note& n : strongestNotes)
     {
-        n = s_.recognizeNote(recorder_.NYQUIST_FREQ / buf.size() * n.getError());
+        n = recognizer_.recognizeNote(recorder_.NYQUIST_FREQ / buf.size() * n.getError());
     }
     return strongestNotes;
 }
@@ -118,6 +118,11 @@ Note InputSignal::getNote(const Note& idealNote)
             return Note::UNKNOWN();
         }
     }
+}
+
+void InputSignal::setBasic(const Frequency f)
+{
+    recognizer_.setBasic(f);
 }
 
 void InputSignal::processBuffer(QAudioBuffer buf)
