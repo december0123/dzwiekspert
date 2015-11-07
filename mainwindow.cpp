@@ -12,7 +12,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui.note->setText(tr("Włącz stroik"));
     ui.goToMenu->hide();
     ui.switchRecorder->hide();
-    setRandomNote();
 }
 
 void MainWindow::connectSlots()
@@ -120,6 +119,7 @@ void MainWindow::goToTuner()
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
     ui.switchRecorder->show();
+    idealNote_ = E2;
 }
 
 void MainWindow::goToLearn()
@@ -128,6 +128,7 @@ void MainWindow::goToLearn()
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
     ui.switchRecorder->show();
+    setRandomNote();
 }
 
 void MainWindow::keepUpdating()
@@ -136,6 +137,7 @@ void MainWindow::keepUpdating()
     while(CONTINUE_.load())
     {
         Note currentNote = sig_.getNote(idealNote_);
+        qDebug() << "WYkrylem: " << currentNote.getFullName().c_str();
         if (CURRENT_VIEW == VIEWS::TUNER)
         {
             emit valueChanged(noteToVal(currentNote));
@@ -216,6 +218,6 @@ void MainWindow::record(const bool cont)
 
 void MainWindow::setRandomNote()
 {
-    ui.noteToPlay->setText(QString::fromStdString(sig_.s_.getRandomNote().getName()));
+    ui.noteToPlay->setText(QString::fromStdString(sig_.s_.getRandomNote().getFullName()));
     idealNote_ = sig_.s_.findNote(ui.noteToPlay->text().toStdString());
 }
