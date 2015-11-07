@@ -37,7 +37,9 @@ TEST_F(ConfigParserFixture, shouldWriteConfig)
 
 TEST_F(ConfigParserFixture, shouldSaveConfig)
 {
+    ASSERT_EQ("right", p.lookup("hand"));
     p.write("hand", "left");
+    ASSERT_EQ("left", p.lookup("hand"));
     p.save();
     ConfigParser p2{PATH};
     ASSERT_EQ("left", p2.lookup("hand"));
