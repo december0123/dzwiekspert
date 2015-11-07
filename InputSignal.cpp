@@ -94,6 +94,7 @@ Note InputSignal::getNote(const Note& idealNote)
     ready_.wait(l, [&](){return fftIsReady();});
     auto strongestNotes = getNotesAndInvalidate();
     qDebug() << "IDEALNA: " << idealNote.getFullName().c_str();
+    // TODO: trudnosc
     auto candidate = std::find_if(strongestNotes.begin(), strongestNotes.end(),
                                   [&](const Note& n){return n.getName() == idealNote.getName();});
     if (candidate != strongestNotes.end())
@@ -106,7 +107,7 @@ Note InputSignal::getNote(const Note& idealNote)
         std::sort(strongestNotes.begin(), strongestNotes.end(),
                   [&](const Note& lhs, const Note&rhs){return lhs.getFreq() < rhs.getFreq();});
         candidate = std::find_if(strongestNotes.begin(), strongestNotes.end(),
-                                      [&](const Note& n){return n.getFreq() > 50_Hz;});
+                                      [&](const Note& n){return n.getFreq() != 0;});
         qDebug() << "Szukam najmniejszej" << double(candidate->getFreq());
         if (candidate != strongestNotes.end())
         {
@@ -114,10 +115,8 @@ Note InputSignal::getNote(const Note& idealNote)
         }
         else
         {
-            return {"UNKNOWN", 10000_Hz};
+            return Note::UNKNOWN();
         }
-//        return *std::min_element(strongestNotes.begin(), strongestNotes.end(),
-//                                 [&](const Note& lhs, const Note&rhs){return lhs.getFreq() < rhs.getFreq();});
     }
 }
 
@@ -131,11 +130,14 @@ void InputSignal::processBuffer(QAudioBuffer buf)
         Analyser::applyHannWindow(tmpBuffer);
         Analyser::FFT(tmpBuffer);
         Analyser::HPS(tmpBuffer);
-        std::lock_guard<std::mutex> l(m_);
-        internalBuffer_.eraseNFirst(internalBuffer_.size() * 0.5L);
-        samplesBufferCounter_ = FFT_THRESHOLD * OVERLAP_FACTOR;
-        strongestNotes_ = findStrongestNotes(tmpBuffer);
-        fftReady.store(true);
+
+        {
+            std::lock_guard<std::mutex> l(m_);
+            internalBuffer_.eraseNFirst(internalBuffer_.size() * 0.5L);
+            samplesBufferCounter_ = FFT_THRESHOLD * OVERLAP_FACTOR;
+            strongestNotes_ = findStrongestNotes(tmpBuffer);
+            fftReady.store(true);
+        }
         ready_.notify_all();
     }
 }

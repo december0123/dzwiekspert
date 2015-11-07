@@ -46,6 +46,11 @@ public:
         return error_;
     }
 
+    static Note UNKNOWN()
+    {
+        return Note{"UNKNOWN", 0_Hz, 1};
+    }
+
 private:
     std::string fullName_;
     Frequency freq_;

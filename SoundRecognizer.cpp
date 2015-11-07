@@ -58,7 +58,7 @@ Note SoundRecognizer::recognizeNote(const Frequency f) const
     {
         return {sound->getFullName(), f, calcRelativeError(*sound, f)};
     }
-    return unknown_;
+    return Note::UNKNOWN();
 }
 
 Note SoundRecognizer::getRandomNote() const
@@ -79,7 +79,7 @@ Note SoundRecognizer::findNote(const std::string name) const
     {
         return *note;
     }
-    return unknown_;
+    return Note::UNKNOWN();
 }
 
 double SoundRecognizer::calcRelativeError(const Note &note, const double freq) const
