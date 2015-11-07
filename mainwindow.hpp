@@ -27,7 +27,7 @@ public:
 private:
     Ui::MainWindow ui;
 
-    enum VIEWS {MENU = 0, TUNER = 1, LEARN = 2};
+    enum VIEWS {MENU = 0, TUNER = 2, LEARN = 3, CONFIG = 1};
 
     int CURRENT_VIEW{VIEWS::MENU};
 
@@ -63,11 +63,13 @@ private slots:
     void goToMenu();
     void goToTuner();
     void goToLearn();
+    void goToConfig();
     void keepUpdating();
     void setFreqIndicColor(const int freqVal);
     void setNoteInfo(const int value);
     void record(const bool cont);
     void setRandomNote();
+    void saveConfig();
 
 signals:
     void noteChanged(QString note);

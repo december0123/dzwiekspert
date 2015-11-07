@@ -22,14 +22,20 @@
       </property>
       <widget class="QWidget" name="menu">
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="1">
-         <widget class="QPushButton" name="goToTuner">
-          <property name="text">
-           <string>Strojenie</string>
+        <item row="1" column="2">
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
           </property>
-         </widget>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
-        <item row="3" column="1">
+        <item row="4" column="1">
          <widget class="QPushButton" name="exit">
           <property name="text">
            <string>Wyjście</string>
@@ -39,8 +45,28 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
+        <item row="2" column="1">
+         <widget class="QPushButton" name="goToLearn">
+          <property name="text">
+           <string>Słuch</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
          <spacer name="verticalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="0" column="1">
+         <spacer name="verticalSpacer_3">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -65,40 +91,81 @@
           </property>
          </spacer>
         </item>
-        <item row="1" column="2">
-         <spacer name="horizontalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="0" column="1">
-         <spacer name="verticalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="2" column="1">
-         <widget class="QPushButton" name="goToLearn">
+        <item row="1" column="1">
+         <widget class="QPushButton" name="goToTuner">
           <property name="text">
-           <string>Słuch</string>
+           <string>Strojenie</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QPushButton" name="goToConfig">
+          <property name="text">
+           <string>Opcje</string>
           </property>
          </widget>
         </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="page">
+       <widget class="QLabel" name="label_3">
+        <property name="geometry">
+         <rect>
+          <x>300</x>
+          <y>30</y>
+          <width>281</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Ustawienia</string>
+        </property>
+        <property name="scaledContents">
+         <bool>true</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="basicFreqEdit">
+        <property name="geometry">
+         <rect>
+          <x>370</x>
+          <y>130</y>
+          <width>113</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>65.41</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="label_4">
+        <property name="geometry">
+         <rect>
+          <x>117</x>
+          <y>130</y>
+          <width>191</width>
+          <height>20</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Częstotliwość podstawowa</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="saveConfig">
+        <property name="geometry">
+         <rect>
+          <x>390</x>
+          <y>280</y>
+          <width>80</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Zapisz</string>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="tuner">
        <layout class="QGridLayout" name="gridLayout_2">

@@ -25,6 +25,8 @@ void MainWindow::connectSlots()
                      this, &MainWindow::goToTuner);
     QObject::connect(ui.goToLearn, &QPushButton::clicked,
                      this, &MainWindow::goToLearn);
+    QObject::connect(ui.goToConfig, &QPushButton::clicked,
+                     this, &MainWindow::goToConfig);
 
     QObject::connect(this, &MainWindow::valueChanged,
                      ui.freqIndicator, &QSlider::setValue);
@@ -56,6 +58,9 @@ void MainWindow::connectSlots()
 
     QObject::connect(ui.drawRandomNote, &QPushButton::toggled,
                      this, &MainWindow::record);
+
+    QObject::connect(ui.saveConfig, &QPushButton::clicked,
+                     this, &MainWindow::saveConfig);
 }
 
 int MainWindow::calcError(const int ideal, const int freq) const
@@ -130,6 +135,13 @@ void MainWindow::goToLearn()
     ui.goToMenu->show();
     ui.switchRecorder->show();
     setRandomNote();
+}
+
+void MainWindow::goToConfig()
+{
+    CURRENT_VIEW = VIEWS::CONFIG;
+    ui.views->setCurrentIndex(CURRENT_VIEW);
+    ui.goToMenu->show();
 }
 
 void MainWindow::keepUpdating()
@@ -221,4 +233,12 @@ void MainWindow::setRandomNote()
 {
     ui.noteToPlay->setText(QString::fromStdString(sig_.recognizer_.getRandomNote().getFullName()));
     idealNote_ = sig_.recognizer_.findNote(ui.noteToPlay->text().toStdString());
+}
+
+void MainWindow::saveConfig()
+{
+
+    parser_.write("basic", ui.basicFreqEdit->text().toStdString());
+    parser_.save();
+    sig_.setBasic(std::stold(ui.basicFreqEdit->text().toStdString()));
 }
