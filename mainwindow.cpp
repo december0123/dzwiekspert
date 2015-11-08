@@ -67,6 +67,7 @@ void MainWindow::connectSlots()
 
 int MainWindow::calcError(const int ideal, const int freq) const
 {
+    qDebug() << ideal << "vs" << freq;
     return (freq - ideal);
 }
 
@@ -243,13 +244,16 @@ void MainWindow::setRandomNote()
 void MainWindow::readConfig()
 {
     std::string basic{configs_.lookup("basic")};
-    sig_.setBasic(std::stold(basic));
-    recognizer_.setBasic(std::stold(basic));
-    if (basic == ui.basic_65->text().toStdString())
+    sig_.setBasic(std::stold(basic) / 6.72717);
+    recognizer_.setBasic(std::stold(basic) / 6.72717);
+    if (basic == ui.basic_440->text().toStdString())
     {
-        ui.basic_65->setText(basic.c_str());
+        ui.basic_440->setChecked(true);
     }
-    // TODO: inne czestotliwosci
+    if (basic == ui.basic_432->text().toStdString())
+    {
+        ui.basic_432->setChecked(true);
+    }
     else
     {
         ui.basic_custom->setChecked(true);
@@ -271,16 +275,20 @@ void MainWindow::readConfig()
 void MainWindow::saveConfig()
 {
     std::string option;
-    if (ui.basic_65->isChecked())
+    if (ui.basic_440->isChecked())
     {
-        option = ui.basic_65->text().toStdString();
+        option = ui.basic_440->text().toStdString();
+    }
+    else if (ui.basic_432->isChecked())
+    {
+        option = ui.basic_432->text().toStdString();
     }
     else if (ui.basic_custom->isChecked())
     {
         option = ui.basic_customEdit->text().toStdString();
     }
     configs_.write("basic", option);
-    sig_.setBasic(std::stold(option));
+    sig_.setBasic(std::stold(option) / 6.72717L);
 
     if (ui.tuning_CLASSIC->isChecked())
     {
@@ -301,5 +309,4 @@ void MainWindow::saveConfig()
     auto pos = option.find("-");
     configs_.write("tuning", option.substr(pos + 2));
     configs_.save();
-
 }

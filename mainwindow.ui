@@ -18,7 +18,7 @@
     <item>
      <widget class="QStackedWidget" name="views">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="menu">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -150,7 +150,7 @@
          </rect>
         </property>
         <property name="title">
-         <string>Częstotliwość podstawowa</string>
+         <string>Częstotliwość podstawowa. A = </string>
         </property>
         <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
@@ -163,9 +163,9 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QRadioButton" name="basic_65">
+           <widget class="QRadioButton" name="basic_440">
             <property name="text">
-             <string>65.41</string>
+             <string>440</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -173,9 +173,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="radioButton_2">
+           <widget class="QRadioButton" name="basic_432">
             <property name="text">
-             <string>Jakaś inna nie wiem</string>
+             <string>432</string>
             </property>
            </widget>
           </item>
@@ -192,7 +192,7 @@
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>65.41</string>
+             <string>440</string>
             </property>
            </widget>
           </item>
