@@ -87,29 +87,14 @@ void MainWindow::turnOffTuner()
 
 void MainWindow::setIdealNote()
 {
-    if (ui.tune_e2->isChecked())
+    for (const auto& note : ui.tuneGroup->children())
     {
-        idealNote_ = recognizer_.findNote(ui.tune_e2->text().toStdString());
-    }
-    else if (ui.tune_a2->isChecked())
-    {
-        idealNote_ = recognizer_.findNote(ui.tune_a2->text().toStdString());
-    }
-    else if (ui.tune_d3->isChecked())
-    {
-        idealNote_ = recognizer_.findNote(ui.tune_d3->text().toStdString());
-    }
-    else if (ui.tune_g3->isChecked())
-    {
-        idealNote_ = recognizer_.findNote(ui.tune_g3->text().toStdString());
-    }
-    else if (ui.tune_b3->isChecked())
-    {
-        idealNote_ = recognizer_.findNote(ui.tune_b3->text().toStdString());
-    }
-    else if (ui.tune_e4->isChecked())
-    {
-        idealNote_ = recognizer_.findNote(ui.tune_e4->text().toStdString());
+        if (dynamic_cast<QRadioButton*>(note)->isChecked())
+        {
+            idealNote_ =
+                    recognizer_.findNote(dynamic_cast<QRadioButton*>(note)->text().toStdString());
+            break;
+        }
     }
 }
 
@@ -129,7 +114,7 @@ void MainWindow::goToTuner()
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
     ui.switchRecorder->show();
-    idealNote_ = recognizer_.findNote("E2");
+    idealNote_ = recognizer_.findNote(ui.tune_e2->text().toStdString());
 }
 
 void MainWindow::goToLearn()
