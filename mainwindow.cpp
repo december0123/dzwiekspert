@@ -12,9 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui.note->setText(tr("Włącz stroik"));
     ui.goToMenu->hide();
     ui.switchRecorder->hide();
-    sig_.setBasic(std::stold(configs_.lookup("basic")));
-    recognizer_.setBasic(std::stold(configs_.lookup("basic")));
-    idealNote_ = recognizer_.findNote("E2");
+    readConfig();
 }
 
 void MainWindow::connectSlots()
@@ -90,27 +88,27 @@ void MainWindow::setIdealNote()
 {
     if (ui.tune_e2->isChecked())
     {
-        idealNote_ = recognizer_.findNote("E2");
+        idealNote_ = recognizer_.findNote(ui.tune_e2->text().toStdString());
     }
     else if (ui.tune_a2->isChecked())
     {
-        idealNote_ = recognizer_.findNote("A2");
+        idealNote_ = recognizer_.findNote(ui.tune_a2->text().toStdString());
     }
     else if (ui.tune_d3->isChecked())
     {
-        idealNote_ = recognizer_.findNote("D3");
+        idealNote_ = recognizer_.findNote(ui.tune_d3->text().toStdString());
     }
     else if (ui.tune_g3->isChecked())
     {
-        idealNote_ = recognizer_.findNote("G3");
+        idealNote_ = recognizer_.findNote(ui.tune_g3->text().toStdString());
     }
     else if (ui.tune_b3->isChecked())
     {
-        idealNote_ = recognizer_.findNote("B3");
+        idealNote_ = recognizer_.findNote(ui.tune_b3->text().toStdString());
     }
     else if (ui.tune_e4->isChecked())
     {
-        idealNote_ = recognizer_.findNote("E4");
+        idealNote_ = recognizer_.findNote(ui.tune_e4->text().toStdString());
     }
 }
 
@@ -125,6 +123,7 @@ void MainWindow::goToMenu()
 
 void MainWindow::goToTuner()
 {
+    readConfig();
     CURRENT_VIEW = VIEWS::TUNER;
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
@@ -134,6 +133,7 @@ void MainWindow::goToTuner()
 
 void MainWindow::goToLearn()
 {
+    readConfig();
     CURRENT_VIEW = VIEWS::LEARN;
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
@@ -143,6 +143,7 @@ void MainWindow::goToLearn()
 
 void MainWindow::goToConfig()
 {
+    readConfig();
     CURRENT_VIEW = VIEWS::CONFIG;
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
@@ -237,6 +238,34 @@ void MainWindow::setRandomNote()
 {
     ui.noteToPlay->setText(QString::fromStdString(sig_.recognizer_.getRandomNote().getFullName()));
     idealNote_ = sig_.recognizer_.findNote(ui.noteToPlay->text().toStdString());
+}
+
+void MainWindow::readConfig()
+{
+    std::string basic{configs_.lookup("basic")};
+    sig_.setBasic(std::stold(basic));
+    recognizer_.setBasic(std::stold(basic));
+    if (basic == ui.basic_65->text().toStdString())
+    {
+        ui.basic_65->setText(basic.c_str());
+    }
+    // TODO: inne czestotliwosci
+    else
+    {
+        ui.basic_custom->setChecked(true);
+        ui.basic_customEdit->setText(basic.c_str());
+    }
+
+    std::vector<std::string> tuning{configs_.split(configs_.lookup("tuning"), ",")};
+    ui.tune_e2->setText(tuning[0].c_str());
+    ui.tune_a2->setText(tuning[1].c_str());
+    ui.tune_d3->setText(tuning[2].c_str());
+    ui.tune_g3->setText(tuning[3].c_str());
+    ui.tune_b3->setText(tuning[4].c_str());
+    ui.tune_e4->setText(tuning[5].c_str());
+    std::string hand{configs_.lookup("hand")};
+
+    idealNote_ = recognizer_.findNote(tuning[0]);
 }
 
 void MainWindow::saveConfig()

@@ -107,7 +107,7 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="page">
+      <widget class="QWidget" name="config">
        <widget class="QLabel" name="label_3">
         <property name="geometry">
          <rect>
@@ -204,7 +204,7 @@
          <rect>
           <x>290</x>
           <y>90</y>
-          <width>191</width>
+          <width>291</width>
           <height>191</height>
          </rect>
         </property>
@@ -216,7 +216,7 @@
           <rect>
            <x>10</x>
            <y>40</y>
-           <width>146</width>
+           <width>271</width>
            <height>112</height>
           </rect>
          </property>
@@ -224,7 +224,7 @@
           <item>
            <widget class="QRadioButton" name="tuning_CLASSIC">
             <property name="text">
-             <string>Klasyczny - EADGBE</string>
+             <string>Klasyczny - E2,A2,D3,G3,B3,E4</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -234,21 +234,21 @@
           <item>
            <widget class="QRadioButton" name="tuning_DROP_D">
             <property name="text">
-             <string>Drop D - DADGBE</string>
+             <string>Drop D - D2,A2,D3,G3,B3,E4</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QRadioButton" name="tuning_CELTIC">
             <property name="text">
-             <string>Celtic - DADGAD</string>
+             <string>Celtic - D2,A2,D3,G3,A3,D4</string>
             </property>
            </widget>
           </item>
           <item>
            <widget class="QRadioButton" name="tuning_OPEN_G">
             <property name="text">
-             <string>Open G - DGDGBD</string>
+             <string>Open G - D2,G2,D3,G3,B3,D4</string>
             </property>
            </widget>
           </item>

@@ -63,6 +63,7 @@ private slots:
     void setNoteInfo(const int value);
     void record(const bool cont);
     void setRandomNote();
+    void readConfig();
     void saveConfig();
 
 signals:
