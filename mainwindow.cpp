@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui.goToMenu->hide();
     ui.switchRecorder->hide();
     sig_.setBasic(std::stold(parser_.lookup("basic")));
+    recognizer_.setBasic(std::stold(parser_.lookup("basic")));
+    idealNote_ = recognizer_.findNote("E2");
 }
 
 void MainWindow::connectSlots()
@@ -42,15 +44,15 @@ void MainWindow::connectSlots()
 
     QObject::connect(ui.tune_e2, &QRadioButton::clicked,
                      this, &MainWindow::setIdealNote);
-    QObject::connect(ui.tune_a3, &QRadioButton::clicked,
+    QObject::connect(ui.tune_a2, &QRadioButton::clicked,
                      this, &MainWindow::setIdealNote);
-    QObject::connect(ui.tune_d4, &QRadioButton::clicked,
+    QObject::connect(ui.tune_d3, &QRadioButton::clicked,
                      this, &MainWindow::setIdealNote);
-    QObject::connect(ui.tune_g4, &QRadioButton::clicked,
+    QObject::connect(ui.tune_g3, &QRadioButton::clicked,
                      this, &MainWindow::setIdealNote);
-    QObject::connect(ui.tune_b4, &QRadioButton::clicked,
+    QObject::connect(ui.tune_b3, &QRadioButton::clicked,
                      this, &MainWindow::setIdealNote);
-    QObject::connect(ui.tune_e5, &QRadioButton::clicked,
+    QObject::connect(ui.tune_e4, &QRadioButton::clicked,
                      this, &MainWindow::setIdealNote);
 
     QObject::connect(ui.drawRandomNote, &QPushButton::clicked,
@@ -88,27 +90,27 @@ void MainWindow::setIdealNote()
 {
     if (ui.tune_e2->isChecked())
     {
-        idealNote_ = E2;
+        idealNote_ = recognizer_.findNote("E2");
     }
-    else if (ui.tune_a3->isChecked())
+    else if (ui.tune_a2->isChecked())
     {
-        idealNote_ = A2;
+        idealNote_ = recognizer_.findNote("A2");
     }
-    else if (ui.tune_d4->isChecked())
+    else if (ui.tune_d3->isChecked())
     {
-        idealNote_ = D3;
+        idealNote_ = recognizer_.findNote("D3");
     }
-    else if (ui.tune_g4->isChecked())
+    else if (ui.tune_g3->isChecked())
     {
-        idealNote_ = G3;
+        idealNote_ = recognizer_.findNote("G3");
     }
-    else if (ui.tune_b4->isChecked())
+    else if (ui.tune_b3->isChecked())
     {
-        idealNote_ = B3;
+        idealNote_ = recognizer_.findNote("B3");
     }
-    else if (ui.tune_e5->isChecked())
+    else if (ui.tune_e4->isChecked())
     {
-        idealNote_ = E4;
+        idealNote_ = recognizer_.findNote("E4");
     }
 }
 
@@ -127,7 +129,7 @@ void MainWindow::goToTuner()
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
     ui.switchRecorder->show();
-    idealNote_ = E2;
+    idealNote_ = recognizer_.findNote("E2");
 }
 
 void MainWindow::goToLearn()

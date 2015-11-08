@@ -18,7 +18,7 @@
     <item>
      <widget class="QStackedWidget" name="views">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="menu">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -279,7 +279,7 @@
             <bool>true</bool>
            </property>
           </widget>
-          <widget class="QRadioButton" name="tune_a3">
+          <widget class="QRadioButton" name="tune_a2">
            <property name="geometry">
             <rect>
              <x>60</x>
@@ -292,7 +292,7 @@
             <string>A2 = 110.00Hz</string>
            </property>
           </widget>
-          <widget class="QRadioButton" name="tune_d4">
+          <widget class="QRadioButton" name="tune_d3">
            <property name="geometry">
             <rect>
              <x>60</x>
@@ -305,7 +305,7 @@
             <string>D3 = 146.83Hz</string>
            </property>
           </widget>
-          <widget class="QRadioButton" name="tune_e5">
+          <widget class="QRadioButton" name="tune_e4">
            <property name="geometry">
             <rect>
              <x>60</x>
@@ -318,7 +318,7 @@
             <string>E4 = 329.63Hz</string>
            </property>
           </widget>
-          <widget class="QRadioButton" name="tune_g4">
+          <widget class="QRadioButton" name="tune_g3">
            <property name="geometry">
             <rect>
              <x>60</x>
@@ -331,7 +331,7 @@
             <string>G3 = 196.00Hz</string>
            </property>
           </widget>
-          <widget class="QRadioButton" name="tune_b4">
+          <widget class="QRadioButton" name="tune_b3">
            <property name="geometry">
             <rect>
              <x>60</x>

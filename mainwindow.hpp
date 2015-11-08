@@ -8,6 +8,7 @@
 #include "InputSignal.hpp"
 #include "Note.hpp"
 #include "recorder.hpp"
+#include "SoundRecognizer.hpp"
 #include "Utils.hpp"
 
 #include <QAudioBuffer>
@@ -40,18 +41,12 @@ private:
     const int MIDDLE_VAL{50};
 
     ConfigParser parser_{"config"};
-
-    const Note E2{"E2", 82.41_Hz};
-    const Note A2{"A2", 110.00_Hz};
-    const Note D3{"D3", 146.83_Hz};
-    const Note G3 {"G3", 196.00_Hz};
-    const Note B3{"B3", 246.94_Hz};
-    const Note E4{"E4", 329.63_Hz};
-    Note idealNote_{E2};
+    Note idealNote_;
 
     std::atomic<bool> CONTINUE_{false};
 
     InputSignal sig_;
+    SoundRecognizer recognizer_;
 
     int calcError(const int ideal, const int freq) const;
     void connectSlots();
