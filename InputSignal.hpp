@@ -3,16 +3,18 @@
 
 #include "Analyser.hpp"
 #include "FFTBuffer.hpp"
+#include "Note.hpp"
 #include "recorder.hpp"
 #include "SoundRecognizer.hpp"
+#include "Utils.hpp"
 
 #include <QAudioProbe>
 #include <QObject>
 
 #include <atomic>
 #include <condition_variable>
-#include <deque>
 #include <mutex>
+#include <vector>
 
 class InputSignal : public QObject
 {

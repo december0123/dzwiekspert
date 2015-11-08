@@ -12,8 +12,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui.note->setText(tr("Włącz stroik"));
     ui.goToMenu->hide();
     ui.switchRecorder->hide();
-    sig_.setBasic(std::stold(parser_.lookup("basic")));
-    recognizer_.setBasic(std::stold(parser_.lookup("basic")));
+    sig_.setBasic(std::stold(configs_.lookup("basic")));
+    recognizer_.setBasic(std::stold(configs_.lookup("basic")));
     idealNote_ = recognizer_.findNote("E2");
 }
 
@@ -250,7 +250,7 @@ void MainWindow::saveConfig()
     {
         option = ui.basic_customEdit->text().toStdString();
     }
-    parser_.write("basic", option);
+    configs_.write("basic", option);
     sig_.setBasic(std::stold(option));
 
     if (ui.tuning_CLASSIC->isChecked())
@@ -270,7 +270,7 @@ void MainWindow::saveConfig()
         option = ui.tuning_OPEN_G->text().toStdString();
     }
     auto pos = option.find("-");
-    parser_.write("tuning", option.substr(pos + 2));
-    parser_.save();
+    configs_.write("tuning", option.substr(pos + 2));
+    configs_.save();
 
 }

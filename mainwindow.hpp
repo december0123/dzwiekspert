@@ -7,7 +7,6 @@
 #include "ConfigParser.hpp"
 #include "InputSignal.hpp"
 #include "Note.hpp"
-#include "recorder.hpp"
 #include "SoundRecognizer.hpp"
 #include "Utils.hpp"
 
@@ -40,7 +39,7 @@ private:
     const int LOWER_RED{0};
     const int MIDDLE_VAL{50};
 
-    ConfigParser parser_{"config"};
+    ConfigParser configs_{"config"};
     Note idealNote_;
 
     std::atomic<bool> CONTINUE_{false};
