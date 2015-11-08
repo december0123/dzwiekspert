@@ -45,14 +45,20 @@ TEST_F(ConfigParserFixture, shouldSaveConfig)
     ASSERT_EQ("left", p2.lookup("hand"));
 }
 
-TEST_F(ConfigParserFixture, shouldThrowOnMalformed)
+TEST_F(ConfigParserFixture, shouldThrowOnNotFound)
 {
     ASSERT_NO_THROW(p.lookup("hand"));
     ASSERT_THROW(p.lookup("fake"), std::logic_error);
-    std::string MALFORMED_PATH{"test_malformed_file"};
-    std::ofstream malformed{MALFORMED_PATH};
-    malformed << "MALFORMED" << std::endl;
-//    ASSERT_THROW(ConfigParser(MALFORMED_PATH), std::logic_error);
+}
 
-    std::remove(MALFORMED_PATH.c_str());
+TEST(ConfigParser, shouldCreateConfigIfNotFound)
+{
+    std::string wrong{"wrong_path"};
+    ASSERT_FALSE(std::ifstream(wrong, std::ios::in).good());
+    ConfigParser p{wrong};
+    ASSERT_TRUE(std::ifstream(wrong, std::ios::in).good());
+    ASSERT_EQ("right", p.lookup("hand"));
+    ASSERT_EQ("EADGBE", p.lookup("tuning"));
+    ASSERT_EQ("65.41", p.lookup("basic"));
+    std::remove(wrong.c_str());
 }
