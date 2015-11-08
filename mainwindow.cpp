@@ -250,7 +250,7 @@ void MainWindow::readConfig()
     {
         ui.basic_440->setChecked(true);
     }
-    if (basic == ui.basic_432->text().toStdString())
+    else if (basic == ui.basic_432->text().toStdString())
     {
         ui.basic_432->setChecked(true);
     }
@@ -260,16 +260,50 @@ void MainWindow::readConfig()
         ui.basic_customEdit->setText(basic.c_str());
     }
 
-    std::vector<std::string> tuning{configs_.split(configs_.lookup("tuning"), ",")};
-    ui.tune_e2->setText(tuning[0].c_str());
-    ui.tune_a2->setText(tuning[1].c_str());
-    ui.tune_d3->setText(tuning[2].c_str());
-    ui.tune_g3->setText(tuning[3].c_str());
-    ui.tune_b3->setText(tuning[4].c_str());
-    ui.tune_e4->setText(tuning[5].c_str());
-    std::string hand{configs_.lookup("hand")};
 
-    idealNote_ = recognizer_.findNote(tuning[0]);
+    std::string tuning{configs_.lookup("tuning")};
+    std::string t{ui.tuning_CLASSIC->text().toStdString()};
+    t = t.substr(t.size()-17);
+    if (tuning == t)
+    {
+        ui.tuning_CLASSIC->setChecked(true);
+    }
+    else
+    {
+        t = ui.tuning_DROP_D->text().toStdString();
+        t = t.substr(t.size()-17);
+        if (tuning == t)
+        {
+            ui.tuning_DROP_D->setChecked(true);
+        }
+        else
+        {
+            t = ui.tuning_CELTIC->text().toStdString();
+            t = t.substr(t.size()-17);
+            if (tuning == t)
+            {
+                ui.tuning_CELTIC->setChecked(true);
+            }
+            else
+            {
+                t = ui.tuning_OPEN_G->text().toStdString();
+                t = t.substr(t.size()-17);
+                if (tuning == t)
+                {
+                    ui.tuning_OPEN_G->setChecked(true);
+                }
+            }
+        }
+    }
+    std::vector<std::string> tunSounds = configs_.split(configs_.lookup("tuning"), ",");
+    ui.tune_e2->setText(tunSounds[0].c_str());
+    ui.tune_a2->setText(tunSounds[1].c_str());
+    ui.tune_d3->setText(tunSounds[2].c_str());
+    ui.tune_g3->setText(tunSounds[3].c_str());
+    ui.tune_b3->setText(tunSounds[4].c_str());
+    ui.tune_e4->setText(tunSounds[5].c_str());
+    std::string hand{configs_.lookup("hand")};
+    idealNote_ = recognizer_.findNote(tunSounds[0]);
 }
 
 void MainWindow::saveConfig()
