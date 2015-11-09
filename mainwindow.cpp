@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui.views->setCurrentIndex(VIEWS::MENU);
     ui.note->setText(tr("Włącz stroik"));
     ui.goToMenu->hide();
-    ui.switchRecorder->hide();
+    ui.toggleRecorder->hide();
     readConfig();
 }
 
@@ -37,7 +37,7 @@ void MainWindow::connectSlots()
     QObject::connect(ui.freqIndicator, &QSlider::valueChanged,
                      this, &MainWindow::setNoteInfo);
 
-    QObject::connect(ui.switchRecorder, &QPushButton::toggled,
+    QObject::connect(ui.toggleRecorder, &QPushButton::toggled,
                      this, &MainWindow::record);
 
     QObject::connect(ui.tune_e2, &QRadioButton::clicked,
@@ -82,12 +82,12 @@ void MainWindow::turnOffTuner()
     ui.freqIndicator->setValue(MIDDLE_VAL);
     ui.freqIndicator->setPalette(this->style()->standardPalette());
     ui.note->setText(tr("Włącz stroik"));
-    ui.switchRecorder->setChecked(false);
+    ui.toggleRecorder->setChecked(false);
 }
 
 void MainWindow::setIdealNote()
 {
-    for (const auto& note : ui.tuneGroup->children())
+    for (const auto& note : ui.tunerNotesGroup->children())
     {
         if (dynamic_cast<QRadioButton*>(note)->isChecked())
         {
@@ -104,7 +104,7 @@ void MainWindow::goToMenu()
     CURRENT_VIEW = VIEWS::MENU;
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->hide();
-    ui.switchRecorder->hide();
+    ui.toggleRecorder->hide();
 }
 
 void MainWindow::goToTuner()
@@ -113,8 +113,8 @@ void MainWindow::goToTuner()
     CURRENT_VIEW = VIEWS::TUNER;
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
-    ui.switchRecorder->show();
-    idealNote_ = recognizer_.findNote(ui.tune_e2->text().toStdString());
+    ui.toggleRecorder->show();
+    setIdealNote();
 }
 
 void MainWindow::goToLearn()
@@ -123,7 +123,7 @@ void MainWindow::goToLearn()
     CURRENT_VIEW = VIEWS::LEARN;
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
-    ui.switchRecorder->show();
+    ui.toggleRecorder->show();
     setRandomNote();
 }
 
@@ -211,12 +211,12 @@ void MainWindow::record(const bool cont)
     {
         std::thread t{&MainWindow::keepUpdating, this};
         t.detach();
-        ui.switchRecorder->setText(tr("Stop"));
+        ui.toggleRecorder->setText(tr("Stop"));
     }
     else
     {
         qDebug() << "Powinno wylaczyc CONTINUE";
-        ui.switchRecorder->setText(tr("Start"));
+        ui.toggleRecorder->setText(tr("Start"));
     }
 }
 
@@ -245,42 +245,19 @@ void MainWindow::readConfig()
         ui.basic_customEdit->setText(basic.c_str());
     }
 
-
     std::string tuning{configs_.lookup("tuning")};
-    std::string t{ui.tuning_CLASSIC->text().toStdString()};
-    t = t.substr(t.size()-17);
-    if (tuning == t)
+    for (const auto& tuningRadio : ui.configTuningGroup->children())
     {
-        ui.tuning_CLASSIC->setChecked(true);
-    }
-    else
-    {
-        t = ui.tuning_DROP_D->text().toStdString();
+        std::string t{dynamic_cast<QRadioButton*>(tuningRadio)->text().toStdString()};
         t = t.substr(t.size()-17);
-        if (tuning == t)
+        if (t == tuning)
         {
-            ui.tuning_DROP_D->setChecked(true);
-        }
-        else
-        {
-            t = ui.tuning_CELTIC->text().toStdString();
-            t = t.substr(t.size()-17);
-            if (tuning == t)
-            {
-                ui.tuning_CELTIC->setChecked(true);
-            }
-            else
-            {
-                t = ui.tuning_OPEN_G->text().toStdString();
-                t = t.substr(t.size()-17);
-                if (tuning == t)
-                {
-                    ui.tuning_OPEN_G->setChecked(true);
-                }
-            }
+            dynamic_cast<QRadioButton*>(tuningRadio)->setChecked(true);
+            break;
         }
     }
-    std::vector<std::string> tunSounds = configs_.split(configs_.lookup("tuning"), ",");
+
+    std::vector<std::string> tunSounds = configs_.split(tuning, ",");
     ui.tune_e2->setText(tunSounds[0].c_str());
     ui.tune_a2->setText(tunSounds[1].c_str());
     ui.tune_d3->setText(tunSounds[2].c_str());
@@ -309,21 +286,13 @@ void MainWindow::saveConfig()
     configs_.write("basic", option);
     sig_.setBasic(std::stold(option) / 6.72717L);
 
-    if (ui.tuning_CLASSIC->isChecked())
+    for (const auto& tuningRadio : ui.configTuningGroup->children())
     {
-        option = ui.tuning_CLASSIC->text().toStdString();
-    }
-    else if (ui.tuning_DROP_D->isChecked())
-    {
-        option = ui.tuning_DROP_D->text().toStdString();
-    }
-    else if (ui.tuning_CELTIC->isChecked())
-    {
-        option = ui.tuning_CELTIC->text().toStdString();
-    }
-    else if (ui.tuning_OPEN_G->isChecked())
-    {
-        option = ui.tuning_OPEN_G->text().toStdString();
+        if (dynamic_cast<QRadioButton*>(tuningRadio)->isChecked())
+        {
+            option = dynamic_cast<QRadioButton*>(tuningRadio)->text().toStdString();
+            break;
+        }
     }
     auto pos = option.find("-");
     configs_.write("tuning", option.substr(pos + 2));
