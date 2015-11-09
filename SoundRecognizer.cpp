@@ -9,11 +9,11 @@
 #include <string>
 
 SoundRecognizer::SoundRecognizer()
-    : SoundRecognizer(65.41_Hz) {}
+    : SoundRecognizer(440_Hz) {}
 
 SoundRecognizer::SoundRecognizer(const Frequency basicFreq)
-    : basicFreq_{basicFreq}
 {
+    setBasicA(basicFreq);
     initNotes();
 }
 

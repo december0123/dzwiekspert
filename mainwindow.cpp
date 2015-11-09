@@ -59,8 +59,19 @@ void MainWindow::connectSlots()
     QObject::connect(ui.drawRandomNote, &QPushButton::toggled,
                      this, &MainWindow::record);
 
-    QObject::connect(ui.saveConfig, &QPushButton::clicked,
+    for (auto& tuning : ui.configTuningGroup->findChildren<QRadioButton*>())
+    {
+        QObject::connect(tuning, &QRadioButton::clicked,
+                         this, &MainWindow::saveConfig);
+    }
+    for (auto& basicARadio : ui.basicAGroup->findChildren<QRadioButton*>())
+    {
+        QObject::connect(basicARadio, &QRadioButton::clicked,
+                         this, &MainWindow::saveConfig);
+    }
+    QObject::connect(ui.basic_customEdit, &QLineEdit::textChanged,
                      this, &MainWindow::saveConfig);
+
     QObject::connect(ui.basic_custom, &QRadioButton::toggled,
                      ui.basic_customEdit, &QLineEdit::setEnabled);
 }
@@ -87,12 +98,11 @@ void MainWindow::turnOffTuner()
 
 void MainWindow::setIdealNote()
 {
-    for (const auto& note : ui.tunerNotesGroup->children())
+    for (const auto& note : ui.tunerNotesGroup->findChildren<QRadioButton*>())
     {
-        if (dynamic_cast<QRadioButton*>(note)->isChecked())
+        if (note->isChecked())
         {
-            idealNote_ =
-                    recognizer_.findNote(dynamic_cast<QRadioButton*>(note)->text().toStdString());
+            idealNote_ = recognizer_.findNote(note->text().toStdString());
             break;
         }
     }
@@ -222,7 +232,7 @@ void MainWindow::record(const bool cont)
 
 void MainWindow::setRandomNote()
 {
-    ui.noteToPlay->setText(QString::fromStdString(sig_.recognizer_.getRandomNote().getFullName()));
+    ui.noteToPlay->setText(QString::fromStdString(sig_.recognizer_.getRandomNote().getName()));
     idealNote_ = sig_.recognizer_.findNote(ui.noteToPlay->text().toStdString());
 }
 
@@ -246,18 +256,19 @@ void MainWindow::readConfig()
     }
 
     std::string tuning{configs_.lookup("tuning")};
-    for (const auto& tuningRadio : ui.configTuningGroup->children())
+    for (const auto& tuningRadio : ui.configTuningGroup->findChildren<QRadioButton*>())
     {
-        std::string t{dynamic_cast<QRadioButton*>(tuningRadio)->text().toStdString()};
+        std::string t{tuningRadio->text().toStdString()};
         t = t.substr(t.size()-17);
         if (t == tuning)
         {
-            dynamic_cast<QRadioButton*>(tuningRadio)->setChecked(true);
+            tuningRadio->setChecked(true);
             break;
         }
     }
 
-    std::vector<std::string> tunSounds = configs_.split(tuning, ",");
+    std::deque<std::string> tunSounds = configs_.split(tuning, ",");
+    ui.guitarNeck->setStrings(tunSounds);
     ui.tune_e2->setText(tunSounds[0].c_str());
     ui.tune_a2->setText(tunSounds[1].c_str());
     ui.tune_d3->setText(tunSounds[2].c_str());
@@ -286,11 +297,11 @@ void MainWindow::saveConfig()
     configs_.write("basic", option);
     sig_.setBasicA(std::stold(option));
 
-    for (const auto& tuningRadio : ui.configTuningGroup->children())
+    for (const auto& tuningRadio : ui.configTuningGroup->findChildren<QRadioButton*>())
     {
-        if (dynamic_cast<QRadioButton*>(tuningRadio)->isChecked())
+        if (tuningRadio->isChecked())
         {
-            option = dynamic_cast<QRadioButton*>(tuningRadio)->text().toStdString();
+            option = tuningRadio->text().toStdString();
             break;
         }
     }

@@ -3,8 +3,10 @@
 
 #include <Utils.hpp>
 
+#include <algorithm>
 #include <string>
-#include <iostream>
+#include <vector>
+
 class Note
 {
 public:
@@ -55,6 +57,7 @@ private:
     std::string fullName_;
     Frequency freq_;
     double error_{0.0};
+    std::vector<std::string> names_{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
 };
 
 #endif // NOTE_HPP_

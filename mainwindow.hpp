@@ -15,6 +15,7 @@
 #include <QDebug>
 
 #include <atomic>
+#include <string>
 
 class MainWindow : public QMainWindow
 {

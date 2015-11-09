@@ -1,13 +1,13 @@
 #include "ConfigParser.hpp"
 
 #include <stdexcept>
+#include <deque>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <vector>
 
 ConfigParser::ConfigParser(std::string path)
-    : path_{path}, defaultConfigs_{{"hand", "right"}, {"tuning", "EADGBE"}, {"basic", "65.41"}}
+    : path_{path}, defaultConfigs_{{"hand", "right"}, {"tuning", "E2,A3,D3,G3,B3,E4"}, {"basic", "440"}}
 {
     std::ifstream file(path, std::ios::in);
     if (file.good())
@@ -57,9 +57,9 @@ void ConfigParser::save() const
     }
 }
 
-std::vector<std::string> ConfigParser::split(std::string data, std::string delim)
+std::deque<std::string> ConfigParser::split(std::string data, std::string delim)
 {
-    std::vector<std::string> output;
+    std::deque<std::string> output;
     auto pos = std::string::npos;
     do
     {

@@ -15,7 +15,7 @@ protected:
     void SetUp()
     {
         file << "hand=right" << std::endl;
-        file << "tuning=E,A,D,G,B,E" << std::endl;
+        file << "tuning=E2,A3,D3,G3,B3,E4" << std::endl;
         p = ConfigParser{PATH};
     }
     void TearDown()
@@ -58,7 +58,7 @@ TEST(ConfigParser, shouldCreateConfigIfNotFound)
     ConfigParser p{wrong};
     ASSERT_TRUE(std::ifstream(wrong, std::ios::in).good());
     ASSERT_EQ("right", p.lookup("hand"));
-    ASSERT_EQ("EADGBE", p.lookup("tuning"));
-    ASSERT_EQ("65.41", p.lookup("basic"));
+    ASSERT_EQ("E2,A3,D3,G3,B3,E4", p.lookup("tuning"));
+    ASSERT_EQ("440", p.lookup("basic"));
     std::remove(wrong.c_str());
 }

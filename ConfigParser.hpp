@@ -1,9 +1,9 @@
 #ifndef CONFIGPARSER_HPP
 #define CONFIGPARSER_HPP
 
+#include <deque>
 #include <string>
 #include <unordered_map>
-#include <vector>
 
 class ConfigParser
 {
@@ -16,7 +16,7 @@ public:
     std::string lookup(std::string name);
     void write(std::string name, std::string value);
     void save() const;
-    std::vector<std::string> split(std::string data, std::string delim);
+    std::deque<std::string> split(std::string data, std::string delim);
 
 private:
     std::string path_;

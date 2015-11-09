@@ -9,7 +9,7 @@
 class SoundRecognizerFixture : public ::testing::Test
 {
 protected:
-    const Frequency BASIC_FREQ{65.41_Hz};
+    const Frequency BASIC_FREQ{440_Hz};
     SoundRecognizer s{BASIC_FREQ};
 };
 
@@ -39,7 +39,7 @@ TEST_F(SoundRecognizerFixture, shouldRecognizeImperfectSingleNotesAndCalculateEr
     {
         Note recognizedNote{s.recognizeNote(note.getFreq())};
         EXPECT_EQ(note.getFullName(), recognizedNote.getFullName());
-        ASSERT_NEAR(note.getError(), recognizedNote.getError(), 0.0005);
+        ASSERT_NEAR(note.getError(), recognizedNote.getError(), 0.001);
     }
 }
 

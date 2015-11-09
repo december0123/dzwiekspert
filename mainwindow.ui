@@ -108,256 +108,135 @@
        </layout>
       </widget>
       <widget class="QWidget" name="config">
-       <widget class="QLabel" name="label_3">
-        <property name="geometry">
-         <rect>
-          <x>300</x>
-          <y>30</y>
-          <width>281</width>
-          <height>71</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Ustawienia</string>
-        </property>
-        <property name="scaledContents">
-         <bool>true</bool>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="saveConfig">
-        <property name="geometry">
-         <rect>
-          <x>370</x>
-          <y>360</y>
-          <width>80</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Zapisz</string>
-        </property>
-       </widget>
-       <widget class="QGroupBox" name="groupBox_2">
-        <property name="geometry">
-         <rect>
-          <x>60</x>
-          <y>90</y>
-          <width>201</width>
-          <height>191</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Częstotliwość podstawowa. A = </string>
-        </property>
-        <widget class="QWidget" name="layoutWidget">
-         <property name="geometry">
-          <rect>
-           <x>2</x>
-           <y>40</y>
-           <width>191</width>
-           <height>131</height>
-          </rect>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayout_5" stretch="1,3,0">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Ustawienia</string>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,1">
           <item>
-           <widget class="QRadioButton" name="basic_440">
-            <property name="text">
-             <string>440</string>
+           <widget class="QGroupBox" name="basicAGroup">
+            <property name="title">
+             <string>Częstotliwość podstawowa. A = </string>
             </property>
-            <property name="checked">
-             <bool>true</bool>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_2">
+               <item>
+                <widget class="QRadioButton" name="basic_440">
+                 <property name="text">
+                  <string>440</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="basic_432">
+                 <property name="text">
+                  <string>432</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QRadioButton" name="basic_custom">
+                 <property name="text">
+                  <string>Własna</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="basic_customEdit">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="text">
+                  <string>440</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QRadioButton" name="basic_432">
-            <property name="text">
-             <string>432</string>
+           <widget class="QGroupBox" name="configTuningGroup">
+            <property name="title">
+             <string>Strój</string>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="basic_custom">
-            <property name="text">
-             <string>Własna</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="basic_customEdit">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>440</string>
-            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QRadioButton" name="tuning_CLASSIC">
+               <property name="text">
+                <string>Klasyczny - E2,A2,D3,G3,B3,E4</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="tuning_DROP_D">
+               <property name="text">
+                <string>Drop D - D2,A2,D3,G3,B3,E4</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="tuning_CELTIC">
+               <property name="text">
+                <string>Celtic - D2,A2,D3,G3,A3,D4</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="tuning_OPEN_G">
+               <property name="text">
+                <string>Open G - D2,G2,D3,G3,B3,D4</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
-        </widget>
-       </widget>
-       <widget class="QGroupBox" name="configTuningGroup">
-        <property name="geometry">
-         <rect>
-          <x>290</x>
-          <y>90</y>
-          <width>291</width>
-          <height>191</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Strój</string>
-        </property>
-        <widget class="QRadioButton" name="tuning_OPEN_G">
-         <property name="geometry">
-          <rect>
-           <x>11</x>
-           <y>128</y>
-           <width>203</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Open G - D2,G2,D3,G3,B3,D4</string>
-         </property>
-        </widget>
-        <widget class="QRadioButton" name="tuning_CELTIC">
-         <property name="geometry">
-          <rect>
-           <x>11</x>
-           <y>99</y>
-           <width>191</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Celtic - D2,A2,D3,G3,A3,D4</string>
-         </property>
-        </widget>
-        <widget class="QRadioButton" name="tuning_DROP_D">
-         <property name="geometry">
-          <rect>
-           <x>11</x>
-           <y>70</y>
-           <width>197</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Drop D - D2,A2,D3,G3,B3,E4</string>
-         </property>
-        </widget>
-        <widget class="QRadioButton" name="tuning_CLASSIC">
-         <property name="geometry">
-          <rect>
-           <x>11</x>
-           <y>41</y>
-           <width>212</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Klasyczny - E2,A2,D3,G3,B3,E4</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tuner">
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="3" column="0" rowspan="2">
-         <widget class="QGroupBox" name="tunerNotesGroup">
-          <property name="title">
-           <string/>
-          </property>
-          <widget class="QRadioButton" name="tune_e2">
-           <property name="geometry">
-            <rect>
-             <x>60</x>
-             <y>0</y>
-             <width>171</width>
-             <height>24</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>E2 = 82.41Hz</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-          <widget class="QRadioButton" name="tune_a2">
-           <property name="geometry">
-            <rect>
-             <x>60</x>
-             <y>30</y>
-             <width>151</width>
-             <height>24</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>A2 = 110.00Hz</string>
-           </property>
-          </widget>
-          <widget class="QRadioButton" name="tune_d3">
-           <property name="geometry">
-            <rect>
-             <x>60</x>
-             <y>60</y>
-             <width>141</width>
-             <height>24</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>D3 = 146.83Hz</string>
-           </property>
-          </widget>
-          <widget class="QRadioButton" name="tune_e4">
-           <property name="geometry">
-            <rect>
-             <x>60</x>
-             <y>150</y>
-             <width>161</width>
-             <height>24</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>E4 = 329.63Hz</string>
-           </property>
-          </widget>
-          <widget class="QRadioButton" name="tune_g3">
-           <property name="geometry">
-            <rect>
-             <x>60</x>
-             <y>90</y>
-             <width>141</width>
-             <height>24</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>G3 = 196.00Hz</string>
-           </property>
-          </widget>
-          <widget class="QRadioButton" name="tune_b3">
-           <property name="geometry">
-            <rect>
-             <x>60</x>
-             <y>120</y>
-             <width>181</width>
-             <height>24</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>B3 = 246.94Hz</string>
-           </property>
-          </widget>
-         </widget>
-        </item>
         <item row="4" column="1">
          <spacer name="verticalSpacer_2">
           <property name="orientation">
@@ -420,19 +299,6 @@ QSlider::sub-page:vertical {
           </property>
          </widget>
         </item>
-        <item row="0" column="0" colspan="3">
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
         <item row="1" column="0">
          <spacer name="horizontalSpacer">
           <property name="orientation">
@@ -446,6 +312,60 @@ QSlider::sub-page:vertical {
           </property>
          </spacer>
         </item>
+        <item row="3" column="0" rowspan="2">
+         <widget class="QGroupBox" name="tunerNotesGroup">
+          <property name="title">
+           <string/>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QRadioButton" name="tune_e2">
+             <property name="text">
+              <string>E2 = 82.41Hz</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="tune_a2">
+             <property name="text">
+              <string>A2 = 110.00Hz</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="tune_d3">
+             <property name="text">
+              <string>D3 = 146.83Hz</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="tune_g3">
+             <property name="text">
+              <string>G3 = 196.00Hz</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="tune_b3">
+             <property name="text">
+              <string>B3 = 246.94Hz</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="tune_e4">
+             <property name="text">
+              <string>E4 = 329.63Hz</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
         <item row="1" column="1">
          <widget class="QLabel" name="note">
           <property name="text">
@@ -455,6 +375,19 @@ QSlider::sub-page:vertical {
            <set>Qt::AlignCenter</set>
           </property>
          </widget>
+        </item>
+        <item row="0" column="0" colspan="3">
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
         </item>
         <item row="1" column="2">
          <spacer name="horizontalSpacer_2">
@@ -469,7 +402,7 @@ QSlider::sub-page:vertical {
           </property>
          </spacer>
         </item>
-        <item row="3" column="1" colspan="2">
+        <item row="3" column="1">
          <widget class="QLabel" name="currFreq">
           <property name="text">
            <string>0</string>
@@ -479,59 +412,45 @@ QSlider::sub-page:vertical {
        </layout>
       </widget>
       <widget class="QWidget" name="Learning">
-       <widget class="QLabel" name="noteToPlay">
-        <property name="geometry">
-         <rect>
-          <x>380</x>
-          <y>200</y>
-          <width>101</width>
-          <height>17</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>NOTE TO PLAY</string>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="drawRandomNote">
-        <property name="geometry">
-         <rect>
-          <x>370</x>
-          <y>230</y>
-          <width>80</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Losuj</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="learnStatus">
-        <property name="geometry">
-         <rect>
-          <x>390</x>
-          <y>130</y>
-          <width>58</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Byc moze cacy</string>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label">
-        <property name="geometry">
-         <rect>
-          <x>160</x>
-          <y>170</y>
-          <width>191</width>
-          <height>71</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Uszanowanko! Zagraj dźwięk: </string>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Uszanowanko! Zagraj dźwięk: </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="drawRandomNote">
+            <property name="text">
+             <string>Losuj</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="learnStatus">
+            <property name="text">
+             <string>Byc moze cacy</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="noteToPlay">
+            <property name="text">
+             <string>NOTE TO PLAY</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="GuitarNeck" name="guitarNeck" native="true"/>
+        </item>
+       </layout>
       </widget>
+      <widget class="QWidget" name="page"/>
      </widget>
     </item>
     <item>
@@ -558,6 +477,14 @@ QSlider::sub-page:vertical {
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>GuitarNeck</class>
+   <extends>QWidget</extends>
+   <header>guitarneck.hpp</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>exit</tabstop>
  </tabstops>

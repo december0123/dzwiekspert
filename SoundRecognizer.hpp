@@ -27,7 +27,7 @@ private:
     const int LOW_OCTAVE{2};
     const int HIGH_OCTAVE{7};
     const int NOTES_IN_OCTAVE{12};
-    Frequency basicFreq_{65.41_Hz};
+    Frequency basicFreq_{440_Hz};
 
     double calcRelativeError(const Note& note, const double freq) const;
     double calcFreqOfNthNoteRelativeToBasicFreq(const int N) const;

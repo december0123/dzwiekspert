@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     FFTBuffer_test.cpp \
     Analyser_test.cpp \
     ConfigParser.cpp \
-    ConfigParser_test.cpp
+    ConfigParser_test.cpp \
+    guitarneck.cpp
 
 HEADERS  += mainwindow.hpp \
     InputSignal.hpp \
@@ -45,6 +46,8 @@ HEADERS  += mainwindow.hpp \
     SoundRecognizer.hpp \
     Note.hpp \
     kissfft/kiss_fftr.h \
-    ConfigParser.hpp
+    ConfigParser.hpp \
+    guitarneck.hpp
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    guitarneck.ui
