@@ -82,9 +82,9 @@ Note SoundRecognizer::findNote(const std::string name) const
     return Note::UNKNOWN();
 }
 
-void SoundRecognizer::setBasic(const Frequency f)
+void SoundRecognizer::setBasicA(const Frequency f)
 {
-    basicFreq_ = f;
+    basicFreq_ = f / 6.72717L;
     notes_.clear();
     initNotes();
 }

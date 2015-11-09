@@ -120,9 +120,9 @@ Note InputSignal::getNote(const Note& idealNote)
     }
 }
 
-void InputSignal::setBasic(const Frequency f)
+void InputSignal::setBasicA(const Frequency f)
 {
-    recognizer_.setBasic(f);
+    recognizer_.setBasicA(f);
 }
 
 void InputSignal::processBuffer(QAudioBuffer buf)

@@ -33,7 +33,7 @@ public:
     void capture(bool capture);
     std::vector<Note> findStrongestNotes(FFTBuffer& buf) const;
     Note getNote(const Note& idealNote);
-    void setBasic(const Frequency f);
+    void setBasicA(const Frequency f);
 
 private:
     std::vector<Note> strongestNotes_;

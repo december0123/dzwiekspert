@@ -229,8 +229,8 @@ void MainWindow::setRandomNote()
 void MainWindow::readConfig()
 {
     std::string basic{configs_.lookup("basic")};
-    sig_.setBasic(std::stold(basic) / 6.72717);
-    recognizer_.setBasic(std::stold(basic) / 6.72717);
+    sig_.setBasicA(std::stold(basic));
+    recognizer_.setBasicA(std::stold(basic));
     if (basic == ui.basic_440->text().toStdString())
     {
         ui.basic_440->setChecked(true);
@@ -284,7 +284,7 @@ void MainWindow::saveConfig()
         option = ui.basic_customEdit->text().toStdString();
     }
     configs_.write("basic", option);
-    sig_.setBasic(std::stold(option) / 6.72717L);
+    sig_.setBasicA(std::stold(option));
 
     for (const auto& tuningRadio : ui.configTuningGroup->children())
     {
@@ -294,7 +294,6 @@ void MainWindow::saveConfig()
             break;
         }
     }
-    auto pos = option.find("-");
-    configs_.write("tuning", option.substr(pos + 2));
+    configs_.write("tuning", option.substr(option.find("-") + 2));
     configs_.save();
 }
