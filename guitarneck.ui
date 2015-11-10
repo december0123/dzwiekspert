@@ -51,43 +51,61 @@
     <layout class="QVBoxLayout" name="labelLayout">
      <item>
       <widget class="QLabel" name="string1">
+       <property name="styleSheet">
+        <string notr="true">color: rgb(0, 0, 0);</string>
+       </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>N</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="string2">
+       <property name="styleSheet">
+        <string notr="true">color: rgb(0, 0, 0);</string>
+       </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>N</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="string3">
+       <property name="styleSheet">
+        <string notr="true">color: rgb(0, 0, 0);</string>
+       </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>N</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="string4">
+       <property name="styleSheet">
+        <string notr="true">color: rgb(0, 0, 0);</string>
+       </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>N</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="string5">
+       <property name="styleSheet">
+        <string notr="true">color: rgb(0, 0, 0);</string>
+       </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>N</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="string6">
+       <property name="styleSheet">
+        <string notr="true">color: rgb(0, 0, 0);</string>
+       </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string>N</string>
        </property>
       </widget>
      </item>

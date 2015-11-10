@@ -18,21 +18,21 @@ void GuitarNeck::paintEvent(QPaintEvent *)
     QPainter painter(this);
     painter.setPen(Qt::black);
     painter.setFont(QFont("Arial", 10));
-    for(int string = 1; string < 12; string += 2)
+    for (int string = 1; string < 12; string += 2)
     {
         painter.drawLine(SPACING_FOR_NAMES, this->height() / 11 * string, this->width(), this->height() / 11 * string);
     }
-    for(int fret = 1; fret <= 24; ++fret)
+    for (int fret = 1; fret <= 24; ++fret)
     {
-
-        auto x = (this->width() * 1.2) - SPACING_FOR_NAMES - (((this->width() * 1.2) - SPACING_FOR_NAMES) * 1/(std::pow(2.0, fret/12.0))) + SPACING_FOR_NAMES;
-        painter.drawLine(x, 0, x, this->height());
-        painter.drawText(QPoint(x, 10), QString::number(fret));
+        auto x = (this->width() * 1.3) - SPACING_FOR_NAMES - (((this->width() * 1.3) - SPACING_FOR_NAMES) * 1/(std::pow(2.0, fret/12.0))) + SPACING_FOR_NAMES;
+        painter.drawLine(x, height() / 11, x, 143);
+        painter.drawText(QPoint(x - 5, 11), QString::number(fret));
     }
     for(int i = SPACING_FOR_NAMES; i <= SPACING_FOR_NAMES + 5; ++i)
     {
-        painter.drawLine(i, 0, i, this->height());
+        painter.drawLine(i, height() / 11, i, 143);
     }
+    painter.drawText(QPoint(SPACING_FOR_NAMES, 11), "0");
 }
 
 void GuitarNeck::setStrings(std::deque<std::string> strings)
