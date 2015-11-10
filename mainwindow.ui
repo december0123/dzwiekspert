@@ -229,9 +229,26 @@
               </widget>
              </item>
              <item>
-              <widget class="QRadioButton" name="tuning_OPEN_G">
+              <widget class="QRadioButton" name="tuning_custom">
                <property name="text">
-                <string>Open G - D2,G2,D3,G3,B3,D4</string>
+                <string>Własne</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="tuning_customEdit">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>E2,A2,D3,G3,B3,E4</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="tuning_formatLbl">
+               <property name="text">
+                <string>Zły format. Używam strój klasyczny.</string>
                </property>
               </widget>
              </item>

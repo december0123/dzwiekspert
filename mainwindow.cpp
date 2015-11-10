@@ -1,6 +1,7 @@
 #include "mainwindow.hpp"
 
 #include <algorithm>
+#include <regex>
 #include <thread>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -12,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui.note->setText(tr("Włącz stroik"));
     ui.goToMenu->hide();
     ui.toggleRecorder->hide();
+    ui.tuning_formatLbl->hide();
     readConfig();
 }
 
@@ -61,6 +63,11 @@ void MainWindow::connectSlots()
         QObject::connect(tuning, &QRadioButton::clicked,
                          this, &MainWindow::saveConfig);
     }
+    QObject::connect(ui.tuning_custom, &QRadioButton::toggled,
+                     ui.tuning_customEdit, &QLineEdit::setEnabled);
+    QObject::connect(ui.tuning_customEdit, &QLineEdit::textChanged,
+                     this, &MainWindow::saveConfig);
+
     for (auto& basicARadio : ui.basicAGroup->findChildren<QRadioButton*>())
     {
         QObject::connect(basicARadio, &QRadioButton::clicked,
@@ -68,7 +75,6 @@ void MainWindow::connectSlots()
     }
     QObject::connect(ui.basic_customEdit, &QLineEdit::textChanged,
                      this, &MainWindow::saveConfig);
-
     QObject::connect(ui.basic_custom, &QRadioButton::toggled,
                      ui.basic_customEdit, &QLineEdit::setEnabled);
 }
@@ -268,8 +274,7 @@ void MainWindow::readConfig()
     for (const auto& tuningRadio : ui.configTuningGroup->findChildren<QRadioButton*>())
     {
         std::string t{tuningRadio->text().toStdString()};
-        t = t.substr(t.size()-17);
-        if (t == tuning)
+        if (t.substr(t.find("-") + 2) == tuning)
         {
             tuningRadio->setChecked(true);
             break;
@@ -291,15 +296,15 @@ void MainWindow::readConfig()
 void MainWindow::saveConfig()
 {
     std::string option;
-    if (ui.basic_440->isChecked())
+    for (const auto& basicRadio : ui.basicAGroup->findChildren<QRadioButton*>())
     {
-        option = ui.basic_440->text().toStdString();
+        if (basicRadio->isChecked())
+        {
+            option = basicRadio->text().toStdString();
+            break;
+        }
     }
-    else if (ui.basic_432->isChecked())
-    {
-        option = ui.basic_432->text().toStdString();
-    }
-    else if (ui.basic_custom->isChecked())
+    if (ui.basic_custom->isChecked())
     {
         option = ui.basic_customEdit->text().toStdString();
     }
@@ -311,9 +316,27 @@ void MainWindow::saveConfig()
         if (tuningRadio->isChecked())
         {
             option = tuningRadio->text().toStdString();
+            option = option.substr(option.find("-") + 2);
+            configs_.write("tuning", option);
             break;
         }
     }
-    configs_.write("tuning", option.substr(option.find("-") + 2));
+    if (ui.tuning_custom->isChecked())
+    {
+        option = ui.tuning_customEdit->text().toStdString();
+
+        if (std::regex_match(option, std::regex("([A-G]\\#?\\d,){5}([A-G]\\#?\\d)")))
+        {
+            qDebug() << "jest ok";
+            ui.tuning_formatLbl->hide();
+            configs_.write("tuning", option);
+        }
+        else
+        {
+            configs_.setDefault("tuning");
+            qDebug() << option.c_str();
+            ui.tuning_formatLbl->show();
+        }
+    }
     configs_.save();
 }
