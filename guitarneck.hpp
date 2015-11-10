@@ -18,6 +18,8 @@ private:
     Ui::GuitarNeck ui;
     std::deque<std::string> strings_;
     constexpr static int SPACING_FOR_NAMES{30};
+    void drawStrings(QPainter &painter);
+    void drawFrets(QPainter& painter);
 };
 
 #endif // GUITARNECK_HPP
