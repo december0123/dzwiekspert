@@ -18,7 +18,7 @@
     <item>
      <widget class="QStackedWidget" name="views">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="menu">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -376,33 +376,9 @@ QSlider::sub-page:vertical {
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <item>
-            <widget class="QRadioButton" name="tune_e2">
+            <widget class="QRadioButton" name="tune_e4">
              <property name="text">
-              <string>E2 = 82.41Hz</string>
-             </property>
-             <property name="checked">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="tune_a2">
-             <property name="text">
-              <string>A2 = 110.00Hz</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="tune_d3">
-             <property name="text">
-              <string>D3 = 146.83Hz</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QRadioButton" name="tune_g3">
-             <property name="text">
-              <string>G3 = 196.00Hz</string>
+              <string>E4 = 329.63Hz</string>
              </property>
             </widget>
            </item>
@@ -414,9 +390,33 @@ QSlider::sub-page:vertical {
             </widget>
            </item>
            <item>
-            <widget class="QRadioButton" name="tune_e4">
+            <widget class="QRadioButton" name="tune_g3">
              <property name="text">
-              <string>E4 = 329.63Hz</string>
+              <string>G3 = 196.00Hz</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="tune_d3">
+             <property name="text">
+              <string>D3 = 146.83Hz</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="tune_a2">
+             <property name="text">
+              <string>A2 = 110.00Hz</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="tune_e2">
+             <property name="text">
+              <string>E2 = 82.41Hz</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
