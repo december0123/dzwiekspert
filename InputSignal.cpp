@@ -59,7 +59,6 @@ std::vector<Note> InputSignal::findStrongestNotes(FFTBuffer &buf) const
         energyThreshold += i.r;
     }
     energyThreshold /= buf.size();
-    energyThreshold *= buf.size() / 5;
     for (unsigned long freqIndex = LOWER_BOUND_FREQ; freqIndex < UPPER_BOUND_FREQ; ++freqIndex)
     {
         // find smallest in maxima.

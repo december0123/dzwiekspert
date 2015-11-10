@@ -73,15 +73,18 @@ void MainWindow::connectSlots()
                      ui.basic_customEdit, &QLineEdit::setEnabled);
 }
 
-int MainWindow::calcError(const int ideal, const int freq) const
+int MainWindow::calcError(const Note& ideal, const Note& freq) const
 {
-    qDebug() << ideal << "vs" << freq;
-    return (freq - ideal) * 5;
+    if (ideal.getName() == freq.getName())
+    {
+        return freq.getError() * 400;
+    }
+    return (freq.getFreq() - ideal.getFreq()) * 4;
 }
 
 int MainWindow::noteToVal(const Note& note) const
 {
-    return MIDDLE_VAL + calcError(idealNote_.getFreq(), note.getFreq());
+    return MIDDLE_VAL + calcError(idealNote_, note);
 }
 
 void MainWindow::turnOffTuner()
@@ -151,14 +154,22 @@ void MainWindow::keepUpdating()
         qDebug() << "WYkrylem: " << currentNote.getFullName().c_str();
         if (CURRENT_VIEW == VIEWS::TUNER)
         {
-            emit valueChanged(noteToVal(currentNote));
-            emit noteChanged(
+            if (currentNote == Note::UNKNOWN())
+            {
+                emit valueChanged(MIDDLE_VAL);
+                emit noteChanged("");
+            }
+            else
+            {
+                emit valueChanged(noteToVal(currentNote));
+                emit noteChanged(
                         QString::fromStdString(
                             std::to_string(currentNote.getFreq()) + " " + currentNote.getName()));
+            }
         }
         else if (CURRENT_VIEW == VIEWS::LEARN)
         {
-            if (currentNote.getName() == idealNote_.getName())
+            if (currentNote.getFullName() == idealNote_.getFullName())
             {
                 ui.learnStatus->setText("Cacy");
             }
@@ -230,7 +241,7 @@ void MainWindow::record(const bool cont)
 void MainWindow::setRandomNote()
 {
     Note random{sig_.recognizer_.getRandomNote()};
-    ui.noteToPlay->setText(random.getName().c_str());
+    ui.noteToPlay->setText(random.getFullName().c_str());
     idealNote_ = sig_.recognizer_.findNote(random.getFullName());
 }
 

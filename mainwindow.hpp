@@ -32,8 +32,8 @@ private:
 
     int CURRENT_VIEW{VIEWS::MENU};
 
-    const int UPPER_GREEN{55};
-    const int LOWER_GREEN{45};
+    const int UPPER_GREEN{53};
+    const int LOWER_GREEN{47};
     const int UPPER_YELLOW{65};
     const int LOWER_YELLOW{35};
     const int UPPER_RED{99};
@@ -48,7 +48,7 @@ private:
     InputSignal sig_;
     SoundRecognizer recognizer_;
 
-    int calcError(const int ideal, const int freq) const;
+    int calcError(const Note &ideal, const Note &freq) const;
     void connectSlots();
     int noteToVal(const Note &note) const;
     void turnOffTuner();

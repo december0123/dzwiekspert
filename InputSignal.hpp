@@ -42,7 +42,7 @@ private:
     constexpr static int UPPER_BOUND_FREQ{1000};
     unsigned samplesBufferCounter_{0U};
     constexpr static unsigned NUM_OF_STRONGEST_NOTES_TO_FIND{5U};
-    constexpr static unsigned FFT_THRESHOLD{100U};
+    constexpr static unsigned FFT_THRESHOLD{150U};
     constexpr static float OVERLAP_FACTOR{0.5};
     FFTBuffer internalBuffer_;
 
