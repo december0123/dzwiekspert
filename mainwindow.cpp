@@ -253,6 +253,7 @@ void MainWindow::setRandomNote()
 
 void MainWindow::readConfig()
 {
+    configs_.reload();
     std::string basic{configs_.lookup("basic")};
     sig_.setBasicA(std::stold(basic));
     recognizer_.setBasicA(std::stold(basic));
@@ -270,6 +271,7 @@ void MainWindow::readConfig()
         ui.basic_customEdit->setText(basic.c_str());
     }
 
+    ui.tuning_custom->setChecked(true);
     std::string tuning{configs_.lookup("tuning")};
     for (const auto& tuningRadio : ui.configTuningGroup->findChildren<QRadioButton*>())
     {
@@ -279,6 +281,10 @@ void MainWindow::readConfig()
             tuningRadio->setChecked(true);
             break;
         }
+    }
+    if (ui.tuning_custom->isChecked())
+    {
+        ui.tuning_customEdit->setText(tuning.c_str());
     }
 
     std::deque<std::string> tunSounds = configs_.split(tuning, ",");
