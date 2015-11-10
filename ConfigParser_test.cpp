@@ -51,6 +51,15 @@ TEST_F(ConfigParserFixture, shouldThrowOnNotFound)
     ASSERT_THROW(p.lookup("fake"), std::logic_error);
 }
 
+TEST_F(ConfigParserFixture, shouldRestoreDefault)
+{
+    ASSERT_EQ("right", p.lookup("hand"));
+    p.write("hand", "left");
+    ASSERT_EQ("left", p.lookup("hand"));
+    p.setDefault("hand");
+    ASSERT_EQ("right", p.lookup("hand"));
+}
+
 TEST(ConfigParser, shouldCreateConfigIfNotFound)
 {
     std::string wrong{"wrong_path"};

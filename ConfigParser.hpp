@@ -16,6 +16,7 @@ public:
     std::string lookup(std::string name);
     void write(std::string name, std::string value);
     void save() const;
+    void setDefault(std::string name);
     std::deque<std::string> split(std::string data, std::string delim);
 
 private:

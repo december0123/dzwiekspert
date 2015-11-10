@@ -57,6 +57,11 @@ void ConfigParser::save() const
     }
 }
 
+void ConfigParser::setDefault(std::string name)
+{
+    configs_[name] = defaultConfigs_[name];
+}
+
 std::deque<std::string> ConfigParser::split(std::string data, std::string delim)
 {
     std::deque<std::string> output;
