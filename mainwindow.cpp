@@ -19,12 +19,15 @@ void MainWindow::connectSlots()
 {
     QObject::connect(ui.exit, &QPushButton::clicked,
                      this, &MainWindow::close);
+    QObject::connect(ui.toggleRecorder, &QPushButton::toggled,
+                     this, &MainWindow::record);
+
     QObject::connect(ui.goToMenu, &QPushButton::clicked,
                      this, &MainWindow::goToMenu);
     QObject::connect(ui.goToTuner, &QPushButton::clicked,
                      this, &MainWindow::goToTuner);
-    QObject::connect(ui.goToLearn, &QPushButton::clicked,
-                     this, &MainWindow::goToLearn);
+    QObject::connect(ui.goToPractice, &QPushButton::clicked,
+                     this, &MainWindow::goToPractice);
     QObject::connect(ui.goToConfig, &QPushButton::clicked,
                      this, &MainWindow::goToConfig);
 
@@ -36,9 +39,6 @@ void MainWindow::connectSlots()
                      this, &MainWindow::setFreqIndicColor);
     QObject::connect(ui.freqIndicator, &QSlider::valueChanged,
                      this, &MainWindow::setNoteInfo);
-
-    QObject::connect(ui.toggleRecorder, &QPushButton::toggled,
-                     this, &MainWindow::record);
 
     QObject::connect(ui.tune_e2, &QRadioButton::clicked,
                      this, &MainWindow::setIdealNote);
@@ -55,9 +55,6 @@ void MainWindow::connectSlots()
 
     QObject::connect(ui.drawRandomNote, &QPushButton::clicked,
                      this, &MainWindow::setRandomNote);
-
-    QObject::connect(ui.drawRandomNote, &QPushButton::toggled,
-                     this, &MainWindow::record);
 
     for (auto& tuning : ui.configTuningGroup->findChildren<QRadioButton*>())
     {
@@ -127,7 +124,7 @@ void MainWindow::goToTuner()
     setIdealNote();
 }
 
-void MainWindow::goToLearn()
+void MainWindow::goToPractice()
 {
     readConfig();
     CURRENT_VIEW = VIEWS::LEARN;
@@ -232,8 +229,9 @@ void MainWindow::record(const bool cont)
 
 void MainWindow::setRandomNote()
 {
-    ui.noteToPlay->setText(QString::fromStdString(sig_.recognizer_.getRandomNote().getName()));
-    idealNote_ = sig_.recognizer_.findNote(ui.noteToPlay->text().toStdString());
+    Note random{sig_.recognizer_.getRandomNote()};
+    ui.noteToPlay->setText(random.getName().c_str());
+    idealNote_ = sig_.recognizer_.findNote(random.getFullName());
 }
 
 void MainWindow::readConfig()

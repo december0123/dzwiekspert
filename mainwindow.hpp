@@ -57,7 +57,7 @@ private:
 private slots:
     void goToMenu();
     void goToTuner();
-    void goToLearn();
+    void goToPractice();
     void goToConfig();
     void keepUpdating();
     void setFreqIndicColor(const int freqVal);

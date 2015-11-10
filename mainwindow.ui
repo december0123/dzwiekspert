@@ -22,8 +22,22 @@
       </property>
       <widget class="QWidget" name="menu">
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="1" column="2">
-         <spacer name="horizontalSpacer_4">
+        <item row="1" column="1">
+         <widget class="QPushButton" name="goToTheory">
+          <property name="text">
+           <string>Teoria</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QPushButton" name="goToConfig">
+          <property name="text">
+           <string>Opcje</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <spacer name="horizontalSpacer_3">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -31,36 +45,6 @@
            <size>
             <width>40</width>
             <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item row="4" column="1">
-         <widget class="QPushButton" name="exit">
-          <property name="text">
-           <string>Wyjście</string>
-          </property>
-          <property name="flat">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QPushButton" name="goToLearn">
-          <property name="text">
-           <string>Słuch</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <spacer name="verticalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
            </size>
           </property>
          </spacer>
@@ -78,8 +62,38 @@
           </property>
          </spacer>
         </item>
-        <item row="1" column="0">
-         <spacer name="horizontalSpacer_3">
+        <item row="3" column="1">
+         <widget class="QPushButton" name="goToTuner">
+          <property name="text">
+           <string>Strojenie</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <spacer name="verticalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="6" column="1">
+         <widget class="QPushButton" name="exit">
+          <property name="text">
+           <string>Wyjście</string>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <spacer name="horizontalSpacer_4">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -91,17 +105,10 @@
           </property>
          </spacer>
         </item>
-        <item row="1" column="1">
-         <widget class="QPushButton" name="goToTuner">
+        <item row="2" column="1">
+         <widget class="QPushButton" name="goToPractice">
           <property name="text">
-           <string>Strojenie</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QPushButton" name="goToConfig">
-          <property name="text">
-           <string>Opcje</string>
+           <string>Praktyka</string>
           </property>
          </widget>
         </item>

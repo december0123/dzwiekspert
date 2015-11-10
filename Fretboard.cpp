@@ -19,6 +19,7 @@ void Fretboard::paintEvent(QPaintEvent *)
     painter.setPen(Qt::black);
     painter.setFont(QFont("Arial", 10));
     painter.drawText(QPoint(SPACING_FOR_NAMES, 11), "0");
+    auto strings = strings_;
     for (int i = SPACING_FOR_NAMES; i <= SPACING_FOR_NAMES + 5; ++i)
     {
         painter.drawLine(i, height() / 11, i, 143);
@@ -35,11 +36,15 @@ void Fretboard::paintEvent(QPaintEvent *)
                     (((this->width() * 1.9) - SPACING_FOR_NAMES) * 1/(std::pow(2.0, fret/12.0))) +
                     SPACING_FOR_NAMES;
 
-            painter.drawLine(x, height() / 11, x, 143);
+            painter.drawLine(x, this->height() / 11 * string, x, 143);
             painter.drawText(QPoint(x - 5, 11), QString::number(fret));
-            painter.drawText(QPoint(x - (x - prevX) * 0.5, this->height() / 11 * string), "F");
+            painter.drawText(QPoint(x - (x - prevX) * 0.5,
+                                    this->height() / 11 * string),
+                                    recognizer_.getInInterval(strings.back(), fret).getFullName().c_str());
+
             prevX = x;
         }
+        strings.pop_back();
     }
 }
 
@@ -48,7 +53,7 @@ void Fretboard::setStrings(std::deque<std::string> strings)
     strings_ = strings;
     for (auto& string : this->findChildren<QLabel*>())
     {
-        string->setText(strings.front().c_str());
-        strings.pop_front();
+        string->setText(strings.back().c_str());
+        strings.pop_back();
     }
 }

@@ -4,7 +4,7 @@
 
 #include <QApplication>
 
-#define TESTING_ON
+//#define TESTING_ON
 
 int main(int argc, char *argv[])
 {

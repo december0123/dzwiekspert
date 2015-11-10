@@ -18,6 +18,7 @@ public:
     void setStrings(std::deque<std::string> strings);
 private:
     Ui::GuitarNeck ui;
+    SoundRecognizer recognizer_;
     std::deque<std::string> strings_;
     constexpr static int SPACING_FOR_NAMES{30};
     void drawStrings(QPainter &painter);
