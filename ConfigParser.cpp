@@ -9,28 +9,7 @@
 ConfigParser::ConfigParser(std::string path)
     : path_{path}, defaultConfigs_{{"hand", "right"}, {"tuning", "E2,A2,D3,G3,B3,E4"}, {"basic", "440"}}
 {
-    std::ifstream file(path, std::ios::in);
-    if (file.good())
-    {
-        for(std::string line; std::getline(file, line);)
-        {
-            auto c = split(line, "=");
-            if (c.size() != 2)
-            {
-                throw std::logic_error{"CONFIG FILE MALFORMED"};
-            }
-            configs_[c[0]] = c[1];
-        }
-    }
-    else
-    {
-        std::ofstream file{path};
-        for(const auto& option : defaultConfigs_)
-        {
-            file << option.first << "=" << option.second << std::endl;
-        }
-        configs_ = defaultConfigs_;
-    }
+    load(path);
 }
 
 std::string ConfigParser::lookup(std::string name)
@@ -77,4 +56,35 @@ std::deque<std::string> ConfigParser::split(std::string data, std::string delim)
         }
     } while (std::string::npos != pos);
     return output;
+}
+
+void ConfigParser::reload()
+{
+    load(path_);
+}
+
+void ConfigParser::load(std::string path)
+{
+    std::ifstream file(path, std::ios::in);
+    if (file.good())
+    {
+        for(std::string line; std::getline(file, line);)
+        {
+            auto c = split(line, "=");
+            if (c.size() != 2)
+            {
+                throw std::logic_error{"CONFIG FILE MALFORMED"};
+            }
+            configs_[c[0]] = c[1];
+        }
+    }
+    else
+    {
+        std::ofstream file{path};
+        for(const auto& option : defaultConfigs_)
+        {
+            file << option.first << "=" << option.second << std::endl;
+        }
+        configs_ = defaultConfigs_;
+    }
 }

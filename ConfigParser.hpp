@@ -18,11 +18,13 @@ public:
     void save() const;
     void setDefault(std::string name);
     std::deque<std::string> split(std::string data, std::string delim);
+    void reload();
 
 private:
     std::string path_;
     std::unordered_map<std::string, std::string> configs_;
     std::unordered_map<std::string, std::string> defaultConfigs_;
+    void load(std::string path);
 };
 
 #endif // CONFIGPARSER_HPP
