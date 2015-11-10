@@ -215,6 +215,13 @@
               </widget>
              </item>
              <item>
+              <widget class="QRadioButton" name="tuning_Dsharp">
+               <property name="text">
+                <string>D# - D#2,G#2,C#3,F#3,A#3,D#4</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QRadioButton" name="tuning_DROP_D">
                <property name="text">
                 <string>Drop D - D2,A2,D3,G3,B3,E4</string>
@@ -224,14 +231,14 @@
              <item>
               <widget class="QRadioButton" name="tuning_CELTIC">
                <property name="text">
-                <string>Celtic - D2,A2,D3,G3,A3,D4</string>
+                <string>DADGAD - D2,A2,D3,G3,A3,D4</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QRadioButton" name="tuning_custom">
                <property name="text">
-                <string>Własne</string>
+                <string>Własny</string>
                </property>
               </widget>
              </item>
@@ -248,7 +255,7 @@
              <item>
               <widget class="QLabel" name="tuning_formatLbl">
                <property name="text">
-                <string>Zły format. Używam strój klasyczny.</string>
+                <string>Zły format. Używam klasyczny.</string>
                </property>
               </widget>
              </item>
