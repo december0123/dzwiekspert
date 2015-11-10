@@ -89,6 +89,25 @@ void SoundRecognizer::setBasicA(const Frequency f)
     initNotes();
 }
 
+Note SoundRecognizer::getInInterval(std::string name, int interval) const
+{
+    auto note = std::find_if(notes_.begin(), notes_.end(),
+                             [&](const Note& n)
+                             {
+                                return n.getFullName() == name;
+                             });
+    if (note != notes_.end())
+    {
+        std::advance(note, interval);
+        auto distance = std::distance(notes_.begin(), note);
+        if ((distance >= 0) && (distance <= notes_.size()))
+        {
+            return *note;
+        }
+    }
+    return Note::UNKNOWN();
+}
+
 double SoundRecognizer::calcRelativeError(const Note &note, const double freq) const
 {
     return 1.0 - (note.getFreq() / freq);

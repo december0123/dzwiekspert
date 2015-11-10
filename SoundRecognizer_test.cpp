@@ -64,6 +64,40 @@ TEST_F(SoundRecognizerFixture, shouldFindNote)
     ASSERT_NEAR(138.5_Hz, note2.getFreq(), 0.1);
 }
 
+TEST_F(SoundRecognizerFixture, shouldGetNoteInValidPositiveInterval)
+{
+    std::string name{"E2"};
+    Note next{s.getInInterval(name, 1)};
+    ASSERT_EQ("F2", next.getFullName());
+    ASSERT_NEAR(87.31_Hz, next.getFreq(), 0.05);
+}
+
+TEST_F(SoundRecognizerFixture, shouldGetNoteInValidNegativeInterval)
+{
+    std::string name{"E2"};
+    Note next{s.getInInterval(name, -1)};
+    ASSERT_EQ("D#2", next.getFullName());
+    ASSERT_NEAR(77.78_Hz, next.getFreq(), 0.05);
+}
+
+TEST_F(SoundRecognizerFixture, shouldReturnUNKNOWNIfInvalidPositiveInterval)
+{
+    std::string name{"E2"};
+    Note next{s.getInInterval(name, 1000000000)};
+    Note unknown{Note::UNKNOWN()};
+    ASSERT_EQ(unknown.getFullName(), next.getFullName());
+    ASSERT_NEAR(unknown.getFreq(), next.getFreq(), 0.05);
+}
+
+TEST_F(SoundRecognizerFixture, shouldReturnUNKNOWNIfInvalidNegativeInterval)
+{
+    std::string name{"E2"};
+    Note next{s.getInInterval(name, -1000000000)};
+    Note unknown{Note::UNKNOWN()};
+    ASSERT_EQ(unknown.getFullName(), next.getFullName());
+    ASSERT_NEAR(unknown.getFreq(), next.getFreq(), 0.05);
+}
+
 //    std::vector<Note> notes_{{"C2",     65.41_Hz},
 //                             {"C#2",    69.30_Hz},
 //                             {"D2",     73.42_Hz},

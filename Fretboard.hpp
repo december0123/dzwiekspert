@@ -3,6 +3,8 @@
 
 #include "ui_fretboard.h"
 
+#include "SoundRecognizer.hpp"
+
 #include <deque>
 #include <string>
 

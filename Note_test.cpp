@@ -70,13 +70,3 @@ TEST_F(NoteFixture, shouldBeMoveAssigned)
     ASSERT_EQ(name, E2_copy.getName());
     ASSERT_EQ(error, E2_copy.getError());
 }
-
-TEST_F(NoteFixture, shouldIncrement)
-{
-    FAIL();
-//    ++E2;
-    SoundRecognizer s;
-    Note F2{s.findNote("F2")};
-    ASSERT_EQ(E2.getFullName(), F2.getFullName());
-    ASSERT_EQ(E2.getFreq(), F2.getFreq());
-}

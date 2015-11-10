@@ -20,6 +20,7 @@ public:
     Note getRandomNote() const;
     Note findNote(const std::string name) const;
     void setBasicA(const Frequency f);
+    Note getInInterval(std::string name, int interval) const;
 
 private:
     std::vector<Note> notes_;
