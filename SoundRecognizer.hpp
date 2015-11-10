@@ -26,7 +26,7 @@ private:
     std::vector<Note> notes_;
     const double ERROR_THRESHOLD{0.029};
     const int LOW_OCTAVE{2};
-    const int HIGH_OCTAVE{6};
+    const int HIGH_OCTAVE{7};
     const int NOTES_IN_OCTAVE{12};
     Frequency basicFreq_{440_Hz};
 
