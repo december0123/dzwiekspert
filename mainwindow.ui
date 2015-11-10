@@ -18,7 +18,7 @@
     <item>
      <widget class="QStackedWidget" name="views">
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="menu">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -469,15 +469,117 @@ QSlider::sub-page:vertical {
        </layout>
       </widget>
       <widget class="QWidget" name="Learning">
-       <layout class="QVBoxLayout" name="verticalLayout_7">
+       <layout class="QVBoxLayout" name="verticalLayout_7" stretch="1,0,0,1">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <widget class="Fretboard" name="fretboard" native="true">
+          <zorder>showCheatSheet</zorder>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="showCheatSheet">
+          <property name="text">
+           <string>Pokaż ściągę</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_10">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_8" stretch="1,1,5,0,3,0,3,0">
           <item>
            <widget class="QLabel" name="label">
             <property name="text">
-             <string>Uszanowanko! Zagraj dźwięk: </string>
+             <string>Zagraj dźwięk: </string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="noteToPlay">
+            <property name="font">
+             <font>
+              <pointsize>15</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+              <underline>true</underline>
+             </font>
+            </property>
+            <property name="text">
+             <string>NOTE TO PLAY</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_8">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Wykryto:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="learnStatus">
+            <property name="font">
+             <font>
+              <pointsize>15</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string> </string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_9">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item>
            <widget class="QPushButton" name="drawRandomNote">
@@ -487,23 +589,19 @@ QSlider::sub-page:vertical {
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="learnStatus">
-            <property name="text">
-             <string>Byc moze cacy</string>
+           <spacer name="verticalSpacer_11">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
             </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="noteToPlay">
-            <property name="text">
-             <string>NOTE TO PLAY</string>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
             </property>
-           </widget>
+           </spacer>
           </item>
          </layout>
-        </item>
-        <item>
-         <widget class="Fretboard" name="fretboard" native="true"/>
         </item>
        </layout>
       </widget>
@@ -516,12 +614,25 @@ QSlider::sub-page:vertical {
        <bool>true</bool>
       </property>
       <property name="text">
-       <string>Start</string>
+       <string>Pobieraj dźwięk</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
       </property>
      </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacer_12">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>40</height>
+       </size>
+      </property>
+     </spacer>
     </item>
     <item>
      <widget class="QPushButton" name="goToMenu">

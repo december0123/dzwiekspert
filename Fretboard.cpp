@@ -26,6 +26,14 @@ void Fretboard::paintEvent(QPaintEvent *)
     }
     for (int string = 1; string < 12; string += 2)
     {
+        if (strings.back() == idealFullName_)
+        {
+            painter.setPen(Qt::red);
+            painter.setFont(QFont("Arial", 13, QFont::Bold));
+        }
+        painter.drawText(QPoint(0, this->height() / 11 * string), strings.back().c_str());
+        painter.setPen(Qt::black);
+        painter.setFont(QFont("Arial", 10));
         painter.drawLine(SPACING_FOR_NAMES, this->height() / 11 * string,
                          this->width(), this->height() / 11 * string);
         auto prevX = SPACING_FOR_NAMES;
@@ -38,9 +46,17 @@ void Fretboard::paintEvent(QPaintEvent *)
 
             painter.drawLine(x, this->height() / 11 * string, x, 143);
             painter.drawText(QPoint(x - 5, 11), QString::number(fret));
+            auto noteFullName = recognizer_.getInInterval(strings.back(), fret).getFullName();
+            if (noteFullName == idealFullName_)
+            {
+                painter.setPen(Qt::red);
+                painter.setFont(QFont("Arial", 13, QFont::Bold));
+            }
             painter.drawText(QPoint(x - (x - prevX) * 0.5,
                                     this->height() / 11 * string),
-                                    recognizer_.getInInterval(strings.back(), fret).getFullName().c_str());
+                                    noteFullName.c_str());
+            painter.setPen(Qt::black);
+            painter.setFont(QFont("Arial", 10));
 
             prevX = x;
         }
@@ -51,9 +67,10 @@ void Fretboard::paintEvent(QPaintEvent *)
 void Fretboard::setStrings(std::deque<std::string> strings)
 {
     strings_ = strings;
-    for (auto& string : this->findChildren<QLabel*>())
-    {
-        string->setText(strings.back().c_str());
-        strings.pop_back();
-    }
+}
+
+void Fretboard::setIdeal(std::string fullName)
+{
+    idealFullName_ = fullName;
+    repaint();
 }

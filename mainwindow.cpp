@@ -77,15 +77,19 @@ void MainWindow::connectSlots()
                      this, &MainWindow::saveConfig);
     QObject::connect(ui.basic_custom, &QRadioButton::toggled,
                      ui.basic_customEdit, &QLineEdit::setEnabled);
+
+    QObject::connect(ui.showCheatSheet, &QCheckBox::toggled,
+                     ui.fretboard, &Fretboard::setVisible);
+
 }
 
 int MainWindow::calcError(const Note& ideal, const Note& freq) const
 {
     if (ideal.getName() == freq.getName())
     {
-        return freq.getError() * 400;
+        return freq.getError() * 300;
     }
-    return (freq.getFreq() - ideal.getFreq()) * 4;
+    return (freq.getFreq() - ideal.getFreq()) * 3;
 }
 
 int MainWindow::noteToVal(const Note& note) const
@@ -175,14 +179,7 @@ void MainWindow::keepUpdating()
         }
         else if (CURRENT_VIEW == VIEWS::LEARN)
         {
-            if (currentNote.getFullName() == idealNote_.getFullName())
-            {
-                ui.learnStatus->setText("Cacy");
-            }
-            else
-            {
-                ui.learnStatus->setText("Nie cacy");
-            }
+            ui.learnStatus->setText(currentNote.getFullName().c_str());
         }
     }
     qDebug() << "Continue false";
@@ -249,6 +246,7 @@ void MainWindow::setRandomNote()
     Note random{sig_.recognizer_.getRandomNote()};
     ui.noteToPlay->setText(random.getFullName().c_str());
     idealNote_ = sig_.recognizer_.findNote(random.getFullName());
+    ui.fretboard->setIdeal(random.getFullName());
 }
 
 void MainWindow::readConfig()
