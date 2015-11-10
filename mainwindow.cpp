@@ -76,7 +76,7 @@ void MainWindow::connectSlots()
 int MainWindow::calcError(const int ideal, const int freq) const
 {
     qDebug() << ideal << "vs" << freq;
-    return (freq - ideal);
+    return (freq - ideal) * 5;
 }
 
 int MainWindow::noteToVal(const Note& note) const
