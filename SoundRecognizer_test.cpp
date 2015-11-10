@@ -19,7 +19,7 @@ TEST_F(SoundRecognizerFixture, shouldRecognizePerfectSingleNotes)
                             {"F2",      87.31_Hz},
                             {"A2",      110.0_Hz},
                             {"C5",      523.25_Hz,},
-                            {"F#6",     1479.98_Hz}};
+                            {"B5",     987.77_Hz}};
     for (const auto& note : notes)
     {
         Note recognizedNote{s.recognizeNote(note.getFreq())};
