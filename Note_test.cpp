@@ -64,9 +64,15 @@ TEST_F(NoteFixture, shouldBeCopyAssigned)
 
 TEST_F(NoteFixture, shouldBeMoveAssigned)
 {
-    Note E2_copy;
-    E2_copy = std::move(E2);
-    ASSERT_EQ(freq, E2_copy.getFreq());
-    ASSERT_EQ(name, E2_copy.getName());
-    ASSERT_EQ(error, E2_copy.getError());
+    Note E2_moved;
+    E2_moved = std::move(E2);
+    ASSERT_EQ(freq, E2_moved.getFreq());
+    ASSERT_EQ(name, E2_moved.getName());
+    ASSERT_EQ(error, E2_moved.getError());
+}
+
+TEST_F(NoteFixture, shouldCompareFullName)
+{
+    Note E2_copy{E2};
+    ASSERT_TRUE(E2_copy == E2);
 }

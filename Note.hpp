@@ -22,6 +22,11 @@ public:
 
     Note& operator=(const Note& rhs) = default;
     Note& operator=(Note&& rhs) = default;
+    bool operator==(const Note& rhs)
+    {
+        return fullName_ == rhs.fullName_;
+    }
+
     ~Note() = default;
 
     std::string getName() const
