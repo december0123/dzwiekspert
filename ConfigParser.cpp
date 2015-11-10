@@ -7,7 +7,8 @@
 #include <string>
 
 ConfigParser::ConfigParser(std::string path)
-    : path_{path}, defaultConfigs_{{"hand", "right"}, {"tuning", "E2,A2,D3,G3,B3,E4"}, {"basic", "440"}}
+    : path_{path},
+      defaultConfigs_{{"hand", "right"}, {"tuning", "E2,A2,D3,G3,B3,E4"}, {"basic", "440"}}
 {
     load(path);
 }
@@ -43,7 +44,6 @@ void ConfigParser::setDefault(std::string name)
 
 std::deque<std::string> ConfigParser::split(std::string data, std::string delim)
 {
-
     std::deque<std::string> output;
     auto pos = std::string::npos;
     do
