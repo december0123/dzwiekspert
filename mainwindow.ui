@@ -472,7 +472,7 @@ QSlider::sub-page:vertical {
          </layout>
         </item>
         <item>
-         <widget class="GuitarNeck" name="guitarNeck" native="true"/>
+         <widget class="Fretboard" name="fretboard" native="true"/>
         </item>
        </layout>
       </widget>
@@ -505,9 +505,9 @@ QSlider::sub-page:vertical {
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>GuitarNeck</class>
+   <class>Fretboard</class>
    <extends>QWidget</extends>
-   <header>guitarneck.hpp</header>
+   <header>Fretboard.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

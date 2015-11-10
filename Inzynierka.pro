@@ -33,7 +33,7 @@ SOURCES += main.cpp\
     Analyser_test.cpp \
     ConfigParser.cpp \
     ConfigParser_test.cpp \
-    guitarneck.cpp
+    Fretboard.cpp
 
 HEADERS  += mainwindow.hpp \
     InputSignal.hpp \
@@ -47,7 +47,7 @@ HEADERS  += mainwindow.hpp \
     Note.hpp \
     kissfft/kiss_fftr.h \
     ConfigParser.hpp \
-    guitarneck.hpp
+    Fretboard.hpp
 
 FORMS    += mainwindow.ui \
-    guitarneck.ui
+    fretboard.ui

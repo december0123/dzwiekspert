@@ -1,17 +1,17 @@
 #ifndef GUITARNECK_HPP
 #define GUITARNECK_HPP
 
-#include "ui_guitarneck.h"
+#include "ui_fretboard.h"
 
 #include <deque>
 #include <string>
 
-class GuitarNeck : public QWidget
+class Fretboard : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit GuitarNeck(QWidget *parent = 0);
+    explicit Fretboard(QWidget *parent = 0);
     void paintEvent(QPaintEvent *);
     void setStrings(std::deque<std::string> strings);
 private:

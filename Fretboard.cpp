@@ -1,14 +1,14 @@
-#include "guitarneck.hpp"
+#include "Fretboard.hpp"
 #include <QPainter>
 #include <QDebug>
 
-GuitarNeck::GuitarNeck(QWidget *parent) :
+Fretboard::Fretboard(QWidget *parent) :
     QWidget(parent)
 {
     ui.setupUi(this);
 }
 
-void GuitarNeck::paintEvent(QPaintEvent *)
+void Fretboard::paintEvent(QPaintEvent *)
 {
     QStyleOption opt;
     opt.init(this);
@@ -43,7 +43,7 @@ void GuitarNeck::paintEvent(QPaintEvent *)
     }
 }
 
-void GuitarNeck::setStrings(std::deque<std::string> strings)
+void Fretboard::setStrings(std::deque<std::string> strings)
 {
     strings_ = strings;
     for (auto& string : this->findChildren<QLabel*>())

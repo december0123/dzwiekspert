@@ -268,7 +268,7 @@ void MainWindow::readConfig()
     }
 
     std::deque<std::string> tunSounds = configs_.split(tuning, ",");
-    ui.guitarNeck->setStrings(tunSounds);
+    ui.fretboard->setStrings(tunSounds);
     ui.tune_e2->setText(tunSounds[0].c_str());
     ui.tune_a2->setText(tunSounds[1].c_str());
     ui.tune_d3->setText(tunSounds[2].c_str());
