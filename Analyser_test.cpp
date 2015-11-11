@@ -18,7 +18,6 @@ auto getMaxReal(FFTBuffer& buf)
 {
     auto gowno =std::max_element(buf.begin() + 100, buf.end(),
                             [&](const auto& lhs, const auto& rhs){return lhs.r < rhs.r;});
-    qDebug() << double(gowno->r);
     return gowno;
 }
 

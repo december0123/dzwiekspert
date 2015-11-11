@@ -99,7 +99,7 @@ Note SoundRecognizer::getInInterval(std::string name, int interval) const
     {
         std::advance(note, interval);
         auto distance = std::distance(notes_.begin(), note);
-        if ((distance >= 0) && (distance <= notes_.size()))
+        if ((distance >= 0) && (distance <= static_cast<long>(notes_.size())))
         {
             return *note;
         }
