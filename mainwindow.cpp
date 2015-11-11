@@ -142,7 +142,7 @@ void MainWindow::goToTuner()
 void MainWindow::goToPractice()
 {
     readConfig();
-    CURRENT_VIEW = VIEWS::LEARN;
+    CURRENT_VIEW = VIEWS::PRACTICE;
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
     ui.toggleRecorder->show();
@@ -179,7 +179,7 @@ void MainWindow::keepUpdating()
                             std::to_string(currentNote.getFreq()) + " " + currentNote.getName()));
             }
         }
-        else if (CURRENT_VIEW == VIEWS::LEARN)
+        else if (CURRENT_VIEW == VIEWS::PRACTICE)
         {
             emit noteChanged(currentNote.getFullName().c_str());
         }
