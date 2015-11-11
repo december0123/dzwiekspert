@@ -28,7 +28,8 @@ public:
 private:
     Ui::MainWindow ui;
 
-    enum VIEWS {MENU = 0, CONFIG = 1, TUNER = 2, PRACTICE = 3};
+    enum VIEWS {MENU = 0, CONFIG = 1, TUNER = 2, PRACTICE = 3,
+                THEORY = 4, THEORY_TUNING = 5};
 
     int CURRENT_VIEW{VIEWS::MENU};
 
@@ -59,6 +60,8 @@ private slots:
     void goToTuner();
     void goToPractice();
     void goToConfig();
+    void goToTheory();
+    void goToTheory_tuning();
     void keepUpdating();
     void setFreqIndicColor(const int freqVal);
     void setNoteInfo(const int value);

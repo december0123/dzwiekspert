@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui.goToMenu->hide();
     ui.toggleRecorder->hide();
     ui.tuning_formatLbl->hide();
+    ui.backToTheory->hide();
     readConfig();
 }
 
@@ -32,6 +33,12 @@ void MainWindow::connectSlots()
                      this, &MainWindow::goToPractice);
     QObject::connect(ui.goToConfig, &QPushButton::clicked,
                      this, &MainWindow::goToConfig);
+    QObject::connect(ui.goToTheory, &QPushButton::clicked,
+                     this, &MainWindow::goToTheory);
+    QObject::connect(ui.backToTheory, &QPushButton::clicked,
+                     this, &MainWindow::goToTheory);
+    QObject::connect(ui.goToTheory_tuning, &QPushButton::clicked,
+                     this, &MainWindow::goToTheory_tuning);
 
     QObject::connect(this, &MainWindow::valueChanged,
                      ui.freqIndicator, &QSlider::setValue);
@@ -126,6 +133,7 @@ void MainWindow::goToMenu()
     CURRENT_VIEW = VIEWS::MENU;
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->hide();
+    ui.backToTheory->hide();
     ui.toggleRecorder->hide();
 }
 
@@ -155,6 +163,22 @@ void MainWindow::goToConfig()
     CURRENT_VIEW = VIEWS::CONFIG;
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
+}
+
+void MainWindow::goToTheory()
+{
+    CURRENT_VIEW = VIEWS::THEORY;
+    ui.views->setCurrentIndex(CURRENT_VIEW);
+    ui.goToMenu->show();
+    ui.backToTheory->hide();
+}
+
+void MainWindow::goToTheory_tuning()
+{
+    CURRENT_VIEW = VIEWS::THEORY_TUNING;
+    ui.views->setCurrentIndex(CURRENT_VIEW);
+    ui.goToMenu->show();
+    ui.backToTheory->show();
 }
 
 void MainWindow::keepUpdating()
