@@ -18,7 +18,7 @@
     <item>
      <widget class="QStackedWidget" name="views">
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="menu">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -312,6 +312,12 @@
           <property name="enabled">
            <bool>false</bool>
           </property>
+          <property name="font">
+           <font>
+            <weight>50</weight>
+            <bold>false</bold>
+           </font>
+          </property>
           <property name="autoFillBackground">
            <bool>true</bool>
           </property>
@@ -336,6 +342,9 @@ QSlider::sub-page:vertical {
 
 }</string>
           </property>
+          <property name="maximum">
+           <number>100</number>
+          </property>
           <property name="value">
            <number>50</number>
           </property>
@@ -353,6 +362,9 @@ QSlider::sub-page:vertical {
           </property>
           <property name="tickPosition">
            <enum>QSlider::TicksBothSides</enum>
+          </property>
+          <property name="tickInterval">
+           <number>0</number>
           </property>
          </widget>
         </item>
@@ -426,7 +438,7 @@ QSlider::sub-page:vertical {
         <item row="1" column="1">
          <widget class="QLabel" name="note">
           <property name="text">
-           <string/>
+           <string>I</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -462,7 +474,10 @@ QSlider::sub-page:vertical {
         <item row="3" column="1">
          <widget class="QLabel" name="currFreq">
           <property name="text">
-           <string>0</string>
+           <string>^</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -471,9 +486,7 @@ QSlider::sub-page:vertical {
       <widget class="QWidget" name="Learning">
        <layout class="QVBoxLayout" name="verticalLayout_7" stretch="1,0,0,1">
         <item>
-         <widget class="Fretboard" name="fretboard" native="true">
-          <zorder>showCheatSheet</zorder>
-         </widget>
+         <widget class="Fretboard" name="fretboard" native="true"/>
         </item>
         <item>
          <widget class="QCheckBox" name="showCheatSheet">
@@ -561,7 +574,7 @@ QSlider::sub-page:vertical {
              </font>
             </property>
             <property name="text">
-             <string> </string>
+             <string/>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>

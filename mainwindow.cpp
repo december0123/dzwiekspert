@@ -80,6 +80,8 @@ void MainWindow::connectSlots()
 
     QObject::connect(ui.showCheatSheet, &QCheckBox::toggled,
                      ui.fretboard, &Fretboard::setVisible);
+    QObject::connect(this, &MainWindow::noteChanged,
+                     ui.learnStatus, &QLabel::setText);
 
 }
 
@@ -179,7 +181,7 @@ void MainWindow::keepUpdating()
         }
         else if (CURRENT_VIEW == VIEWS::LEARN)
         {
-            ui.learnStatus->setText(currentNote.getFullName().c_str());
+            emit noteChanged(currentNote.getFullName().c_str());
         }
     }
     qDebug() << "Continue false";
