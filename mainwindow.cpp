@@ -39,6 +39,8 @@ void MainWindow::connectSlots()
                      this, &MainWindow::goToTheory);
     QObject::connect(ui.goToTheory_tuning, &QPushButton::clicked,
                      this, &MainWindow::goToTheory_tuning);
+    QObject::connect(ui.goToTheory_construction, &QPushButton::clicked,
+                     this, &MainWindow::goToTheory_construction);
 
     QObject::connect(this, &MainWindow::valueChanged,
                      ui.freqIndicator, &QSlider::setValue);
@@ -167,7 +169,7 @@ void MainWindow::goToConfig()
 
 void MainWindow::goToTheory()
 {
-    CURRENT_VIEW = VIEWS::THEORY;
+    CURRENT_VIEW = VIEWS::THEORY_MENU;
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
     ui.backToTheory->hide();
@@ -176,6 +178,14 @@ void MainWindow::goToTheory()
 void MainWindow::goToTheory_tuning()
 {
     CURRENT_VIEW = VIEWS::THEORY_TUNING;
+    ui.views->setCurrentIndex(CURRENT_VIEW);
+    ui.goToMenu->show();
+    ui.backToTheory->show();
+}
+
+void MainWindow::goToTheory_construction()
+{
+    CURRENT_VIEW = VIEWS::THEORY_CONSTRUCTION;
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
     ui.backToTheory->show();

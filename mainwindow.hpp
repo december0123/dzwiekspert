@@ -29,7 +29,7 @@ private:
     Ui::MainWindow ui;
 
     enum VIEWS {MENU = 0, CONFIG = 1, TUNER = 2, PRACTICE = 3,
-                THEORY = 4, THEORY_TUNING = 5};
+                THEORY_MENU = 4, THEORY_TUNING = 5, THEORY_CONSTRUCTION};
 
     int CURRENT_VIEW{VIEWS::MENU};
 
@@ -55,6 +55,7 @@ private:
     void turnOffTuner();
     void setIdealNote();
 
+
 private slots:
     void goToMenu();
     void goToTuner();
@@ -62,6 +63,8 @@ private slots:
     void goToConfig();
     void goToTheory();
     void goToTheory_tuning();
+    void goToTheory_construction();
+
     void keepUpdating();
     void setFreqIndicColor(const int freqVal);
     void setNoteInfo(const int value);
