@@ -18,7 +18,7 @@
     <item>
      <widget class="QStackedWidget" name="views">
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="menu">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -483,8 +483,28 @@ QSlider::sub-page:vertical {
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="Learning">
-       <layout class="QVBoxLayout" name="verticalLayout_7" stretch="1,0,0,1">
+      <widget class="QWidget" name="practice">
+       <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,1,0,0,1">
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Rozmieszczenie pojedynczych dźwięków na gryfie do 12. progu</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Dźwięki powyżej 12. progu są takie same, ale o oktawę wyżej</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="Fretboard" name="fretboard" native="true"/>
         </item>
