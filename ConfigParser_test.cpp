@@ -57,7 +57,7 @@ TEST_F(ConfigParserFixture, shouldRestoreDefault)
     ASSERT_EQ("right", p.lookup("hand"));
     p.write("hand", "left");
     ASSERT_EQ("left", p.lookup("hand"));
-    p.setDefault("hand");
+    p.resetToDefault("hand");
     ASSERT_EQ("right", p.lookup("hand"));
 }
 

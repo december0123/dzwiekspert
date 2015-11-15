@@ -37,7 +37,7 @@ void ConfigParser::save() const
     }
 }
 
-void ConfigParser::setDefault(std::string name)
+void ConfigParser::resetToDefault(std::string name)
 {
     configs_[name] = defaultConfigs_[name];
 }
@@ -68,7 +68,7 @@ void ConfigParser::load(std::string path)
     std::ifstream file(path, std::ios::in);
     if (file.good())
     {
-        for(std::string line; std::getline(file, line);)
+        for (std::string line; std::getline(file, line);)
         {
             auto c = split(line, "=");
             if (c.size() != 2)
@@ -81,7 +81,7 @@ void ConfigParser::load(std::string path)
     else
     {
         std::ofstream file{path};
-        for(const auto& option : defaultConfigs_)
+        for (const auto& option : defaultConfigs_)
         {
             file << option.first << "=" << option.second << std::endl;
         }

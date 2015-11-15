@@ -19,9 +19,9 @@ void Analyser::FFT(FFTBuffer& input)
     kiss_fft(state.get(), input.getData(), fft.getData());
     fft.eraseDataOverNyquistFreq();
 
-    for (auto& i : fft)
+    for (auto& bin : fft)
     {
-        i.r = std::abs(i.r * i.i);
+        bin.r = std::abs(bin.r * bin.i);
     }
     input = std::move(fft);
 }
@@ -30,8 +30,6 @@ void Analyser::FFT(FFTBuffer& input)
 void Analyser::HPS(FFTBuffer &input)
 {
     FFTBuffer hps{input};
-    // Go through each downsampling factor
-
     for (int factor = 1; factor <= DOWNSAMPLING_FACTOR; ++factor)
     {
         // Go through samples of the downsampled signal and compute HPS at this iteration

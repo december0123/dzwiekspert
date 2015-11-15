@@ -373,7 +373,7 @@ void MainWindow::saveConfig()
         }
         else
         {
-            configs_.setDefault("tuning");
+            configs_.resetToDefault("tuning");
             qDebug() << option.c_str();
             ui.tuning_formatLbl->show();
         }
