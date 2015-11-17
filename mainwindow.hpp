@@ -3,7 +3,7 @@
 
 #include "ui_mainwindow.h"
 
-#include "Analyser.hpp"
+#include "Analyzer.hpp"
 #include "ConfigParser.hpp"
 #include "InputSignal.hpp"
 #include "Note.hpp"

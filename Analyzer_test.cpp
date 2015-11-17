@@ -1,4 +1,4 @@
-#include "Analyser.hpp"
+#include "Analyzer.hpp"
 #include "FFTBuffer.hpp"
 #include "Utils.hpp"
 

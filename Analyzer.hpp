@@ -1,5 +1,5 @@
-#ifndef ANALYSER_HPP
-#define ANALYSER_HPP
+#ifndef ANALYZER_HPP
+#define ANALYZER_HPP
 
 #include "FFTBuffer.hpp"
 
@@ -8,10 +8,10 @@ struct FreeDeleter
     void operator()(void* p) {free(p);}
 };
 
-class Analyser
+class Analyzer
 {
 public:
-    Analyser() = delete;
+    Analyzer() = delete;
     static void applyHannWindow(FFTBuffer& input);
     static void FFT(FFTBuffer& input);
     static void IFFT(FFTBuffer& input);
@@ -21,4 +21,4 @@ private:
     constexpr static int DOWNSAMPLING_FACTOR{1};
 };
 
-#endif // ANALYSER_HPP
+#endif // ANALYZER_HPP

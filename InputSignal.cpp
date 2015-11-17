@@ -131,9 +131,9 @@ void InputSignal::processBuffer(QAudioBuffer buf)
     if (++samplesBufferCounter_ == FFT_THRESHOLD)
     {
         FFTBuffer tmpBuffer{internalBuffer_};
-        Analyser::applyHannWindow(tmpBuffer);
-        Analyser::FFT(tmpBuffer);
-        Analyser::HPS(tmpBuffer);
+        Analyzer::applyHannWindow(tmpBuffer);
+        Analyzer::FFT(tmpBuffer);
+        Analyzer::HPS(tmpBuffer);
 
         {
             std::lock_guard<std::mutex> l(m_);

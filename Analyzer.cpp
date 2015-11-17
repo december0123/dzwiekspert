@@ -1,4 +1,4 @@
-#include "Analyser.hpp"
+#include "Analyzer.hpp"
 
 extern "C"
 {
@@ -12,7 +12,7 @@ extern "C"
 #include <Utils.hpp>
 
 // Fast Fourier Transform
-void Analyser::FFT(FFTBuffer& input)
+void Analyzer::FFT(FFTBuffer& input)
 {
     std::unique_ptr<kiss_fft_state, FreeDeleter> state{kiss_fft_alloc(input.size(), 0, nullptr, nullptr)};
     FFTBuffer fft(input.size());
@@ -27,7 +27,7 @@ void Analyser::FFT(FFTBuffer& input)
 }
 
 // Harmonic Product Spectrum
-void Analyser::HPS(FFTBuffer &input)
+void Analyzer::HPS(FFTBuffer &input)
 {
     FFTBuffer hps{input};
     for (int factor = 1; factor <= DOWNSAMPLING_FACTOR; ++factor)
@@ -41,7 +41,7 @@ void Analyser::HPS(FFTBuffer &input)
     input = std::move(hps);
 }
 
-void Analyser::applyHannWindow(FFTBuffer& input)
+void Analyzer::applyHannWindow(FFTBuffer& input)
 {
     for (long double i = 0; i < input.size(); ++i)
     {

@@ -1,7 +1,7 @@
 #ifndef INPUT_SIGNAL_HPP
 #define INPUT_SIGNAL_HPP
 
-#include "Analyser.hpp"
+#include "Analyzer.hpp"
 #include "FFTBuffer.hpp"
 #include "Note.hpp"
 #include "recorder.hpp"
