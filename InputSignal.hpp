@@ -22,11 +22,7 @@ class InputSignal : public QObject
 public:
     InputSignal();
 
-    Recorder recorder_;
-    QAudioProbe probe_;
     SoundRecognizer recognizer_;
-    std::condition_variable ready_;
-    std::mutex m_;
 
     bool fftIsReady() const;
     std::vector<Note> getNotesAndInvalidate();
@@ -45,6 +41,10 @@ private:
     constexpr static unsigned FFT_THRESHOLD{150U};
     constexpr static float OVERLAP_FACTOR{0.5};
     FFTBuffer internalBuffer_;
+    std::mutex m_;
+    Recorder recorder_;
+    QAudioProbe probe_;
+    std::condition_variable ready_;
 
 private slots:
     void processBuffer(QAudioBuffer buf);
