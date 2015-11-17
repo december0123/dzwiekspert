@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import scipy.fftpack
 
 x = []
-with open("/tmp/samples") as f:
+with open("../samples/note_e_samples") as f:
     for line in f:
         x.append(float(line.split()[0]))
 
