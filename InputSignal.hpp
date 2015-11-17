@@ -25,9 +25,7 @@ public:
     SoundRecognizer recognizer_;
 
     bool fftIsReady() const;
-    std::vector<Note> getNotesAndInvalidate();
     void capture(bool capture);
-    std::vector<Note> findStrongestNotes(FFTBuffer& buf) const;
     Note getNote(const Note& idealNote);
     void setBasicA(const Frequency f);
 
@@ -45,6 +43,9 @@ private:
     Recorder recorder_;
     QAudioProbe probe_;
     std::condition_variable ready_;
+
+    std::vector<Note> findStrongestNotes(FFTBuffer& buf) const;
+    std::vector<Note> getNotesAndInvalidate();
 
 private slots:
     void processBuffer(QAudioBuffer buf);
