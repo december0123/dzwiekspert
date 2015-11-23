@@ -32,10 +32,10 @@ void Analyzer::HPS(FFTBuffer &input)
     FFTBuffer hps{input};
     for (int factor = 1; factor <= DOWNSAMPLING_FACTOR; ++factor)
     {
-        // Go through samples of the downsampled signal and compute HPS at this iteration
-        for (unsigned long idx = 0; idx < input.size() / factor; ++idx)
+        // Compute HPS for each sample of the downsampled signal
+        for (unsigned long sample = 0; sample < input.size() / factor; ++sample)
         {
-            hps[idx].r *= input[idx * factor].r;
+            hps[sample].r *= input[sample * factor].r;
         }
     }
     input = std::move(hps);

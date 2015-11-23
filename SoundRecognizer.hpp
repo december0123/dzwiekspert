@@ -31,7 +31,7 @@ private:
     Frequency basicFreq_{440_Hz};
 
     double calcRelativeError(const Note& note, const double freq) const;
-    double calcFreqOfNthNoteRelativeToBasicFreq(const int N) const;
+    double calcFreqOfNthNoteRelativeToC2(const int N) const;
     void initNotes();
     std::deque<std::string> generateNoteNames() const;
 };

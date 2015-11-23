@@ -26,7 +26,7 @@ void SoundRecognizer::initNotes()
         for (int note = 0; note < NOTES_IN_OCTAVE; ++note)
         {
             notes_.emplace_back(noteNames.front(),
-                                calcFreqOfNthNoteRelativeToBasicFreq(note + octave * NOTES_IN_OCTAVE));
+                                calcFreqOfNthNoteRelativeToC2(note + octave * NOTES_IN_OCTAVE));
             noteNames.pop_front();
         }
     }
@@ -112,7 +112,7 @@ double SoundRecognizer::calcRelativeError(const Note &note, const double freq) c
     return 1.0 - (note.getFreq() / freq);
 }
 
-double SoundRecognizer::calcFreqOfNthNoteRelativeToBasicFreq(const int N) const
+double SoundRecognizer::calcFreqOfNthNoteRelativeToC2(const int N) const
 {
     return basicFreq_ * (std::pow(2.0, N/12.0));
 }
