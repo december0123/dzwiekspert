@@ -137,11 +137,12 @@ void InputSignal::processBuffer(QAudioBuffer buf)
 
         {
             std::lock_guard<std::mutex> l(m_);
-            internalBuffer_.eraseNFirst(internalBuffer_.size() * 0.5L);
+            internalBuffer_.eraseNFirst(internalBuffer_.size() * OVERLAP_FACTOR);
             samplesBufferCounter_ = FFT_THRESHOLD * OVERLAP_FACTOR;
             strongestNotes_ = findStrongestNotes(tmpBuffer);
             fftReady.store(true);
         }
+
         ready_.notify_all();
     }
 }
