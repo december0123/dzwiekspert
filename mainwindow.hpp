@@ -73,6 +73,8 @@ private slots:
     void readConfig();
     void saveConfig();
 
+    void playSound() const;
+
 signals:
     void noteChanged(QString note);
     void valueChanged(int val);

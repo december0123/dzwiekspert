@@ -34,7 +34,7 @@ void SoundRecognizer::initNotes()
 
 std::deque<std::string> SoundRecognizer::generateNoteNames() const
 {
-    std::vector<std::string> names{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
+    std::vector<std::string> names{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "H"};
     std::deque<std::string> numberedNames;
     for (int octave = LOW_OCTAVE; octave < HIGH_OCTAVE; ++octave)
     {
