@@ -3,12 +3,12 @@
 
 using Frequency = long double;
 
-constexpr unsigned long long operator "" _Hz(unsigned long long freq)
+constexpr Frequency operator "" _Hz(unsigned long long freq)
 {
     return freq;
 }
 
-constexpr long double operator "" _Hz(long double freq)
+constexpr Frequency operator "" _Hz(long double freq)
 {
     return freq;
 }
