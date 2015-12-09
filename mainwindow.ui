@@ -18,7 +18,7 @@
     <item>
      <widget class="QStackedWidget" name="views">
       <property name="currentIndex">
-       <number>1</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="menu">
        <layout class="QGridLayout" name="gridLayout_3">
@@ -552,7 +552,7 @@ QSlider::sub-page:vertical {
          </spacer>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_8" stretch="1,1,5,0,3,0,3,0,0">
+         <layout class="QVBoxLayout" name="verticalLayout_8" stretch="1,1,5,0,3,0,3,0">
           <item>
            <widget class="QLabel" name="label">
             <property name="text">
@@ -638,13 +638,6 @@ QSlider::sub-page:vertical {
            <widget class="QPushButton" name="drawRandomNote">
             <property name="text">
              <string>Losuj</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="playSound">
-            <property name="text">
-             <string>Zagraj dźwięk</string>
             </property>
            </widget>
           </item>
@@ -801,7 +794,7 @@ p, li { white-space: pre-wrap; }
        <bool>true</bool>
       </property>
       <property name="text">
-       <string>Pobieraj dźwięk</string>
+       <string>Start</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
@@ -820,6 +813,13 @@ p, li { white-space: pre-wrap; }
        </size>
       </property>
      </spacer>
+    </item>
+    <item>
+     <widget class="QPushButton" name="playSound">
+      <property name="text">
+       <string>Zagraj dźwięk</string>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QPushButton" name="backToTheory">
