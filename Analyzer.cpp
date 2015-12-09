@@ -9,12 +9,13 @@ extern "C"
 #include <QDebug>
 #include <cmath>
 #include <memory>
-#include <Utils.hpp>
+#include "Utils.hpp"
 
 // Fast Fourier Transform
 void Analyzer::FFT(FFTBuffer& input)
 {
-    std::unique_ptr<kiss_fft_state, FreeDeleter> state{kiss_fft_alloc(input.size(), 0, nullptr, nullptr)};
+    std::unique_ptr<kiss_fft_state, FreeDeleter> state{
+        kiss_fft_alloc(input.size(), 0, nullptr, nullptr)};
     FFTBuffer fft(input.size());
     kiss_fft(state.get(), input.getData(), fft.getData());
     fft.eraseDataOverNyquistFreq();
