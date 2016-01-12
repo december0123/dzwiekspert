@@ -21,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui.toggleRecorder->hide();
     ui.tuning_formatLbl->hide();
     ui.backToTheory->hide();
+    ui.playSound->hide();
     readConfig();
 }
 
@@ -147,6 +148,7 @@ void MainWindow::goToMenu()
     ui.goToMenu->hide();
     ui.backToTheory->hide();
     ui.toggleRecorder->hide();
+    ui.playSound->hide();
 }
 
 void MainWindow::goToTuner()
@@ -157,6 +159,7 @@ void MainWindow::goToTuner()
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
     ui.toggleRecorder->show();
+    ui.playSound->show();
     setIdealNote();
 }
 
@@ -167,6 +170,7 @@ void MainWindow::goToPractice()
     ui.views->setCurrentIndex(CURRENT_VIEW);
     ui.goToMenu->show();
     ui.toggleRecorder->show();
+    ui.playSound->show();
     setRandomNote();
 }
 
